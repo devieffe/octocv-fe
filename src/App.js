@@ -1,25 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './components/HomePage';
+import Navbar from './NavBar';
+import NewProfile from './components/NewProfile';
+import BlankPage from './components/BlankPage';
 
-function App() {
+const App = () => {
+  const year = new Date().getFullYear();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <Router>
+      <header className='container-fluid p-4'>
+        <Navbar />
       </header>
-    </div>
+      <main className='container'>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/new-profile" element={<NewProfile />} />
+          <Route path="/blank-page" element={<BlankPage />} />
+        </Routes>
+      </main>
+      <footer className='container-fluid p-4'>{year} OctoCV</footer>
+    </Router>
   );
-}
+};
+
+
 
 export default App;
