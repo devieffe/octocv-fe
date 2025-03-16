@@ -29,9 +29,6 @@ const Navbar = () => (
         <Link className="nav-link" to="/signup" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Sign up</Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/candidate" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Candidate dashboard</Link>
-      </li>
-      <li className="nav-item">
         <Link className="nav-link" to="/assessment1" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Assessment announce1</Link>
       </li>
       <li className="nav-item">
