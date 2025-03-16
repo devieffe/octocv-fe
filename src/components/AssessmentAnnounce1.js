@@ -9,7 +9,7 @@ const AssessmentAnnounce = () => {
       <button className="btn btn-dark">Continue</button>
     </div>
     <div className='container text-center col-6 p-4'>
-      // Breadcrumbs here ?? like:<br/>
+      Breadcrumbs here ?? like:<br/>
       Start -- ... -- Questions -- ... -- Finish
     </div>
     </>
