@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ContactForm = () => {
+const SignUp = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -25,8 +25,8 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="contact-form text-left">
-      <div>
+    <div className="contact-form row justify-content-center">
+      <div className="col-6 custom-container">
         <h2>Sign up</h2>
         <p>Please fill in all the required fields.</p>
         <form onSubmit={handleSubmit}>
@@ -124,4 +124,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default SignUp;

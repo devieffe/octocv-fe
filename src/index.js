@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import 'bootstrap/dist/css/bootstrap.min.css';  // Import Bootstrap CSS
-import 'jquery';                               // Import jQuery
-import '@popperjs/core';                       // Import Popper.js
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap's JS bundle
+import 'bootstrap/dist/css/bootstrap.min.css';  
+import 'jquery';                           
+import '@popperjs/core';                      
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

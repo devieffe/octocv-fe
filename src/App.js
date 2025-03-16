@@ -1,9 +1,12 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/HomePage';
 import Navbar from './NavBar';
-import NewProfile from './components/NewProfile';
+import Home from './components/HomePage';
+import SignUp from './components/SignUp';
+import LogIn from './components/LogIn';
+import CandidateDashboard from './components/CandidateDashboard';
+import AssessmentAnnounce from './components/AssessmentAnnounce';
 import BlankPage from './components/BlankPage';
 
 const App = () => {
@@ -16,8 +19,11 @@ const App = () => {
       <main className='container'>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/new-profile" element={<NewProfile />} />
-          <Route path="/blank-page" element={<BlankPage />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/candidate" element={<CandidateDashboard />} />
+          <Route path="/assessment" element={<AssessmentAnnounce />} />
+          <Route path="/blank" element={<BlankPage />} />
         </Routes>
       </main>
       <footer className='container-fluid p-4'>{year} OctoCV</footer>

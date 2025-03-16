@@ -20,14 +20,23 @@ const Navbar = () => {
 
       <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
-        {/* <li className="nav-item">
-          <Link className="nav-link active" to="/" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Home <span className="sr-only">(current)</span></Link>
-        </li> */}
         <li className="nav-item">
-          <Link className="nav-link" to="/new-profile" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Sign up</Link>
+          <Link className="nav-link active" to="/" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Home</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/blank-page" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Blank page</Link>
+          <Link className="nav-link" to="/login" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Log in</Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/signup" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Sign up</Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/candidate" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Candidate dashboard</Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/assessment" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Assessment announce</Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/blank" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Blank page</Link>
         </li>
       </ul>
     </div>
