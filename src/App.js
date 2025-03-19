@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserDashboard from "./Components/User/user-dashboard";
+import AdminDashboard from "./Components/Admin/admin-dashboard";
 
-function App() {
+const App = () => {
+  const isAdmin = false;  // Change this to `true` for the admin view.
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/admin">
+          {isAdmin ? <AdminDashboard /> : <div>You do not have access to this page.</div>}
+        </Route>
+        <Route path="/user">
+          <UserDashboard />
+        </Route>
+        <Route path="/">
+          <div>Please select a role to view the dashboard.</div>
+        </Route>
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
