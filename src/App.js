@@ -16,7 +16,8 @@ const App = () => {
   const year = new Date().getFullYear();
   return (
     <Router>
-      <header className='container-fluid p-4'>
+      <div className="h-full flex flex-col">
+      <header className="bg-blue-500 text-white p-4">
         <Navbar />
       </header>
       <main className='container'>
@@ -32,14 +33,12 @@ const App = () => {
           <Route path="/blank" element={<BlankPage />} />
         </Routes>
       </main>
-      <footer className='container-fluid p-4'>{year} OctoCV</footer>
+        <footer className='container-fluid p-4'>{year} OctoCV</footer>
+        </div>
     </Router>
   );
 };
 
-<<<<<<< HEAD
-=======
 
-
->>>>>>> origin/main
 export default App;
+
