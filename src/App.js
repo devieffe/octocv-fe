@@ -11,8 +11,6 @@ import AssessmentAnnounce2 from './components/AssessmentAnnounce2';
 import Announcement1 from './components/Announcement1';
 import CandidateDashboard from './components/CandidateDashboard';
 import BlankPage from './components/BlankPage';
-import Questionnaire from './components/Questionnaire';
-import Questionnaire2 from "./components/Questionnaire2";
 
 const App = () => {
   const year = new Date().getFullYear();
@@ -31,10 +29,8 @@ const App = () => {
           <Route path="/question1" element={<AssessmentQuestion1 />} />
           <Route path="/assessment2" element={<AssessmentAnnounce2 />} />
           <Route path="/announcement1" element={<Announcement1 />} />
-          <Route path="/dashboarduser" element={<CandidateDashboard />} />
+          <Route path="/dashboard1" element={<CandidateDashboard />} />
           <Route path="/blank" element={<BlankPage />} />
-          <Route path="/questionnaire" element={<Questionnaire />} />
-          <Route path="/questionnaire2" element={<Questionnaire2/>} />
         </Routes>
       </main>
         <footer className='container-fluid p-4'>{year} OctoCV</footer>
