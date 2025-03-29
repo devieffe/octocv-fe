@@ -16,11 +16,6 @@ const Questionnaire = () => {
     dispatch(answerQuestion({ answer, questionnaireId: 1 }));
   };
 
-//   const handleResetQuiz = () => {
-//     dispatch(resetQuiz({ questionnaireId: 1 }));
-//   };
-
-  // Navigate to the Assessment Announcement page after completing the first questionnaire
   if (completed) {
     setTimeout(() => {
       navigate('/assessment2'); // Redirect to AssessmentAnnounce2 after a short delay

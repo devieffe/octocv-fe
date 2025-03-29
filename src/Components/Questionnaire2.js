@@ -16,6 +16,7 @@ const Questionnaire2 = () => {
     dispatch(answerQuestion({ answer, questionnaireId: 2 })); 
   };
 
+  // test
   return (
     <div className="container text-center col-6 custom-container">
       {!completed ? (
