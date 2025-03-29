@@ -6,14 +6,14 @@ import { useNavigate } from "react-router-dom";
 const Questionnaire2 = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Hook for navigation
-  const { questions, currentQuestionIndex, completed} = useSelector(
-    (state) => state.questionnaire.questionnaire2 
+  const { questions, currentQuestionIndex, completed } = useSelector(
+    (state) => state.questionnaire.questionnaire2
   );
 
   const currentQuestion = questions[currentQuestionIndex];
 
   const handleAnswerClick = (answer) => {
-    dispatch(answerQuestion({ answer, questionnaireId: 2 })); 
+    dispatch(answerQuestion({ answer, questionnaireId: 2 }));
   };
 
   // test
@@ -40,7 +40,10 @@ const Questionnaire2 = () => {
         <>
           <h2>Quiz Completed!</h2>
           {/* <p>Your Score: {score} / {questions.length}</p> */}
-          <button className="btn btn-dark mt-3" onClick={() => navigate('/dashboarduser')}>
+          <button
+            className="btn btn-dark mt-3"
+            onClick={() => navigate("/dashboarduser")}
+          >
             Go to Dashboard
           </button>
         </>

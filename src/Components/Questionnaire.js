@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Questionnaire = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { questions, currentQuestionIndex, completed} = useSelector(
+  const { questions, currentQuestionIndex, completed } = useSelector(
     (state) => state.questionnaire
   );
 
@@ -18,7 +18,7 @@ const Questionnaire = () => {
 
   if (completed) {
     setTimeout(() => {
-      navigate('/assessment2'); // Redirect to AssessmentAnnounce2 after a short delay
+      navigate("/assessment2"); // Redirect to AssessmentAnnounce2 after a short delay
     }, 1); // Delay of 1 second for smoother transition
   }
 
