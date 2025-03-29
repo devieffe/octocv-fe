@@ -1,18 +1,18 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/NavBar';
-import Home from './components/HomePage';
-import SignUp from './components/SignUp';
-import LogIn from './components/LogIn';
-import AssessmentAnnounce1 from './components/AssessmentAnnounce1';
-import AssessmentQuestion1 from './components/AssessmentQuestion1';
-import AssessmentAnnounce2 from './components/AssessmentAnnounce2';
-import Announcement1 from './components/Announcement1';
-import CandidateDashboard from './components/CandidateDashboard';
-import BlankPage from './components/BlankPage';
-import Questionnaire from './components/Questionnaire';
-import Questionnaire2 from "./components/Questionnaire2";
+import Navbar from './Components/NavBar';
+import Home from './Components/HomePage';
+import SignUp from './Components/SignUp';
+import LogIn from './Components/LogIn';
+import AssessmentAnnounce1 from './Components/AssessmentAnnounce1';
+import AssessmentQuestion1 from './Components/AssessmentQuestion1';
+import AssessmentAnnounce2 from './Components/AssessmentAnnounce2';
+import Announcement1 from './Components/Announcement1';
+import CandidateDashboard from './Components/CandidateDashboard';
+import BlankPage from './Components/BlankPage';
+import Questionnaire from './Components/Questionnaire';
+import Questionnaire2 from "./Components/Questionnaire2";
 
 const App = () => {
   const year = new Date().getFullYear();
