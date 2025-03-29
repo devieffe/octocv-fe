@@ -11,8 +11,8 @@ import AssessmentAnnounce2 from "./components/AssessmentAnnounce2";
 import Announcement1 from "./components/Announcement1";
 import CandidateDashboard from "./components/CandidateDashboard";
 import BlankPage from "./components/BlankPage";
-import Questionnaire from "./components/Questionnaire";
-import Questionnaire2 from "./components/Questionnaire2";
+import Questionnaire from "./components/questionnaire/Questionnaire";
+import Questionnaire2 from "./components/questionnaire/Questionnaire2";
 
 const App = () => {
   const year = new Date().getFullYear();
