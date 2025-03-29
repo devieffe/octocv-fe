@@ -1,19 +1,24 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const AssessmentAnnounce = () => {
+const Announcement1 = () => {
+  const navigate = useNavigate();
+
+  const handleStartAssessment = () => {
+    navigate('/questionnaire'); // Redirect to the questionnaire
+  };
+
   return (
-    <>
-    <div className='container text-center col-6 custom-container'>
-      <h2>The following questions are designed to assess your Computer Literacy skills</h2>
-      <p>Take you time to answer each question to the best of your ability.</p>
-      <button className="btn btn-dark">Continue</button>
+    <div className='container text-center'>
+      <h2>Welcome User!</h2>
+      <p>
+        Now let’s make an assessment to test your cognitive ability as well as your computer literacy skills.
+      </p>
+      <button className="btn btn-dark" onClick={handleStartAssessment}>
+        OK
+      </button>
     </div>
-    <div className='container text-center col-6 p-4'>
-      Breadcrumbs here ?? like:<br/>
-      Start -- ... -- Questions -- ... -- Finish
-    </div>
-    </>
   );
 };
 
-export default AssessmentAnnounce;
+export default Announcement1;

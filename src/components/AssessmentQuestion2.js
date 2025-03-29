@@ -1,50 +1,26 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const AssessmentQuestion2 = () => {
+const AssessmentAnnounce2 = () => {
+  const navigate = useNavigate();
+
+  const handleContinueClick = () => {
+    navigate('/questionnaire2'); // Navigates to the second questionnaire
+  };
+
   return (
-<div className="container text-center">
-  <div className="row">
-    <div className="col">
-      <p>
-        <span>1</span> Fill the blank to complete the sequence.</p>
-        <p>B2CD, _____, BCD3, B5CD, BC5D</p>
-      </div>
-      <div className="col">
-        <form>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
-            <label className="form-check-label" htmlFor="flexCheckDefault1">
-              Windows11
-            </label>
-          </div>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
-            <label className="form-check-label" htmlFor="flexCheckDefault2">
-              Android
-            </label>
-          </div>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
-            <label className="form-check-label" htmlFor="flexCheckDefault2">
-              Wix
-            </label>
-          </div>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
-            <label className="form-check-label" htmlFor="flexCheckDefault2">
-              Angular
-            </label>
-          </div>
-        </form>
-      </div>
-      <div> <button className="btn btn-dark">Continue</button></div>
-      <div className='container text-center col-6 p-4'>
-      Breadcrumbs here ? like:<br/>
-      Start -- ... -- Questions -- ... -- Finish
-    </div>
-    </div>
+    <div className='container text-center'>
+      <h2>Congratulations</h2>
+      <p>The first part of the assessment is completed!</p>
+      <p className='fw-bold'>
+        The following questions are designed to test your problem-solving skills
+      </p>
+      <p>Take your time to answer each question to the best of your ability.</p>
+      <button className="btn btn-dark" onClick={handleContinueClick}>
+        Continue
+      </button>
     </div>
   );
 };
 
-export default AssessmentQuestion2;
+export default AssessmentAnnounce2;
