@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { login } from "../slices/authSlice";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = "http://localhost:3000";
 
 const LogIn = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -46,50 +49,52 @@ const LogIn = () => {
   };
 
   return (
-      <div className="contact-form row justify-content-center">
-        <div className="col-6 custom-container">
-          <h2>Log in</h2>
-          <form onSubmit={handleSubmit}>
+    <div className="contact-form row justify-content-center">
+      <div className="col-6 custom-container">
+        <h2>Log in</h2>
+        <form onSubmit={handleSubmit}>
 
-            {error && <p>Please fill in all the required fields.</p>}
+          {error && <p className="text-danger">{error}</p>}
+        
+          <div className='mb-3'>
+            <label htmlFor="Email1" className="form-label">Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+              disabled={loading}
+              maxLength="50"
+              required
+            />
+          </div>
           
-            <div className='mb-3'>
-              <label for="Email1" className="form-label">Email address</label>
-              <input
-                type="email"
-                className="form-control"
-                name="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-                disabled={loading}
-                maxLength="50"
-                required
-              />
-            </div>
-            <div className='mb-3'>
-              <label for="password" className="form-label">Password</label>
-              <input
-                type={showPassword ? "text" : "password"}
-                className="form-control"
-                name="password"
-                placeholder="Password*"
-                value={formData.password}
-                onChange={handleChange}
-                disabled={loading}
-                maxLength="16"
-                required
-              />
-              <button
-                type="button"
-                className="btn"
-                onClick={togglePasswordVisibility}
-              >
-                {showPassword ? "Hide" : " Show"}
-              </button>
-            </div>
-            <div className='mb-3'>
-              <button type="submit" className="btn " disabled={loading}>
+          <div className='mb-3'>
+            <label htmlFor="password" className="form-label">Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              name="password"
+              placeholder="Password*"
+              value={formData.password}
+              onChange={handleChange}
+              disabled={loading}
+              maxLength="16"
+              required
+            />
+            <button
+              type="button"
+              className="btn btn-link"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? "Hide" : " Show"}
+            </button>
+          </div>
+
+          <div className='mb-3'>
+            <button type="submit" className="btn btn-primary" disabled={loading}>
               {loading ? (
                 <>
                   <span className="spinner-border spinner-border-sm me-2"></span>
@@ -98,13 +103,18 @@ const LogIn = () => {
               ) : (
                 "Submit"
               )}
-              </button>
-            </div>
-          </form>
+            </button>
+          </div>
+        </form>
+
+        <div className="mt-3">
+          <p>
+            Don't have an account? <button className="btn btn-link" onClick={() => navigate("/signup")}>Create an account</button>
+          </p>
         </div>
       </div>
-    );
-  };
-
+    </div>
+  );
+};
 
 export default LogIn;

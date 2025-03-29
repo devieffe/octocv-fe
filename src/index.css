@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Global Styles */
+body {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+/* Custom styling for dropdown */
+.dropdown-menu {
+    @apply absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 text-gray-700;
+  }
+  
+  .dropdown-menu li {
+    @apply block px-4 py-2;
+  }
+  
+  .dropdown-menu li a {
+    @apply text-gray-700;
+  }
+  
+  .dropdown-menu li a:hover {
+    @apply bg-[#e91919] text-white transition-all duration-200;
+  }
+  
+  /* Mobile Menu */
+  .md:hidden {
+    display: block;
+  }
+  
