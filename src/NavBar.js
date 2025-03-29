@@ -32,7 +32,7 @@ const Navbar = () => (
         <Link className="nav-link" to="/announcement1" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Questionnaire</Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/dashboard1" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>CandidateDashboard</Link>
+        <Link className="nav-link" to="/dashboarduser" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>CandidateDashboard</Link>
       </li>
       <li className="nav-item">
         <Link className="nav-link" to="/blank" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Blank page</Link>
