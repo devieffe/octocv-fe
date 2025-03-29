@@ -1,3 +1,4 @@
+
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -14,11 +15,13 @@ import BlankPage from "./components/BlankPage";
 import Questionnaire from "./components/questionnaire/Questionnaire";
 import Questionnaire2 from "./components/questionnaire/Questionnaire2";
 
+
 const App = () => {
   const year = new Date().getFullYear();
   return (
     <Router>
       <div className="h-full flex flex-col">
+
         <header className="bg-blue-500 text-white p-4">
           <Navbar />
         </header>
@@ -39,6 +42,7 @@ const App = () => {
         </main>
         <footer className="container-fluid p-4">{year} OctoCV</footer>
       </div>
+
     </Router>
   );
 };
