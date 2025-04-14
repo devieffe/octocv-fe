@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   questions: [
     {
-      text: "What is the capital of France?",
-      options: ["Berlin", "Madrid", "Paris", "Rome"],
-      correctAnswer: "Paris",
+      text: "What is the capital of (1)?",
+      options: ["1", "2", "3", "4"],
+      correctAnswer: "1",
     },
     {
       text: "Which planet is known as the Red Planet?",
