@@ -1,6 +1,4 @@
-// ../../slices/questionnaireSlice.js
-
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   questions: [
@@ -21,7 +19,7 @@ const initialState = {
 };
 
 const questionnaireSlice = createSlice({
-  name: 'questionnaire',
+  name: "questionnaire",
   initialState,
   reducers: {
     answerQuestion: (state, action) => {
@@ -37,5 +35,5 @@ const questionnaireSlice = createSlice({
   },
 });
 
-export const { answerQuestion } = questionnaireSlice.actions;
+export const { answerQuestion } = questionnaireSlice.actions; 
 export default questionnaireSlice.reducer;

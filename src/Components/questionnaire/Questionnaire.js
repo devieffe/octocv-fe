@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { answerQuestion } from "../../slices/questionnaireSlice";
+import { answerQuestion } from "../../slices/questionnaireSlice";
 import { useNavigate } from "react-router-dom";
 
 const Questionnaire = () => {
