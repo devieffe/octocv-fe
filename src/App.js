@@ -6,6 +6,7 @@ import Navbar from "./NavBar";
 import Home from "./components/HomePage";
 import SignUp from "./components/SignUp";
 import LogIn from "./components/LogIn";
+import Authenticate from "./components/Authenticate";
 import AssessmentAnnounce1 from "./components/AssessmentAnnounce1";
 import AssessmentQuestion1 from "./components/AssessmentQuestion1";
 import AssessmentAnnounce2 from "./components/AssessmentAnnounce2";
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />
+            <Route path="/authenticate" element={<Authenticate />} />
             <Route path="/assessment1" element={<AssessmentAnnounce1 />} />
             <Route path="/question1" element={<AssessmentQuestion1 />} />
             <Route path="/assessment2" element={<AssessmentAnnounce2 />} />

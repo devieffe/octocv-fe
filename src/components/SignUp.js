@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { signup } from "../slices/authSlice";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { Link } from 'react-router-dom';
 
 const API_URL = "http://localhost:3000";
 
@@ -23,9 +23,9 @@ const SignUp = () => {
   const errRef = useRef();
 
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
-    name: "",
     country: "",
     academylevel: "",
     edubg: "",
@@ -51,7 +51,7 @@ const SignUp = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [formData.email, formData.password, formData.name]);
+  }, [formData.name, formData.email, formData.password]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -91,7 +91,7 @@ const SignUp = () => {
         <section>
           <h1>Registration Successful!</h1>
           <p>
-            <a href="/login">Go to Login</a>
+            <Link className="nav-link" to="/login" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Log in</Link>
           </p>
         </section>
       ) : (
@@ -100,6 +100,15 @@ const SignUp = () => {
             <h1>Sign Up</h1>
               <form onSubmit={handleSubmit}>
               <label>Personal Information</label>
+              <input
+                type="text"
+                id="name"
+                onChange={handleChange}
+                name="name"
+                placeholder="Full Name"
+                value={formData.name}
+                required
+              />
               <input
                 type="email"
                 id="email"
@@ -117,15 +126,6 @@ const SignUp = () => {
                 name="password"
                 placeholder="Password"
                 value={formData.password}
-                required
-              />
-              <input
-                type="text"
-                id="name"
-                onChange={handleChange}
-                name="name"
-                placeholder="Full Name"
-                value={formData.name}
                 required
               />
               <select
