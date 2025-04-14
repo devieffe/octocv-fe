@@ -4,7 +4,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const steps = [
-    { title: "Step 1", description: "Download your existing CV" },
+    { title: "Step 1", description: "Upload your existing CV" },
     { title: "Step 2", description: "Select your career path" },
     { title: "Step 3", description: "Create your optimized CV" },
   ];
