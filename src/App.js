@@ -2,7 +2,7 @@
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./NavBar";
+import Navbar from "./components/NavBar";
 import Home from "./components/HomePage";
 import SignUp from "./components/SignUp";
 import LogIn from "./components/LogIn";
@@ -14,7 +14,8 @@ import Announcement1 from "./components/Announcement1";
 import CandidateDashboard from "./components/CandidateDashboard";
 import BlankPage from "./components/BlankPage";
 import Questionnaire from "./components/questionnaire/Questionnaire";
-import Questionnaire2 from "./components/questionnaire/Questionnaire2";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import UserDashboard from "./components/user/UserDashboard";
 
 
 const App = () => {
@@ -39,7 +40,9 @@ const App = () => {
             <Route path="/dashboarduser" element={<CandidateDashboard />} />
             <Route path="/blank" element={<BlankPage />} />
             <Route path="/questionnaire" element={<Questionnaire />} />
-            <Route path="/questionnaire2" element={<Questionnaire2 />} />
+
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/user" element={<UserDashboard />} />
           </Routes>
         </main>
         <footer className="container-fluid p-4">{year} OctoCV</footer>

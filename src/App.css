@@ -109,3 +109,29 @@ footer {
   color: var(--grey2);
   font-size: smaller;
 }
+
+
+
+
+
+
+/* dashboard */
+
+.dashboard {
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+}
+
+.admin {
+  ul {
+  display: flex;
+  gap: 20px;
+}
+}
+.user {
+  ul {
+    display: block;
+  }
+}

@@ -15,7 +15,7 @@ const Announcement1 = () => {
         Now let’s make an assessment to test your cognitive ability as well as your computer literacy skills.
       </p>
       <button className="btn btn-dark" onClick={handleStartAssessment}>
-        OK
+        Start test
       </button>
     </div>
   );

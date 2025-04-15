@@ -1,21 +1,23 @@
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   questions: [
     {
-      text: "What is the capital of (1)?",
+      text: "What is (1)?",
       options: ["1", "2", "3", "4"],
       correctAnswer: "1",
     },
     {
-      text: "Which planet is known as the Red Planet?",
-      options: ["Earth", "Mars", "Jupiter", "Saturn"],
-      correctAnswer: "Mars",
+      text: "What is (2)?",
+      options: ["1", "2", "3", "4"],
+      correctAnswer: "2",
     },
   ],
   currentQuestionIndex: 0,
   completed: false,
-  answers: [],
+  answers: [], // stores { answer, isCorrect }
+  readyForNextChapter: false,
 };
 
 const questionnaireSlice = createSlice({
@@ -24,16 +26,27 @@ const questionnaireSlice = createSlice({
   reducers: {
     answerQuestion: (state, action) => {
       const { answer } = action.payload;
-      state.answers.push(answer);
+      const currentQuestion = state.questions[state.currentQuestionIndex];
+      const isCorrect = answer === currentQuestion.correctAnswer;
+
+      state.answers.push({ answer, isCorrect });
 
       if (state.currentQuestionIndex + 1 < state.questions.length) {
         state.currentQuestionIndex += 1;
       } else {
         state.completed = true;
+        state.readyForNextChapter = state.answers.every((a) => a.isCorrect);
       }
+    },
+    resetQuiz: (state) => {
+      state.currentQuestionIndex = 0;
+      state.completed = false;
+      state.answers = [];
+      state.readyForNextChapter = false;
     },
   },
 });
 
-export const { answerQuestion } = questionnaireSlice.actions; 
+// ✅ Correct export — must be after questionnaireSlice is declared
+export const { answerQuestion, resetQuiz } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;

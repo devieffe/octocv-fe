@@ -1,26 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { answerQuestion } from "../../slices/questionnaireSlice";
+import { answerQuestion, resetQuiz } from "../../slices/questionnaireSlice";
 import { useNavigate } from "react-router-dom";
 
 const Questionnaire = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { questions, currentQuestionIndex, completed } = useSelector(
-    (state) => state.questionnaire
-  );
+
+  const {
+    questions,
+    currentQuestionIndex,
+    completed,
+    answers,
+    readyForNextChapter,
+  } = useSelector((state) => state.questionnaire);
 
   const currentQuestion = questions[currentQuestionIndex];
 
   const handleAnswerClick = (answer) => {
-    dispatch(answerQuestion({ answer, questionnaireId: 1 }));
+    dispatch(answerQuestion({ answer }));
   };
 
-  if (completed) {
-    setTimeout(() => {
-      navigate("/assessment2"); // Redirect to AssessmentAnnounce2 after a short delay
-    }, 1); // Delay of 1 second for smoother transition
-  }
+  const handleResetQuiz = () => {
+    dispatch(resetQuiz());
+  };
+
+  // Redirect if all answers are correct and quiz is completed
+  useEffect(() => {
+    if (completed && readyForNextChapter) {
+      const timeout = setTimeout(() => {
+        navigate("/assessment2");
+      }, 1000); // 1 second delay
+
+      return () => clearTimeout(timeout); // Cleanup
+    }
+  }, [completed, readyForNextChapter, navigate]);
+
+  // Calculate score (for showing on failure)
+  const score = answers.filter((a) => a.isCorrect).length;
 
   return (
     <div className="container text-center col-6 custom-container">
@@ -41,15 +58,14 @@ const Questionnaire = () => {
             ))}
           </div>
         </>
-      ) : (
+      ) : !readyForNextChapter ? (
         <>
-          {/* <h2>Quiz Completed!</h2>
-          <p>Your Score: {score} / {questions.length}</p> */}
-          {/* <button className="btn btn-dark mt-3" onClick={handleResetQuiz}>
+          <p>Your Score: {score} / {questions.length}</p>
+          <button className="btn btn-dark mt-3" onClick={handleResetQuiz}>
             Restart Quiz
-          </button> */}
+          </button>
         </>
-      )}
+      ) : null}
     </div>
   );
 };
