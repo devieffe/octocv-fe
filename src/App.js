@@ -7,15 +7,12 @@ import Home from "./components/HomePage";
 import SignUp from "./components/SignUp";
 import LogIn from "./components/LogIn";
 import Authenticate from "./components/Authenticate";
-import AssessmentAnnounce1 from "./components/AssessmentAnnounce1";
-import AssessmentQuestion1 from "./components/AssessmentQuestion1";
-import AssessmentAnnounce2 from "./components/AssessmentAnnounce2";
-import Announcement1 from "./components/Announcement1";
 import CandidateDashboard from "./components/CandidateDashboard";
 import BlankPage from "./components/BlankPage";
-import Questionnaire from "./components/questionnaire/Questionnaire";
+import Questionnaire from "./components/Questionnaire";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import UserDashboard from "./components/user/UserDashboard";
+import NotFound from './components/404';
 
 
 const App = () => {
@@ -33,16 +30,12 @@ const App = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/authenticate" element={<Authenticate />} />
-            <Route path="/assessment1" element={<AssessmentAnnounce1 />} />
-            <Route path="/question1" element={<AssessmentQuestion1 />} />
-            <Route path="/assessment2" element={<AssessmentAnnounce2 />} />
-            <Route path="/announcement1" element={<Announcement1 />} />
             <Route path="/dashboarduser" element={<CandidateDashboard />} />
             <Route path="/blank" element={<BlankPage />} />
             <Route path="/questionnaire" element={<Questionnaire />} />
-
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/user" element={<UserDashboard />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <footer className="container-fluid p-4">{year} OctoCV</footer>

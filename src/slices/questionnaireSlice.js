@@ -1,23 +1,45 @@
-
+// questionnaireSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  questions: [
-    {
-      text: "What is (1)?",
-      options: ["1", "2", "3", "4"],
-      correctAnswer: "1",
+  quizzes: {
+    quiz1: {
+      questions: [
+        {
+          text: "What is (1)?",
+          options: ["1", "2", "3", "4"],
+          correctAnswer: "1",
+        },
+        {
+          text: "What is (2)?",
+          options: ["1", "2", "3", "4"],
+          correctAnswer: "2",
+        }
+      ],
+      currentQuestionIndex: 0,
+      completed: false,
+      answers: [],
+      readyForNextChapter: false,
     },
-    {
-      text: "What is (2)?",
-      options: ["1", "2", "3", "4"],
-      correctAnswer: "2",
+    quiz2: {
+      questions: [
+        {
+          text: "What is (3)?",
+          options: ["1", "2", "3", "4"],
+          correctAnswer: "3",
+        },
+        {
+          text: "What is (4)?",
+          options: ["1", "2", "3", "4"],
+          correctAnswer: "4",
+        }
+      ],
+      currentQuestionIndex: 0,
+      completed: false,
+      answers: [],
+      readyForNextChapter: false,
     },
-  ],
-  currentQuestionIndex: 0,
-  completed: false,
-  answers: [], // stores { answer, isCorrect }
-  readyForNextChapter: false,
+  },
 };
 
 const questionnaireSlice = createSlice({
@@ -25,28 +47,30 @@ const questionnaireSlice = createSlice({
   initialState,
   reducers: {
     answerQuestion: (state, action) => {
-      const { answer } = action.payload;
-      const currentQuestion = state.questions[state.currentQuestionIndex];
+      const { quizId, answer } = action.payload;
+      const quiz = state.quizzes[quizId];
+      const currentQuestion = quiz.questions[quiz.currentQuestionIndex];
       const isCorrect = answer === currentQuestion.correctAnswer;
 
-      state.answers.push({ answer, isCorrect });
+      quiz.answers.push({ answer, isCorrect });
 
-      if (state.currentQuestionIndex + 1 < state.questions.length) {
-        state.currentQuestionIndex += 1;
+      if (quiz.currentQuestionIndex + 1 < quiz.questions.length) {
+        quiz.currentQuestionIndex += 1;
       } else {
-        state.completed = true;
-        state.readyForNextChapter = state.answers.every((a) => a.isCorrect);
+        quiz.completed = true;
+        quiz.readyForNextChapter = quiz.answers.every((a) => a.isCorrect);
       }
     },
-    resetQuiz: (state) => {
-      state.currentQuestionIndex = 0;
-      state.completed = false;
-      state.answers = [];
-      state.readyForNextChapter = false;
+    resetQuiz: (state, action) => {
+      const { quizId } = action.payload;
+      const quiz = state.quizzes[quizId];
+      quiz.currentQuestionIndex = 0;
+      quiz.completed = false;
+      quiz.answers = [];
+      quiz.readyForNextChapter = false;
     },
   },
 });
 
-// ✅ Correct export — must be after questionnaireSlice is declared
 export const { answerQuestion, resetQuiz } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;

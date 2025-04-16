@@ -91,7 +91,7 @@ const SignUp = () => {
         <section>
           <h1>Registration Successful!</h1>
           <p>
-            <Link className="nav-link" to="/login" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Log in</Link>
+            <Link to="/login">Log in</Link>
           </p>
         </section>
       ) : (
@@ -142,18 +142,16 @@ const SignUp = () => {
                 </select>
               <label>Academic Information</label>
               <select
-                type="text"
-                id="academlevel"
+                name="academylevel"
+                className="form-control"
+                value={formData.academylevel} 
                 onChange={handleChange}
-                name="academlevel"
-                placeholder="Academic Level"
-                value={formData.academylevel}
-                  required
+                required
               >
-                <option value="" disabled>Select Academic Level</option>
-                  {academicLevels.map((level) => (
-                    <option key={level} value={level}>{level}</option>
-                  ))}  
+              <option value="" disabled>Select Academic Level</option>
+              {academicLevels.map((level) => (
+              <option key={level} value={level}>{level}</option>
+              ))}  
               </select>
               <input
                 type="text"
