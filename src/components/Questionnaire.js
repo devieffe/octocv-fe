@@ -9,7 +9,7 @@ const Questionnaire = () => {
 
   const [currentQuizId, setCurrentQuizId] = useState("quiz1");
   const [started, setStarted] = useState(false);
-  const [quiz1Completed, setQuiz1Completed] = useState(false); // Track if quiz 1 is completed
+  // const [quiz1Completed, setQuiz1Completed] = useState(false); // Track if quiz 1 is completed
 
   const quizState = useSelector((state) => state.questionnaire.quizzes[currentQuizId]);
 
