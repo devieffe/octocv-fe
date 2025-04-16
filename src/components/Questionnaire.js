@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { answerQuestion, resetQuiz } from "../slices/questionnaireSlice";
+import { useNavigate } from "react-router-dom"; // For navigation
 
 const Questionnaire = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [currentQuizId, setCurrentQuizId] = useState("quiz1");
   const [started, setStarted] = useState(false);
+  const [quiz1Completed, setQuiz1Completed] = useState(false); // Track if quiz 1 is completed
 
   const quizState = useSelector((state) => state.questionnaire.quizzes[currentQuizId]);
 
@@ -47,6 +50,11 @@ const Questionnaire = () => {
   const handleContinueToQuiz2 = () => {
     setCurrentQuizId("quiz2");
     setStarted(false); // Show announcement for quiz2
+  };
+
+  const handleCreateCV = () => {
+    // Navigate to '/make' route to start creating CV
+    navigate("/make");
   };
 
   const score = answers.filter((a) => a.isCorrect).length;
@@ -120,6 +128,10 @@ const Questionnaire = () => {
         <div className="mt-4">
           <h4>Assessment Complete!</h4>
           <p>Your final score: {score} / {questions.length}</p>
+          {/* Show "Create CV" button after both quizzes are completed */}
+          <button className="btn btn-dark mt-3" onClick={handleCreateCV}>
+            Create CV
+          </button>
         </div>
       )}
     </div>

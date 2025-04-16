@@ -7,7 +7,7 @@ import Home from "./components/HomePage";
 import SignUp from "./components/SignUp";
 import LogIn from "./components/LogIn";
 import Authenticate from "./components/Authenticate";
-import CandidateDashboard from "./components/CandidateDashboard";
+import MakeCv from "./components/MakeCv";
 import BlankPage from "./components/BlankPage";
 import Questionnaire from "./components/Questionnaire";
 import AdminDashboard from "./components/admin/AdminDashboard";
@@ -30,9 +30,9 @@ const App = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/authenticate" element={<Authenticate />} />
-            <Route path="/dashboarduser" element={<CandidateDashboard />} />
             <Route path="/blank" element={<BlankPage />} />
             <Route path="/questionnaire" element={<Questionnaire />} />
+            <Route path="/make" element={<MakeCv />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/user" element={<UserDashboard />} />
             <Route path="*" element={<NotFound />} />
