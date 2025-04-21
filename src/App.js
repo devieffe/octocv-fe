@@ -1,4 +1,3 @@
-
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -14,17 +13,16 @@ import AdminDashboard from "./components/admin/AdminDashboard";
 import UserDashboard from "./components/user/UserDashboard";
 import NotFound from './components/404';
 
-
 const App = () => {
   const year = new Date().getFullYear();
+
   return (
     <Router>
-      <div className="h-full flex flex-col">
-
-        <header className="bg-blue-500 text-white p-4">
+      <div className="min-h-screen flex flex-col bg-white" >
+        <header>
           <Navbar />
         </header>
-        <main className="container">
+        <main className="main-content container mx-auto px-4 py-6">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
@@ -38,9 +36,10 @@ const App = () => {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
-        <footer className="container-fluid p-4">{year} OctoCV</footer>
+        <footer className="text-center py-4 border-t border-gray-300 text-sm">
+          © {year} OctoCV
+        </footer>
       </div>
-
     </Router>
   );
 };

@@ -12,26 +12,21 @@ const careerPaths = [
 ];
 
 const CandidateDashboard = () => {
-  // State for selected career path
   const [selectedCareerPath, setSelectedCareerPath] = useState("");
-
-  // State for selected file
   const [file, setFile] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState("");
 
-  // Handle career path change
   const handleCareerPathChange = (e) => {
     setSelectedCareerPath(e.target.value);
   };
 
-  // Handle file change
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
 
-  // Handle file upload
   const handleUpload = async () => {
     if (!file) {
-      alert("Please select a file first.");
+      setUploadStatus("Please select a file first.");
       return;
     }
 
@@ -45,40 +40,73 @@ const CandidateDashboard = () => {
       });
 
       if (response.ok) {
-        alert("File uploaded successfully!");
+        setUploadStatus("File uploaded successfully!");
       } else {
-        alert("Failed to upload file.");
+        setUploadStatus("Failed to upload file.");
       }
     } catch (error) {
       console.error("Error uploading file:", error);
+      setUploadStatus("Upload error.");
     }
   };
 
   return (
-    <div className='container text-center col-6 custom-container'>
-      <h2>Create your new CV</h2>
+    <section className="flex min-h-screen items-center justify-center bg-white px-6 py-12 lg:px-8">
+      <div className="w-full max-w-xl space-y-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-blue-950">Create Your New CV</h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Let’s personalize your career journey — start by selecting your target path and uploading your existing CV.
+          </p>
+        </div>
 
-      <h2>Career Path</h2>
-      <p>Personalized career path — on this step, you need to choose your target path.</p>
+        <form className="space-y-6">
+          <div>
+            <label htmlFor="careerPath" className="block text-sm font-medium text-blue-950">
+              Career Path
+            </label>
+            <select
+              id="careerPath"
+              name="careerPath"
+              value={selectedCareerPath}
+              onChange={handleCareerPathChange}
+              required
+              className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 text-blue-950 focus:outline-2 focus:outline-red-600 sm:text-sm"
+            >
+              <option value="" disabled>Select a Career Path</option>
+              {careerPaths.map((path) => (
+                <option key={path} value={path}>{path}</option>
+              ))}
+            </select>
+          </div>
 
-      <select
-        className="form-control mb-4"
-        value={selectedCareerPath}
-        onChange={handleCareerPathChange}
-        required
-      >
-        <option value="" disabled>Select a Career Path</option>
-        {careerPaths.map((path) => (
-          <option key={path} value={path}>{path}</option>
-        ))}
-      </select>
+          <div>
+            <label htmlFor="cvUpload" className="block text-sm font-medium text-blue-950">
+              Upload Your CV (PDF or DOCX)
+            </label>
+            <input
+              type="file"
+              id="cvUpload"
+              accept=".pdf,.doc,.docx"
+              onChange={handleFileChange}
+              className="mt-2 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-red-600 file:px-3 file:py-2 file:text-white hover:file:bg-red-500"
+            />
+          </div>
 
-      <h2>Upload your CV</h2>
-      <p>PDF and DOCX files only</p>
+          {uploadStatus && (
+            <p className="text-sm text-center text-red-600">{uploadStatus}</p>
+          )}
 
-      <input type="file" onChange={handleFileChange} />
-      <button className="btn btn-dark mt-3" onClick={handleUpload}>Upload CV</button>
-    </div>
+          <button
+            type="button"
+            onClick={handleUpload}
+            className="w-full rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus:outline-2 focus:outline-red-600"
+          >
+            Upload CV
+          </button>
+        </form>
+      </div>
+    </section>
   );
 };
 

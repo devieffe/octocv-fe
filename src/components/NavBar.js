@@ -1,55 +1,77 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Link } from 'react-router-dom'
 
-const Navbar = () => (
-  <nav className="navbar navbar-light">
-  <div className="container-fluid">
-    <Link className="navbar-brand" to="/">Octo<span>CV</span></Link>
-    <button
-      className="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"  // Keeps it collapsed by default
-      aria-label="Toggle navigation"
-    >
-      <span className="navbar-toggler-icon"></span>
-    </button>
+const navigation = [
+  { name: 'Home', to: '/' },
+  { name: 'Log in', to: '/login' },
+  { name: 'Sign up', to: '/signup' },
+  { name: 'Questionnaire', to: '/questionnaire' },
+  { name: 'Make CV', to: '/make' },
+  { name: '@authenticate', to: '/authenticate' },
+  { name: '@user', to: '/user' },
+  { name: '@admin', to: '/admin' },
+]
 
-    <div className="collapse navbar-collapse" id="navbarNav">
-    <ul className="navbar-nav">
-      <li className="nav-item">
-        <Link className="nav-link active" to="/" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Home</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/login" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Log in</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/signup" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Sign up</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/questionnaire" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Questionnaire</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/make" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Make CV</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/authenticate" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>@authenticate</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/user" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>@user</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/admin" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>@admin</Link>
-      </li>
-      {/* <li className="nav-item">
-        <Link className="nav-link" to="/blank" onClick={() => document.getElementById('navbarNav').classList.remove('show')}>Blank page</Link>
-      </li> */}
-    </ul>
-  </div>
-  </div>
-</nav>
-);
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
 
-export default Navbar;
+export default function Navbar() {
+  return (
+    <Disclosure as="nav" className="bg-white shadow-sm">
+      {({ open }) => (
+        <>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex h-16 items-center justify-between">
+              <div className="flex items-center">
+                <Link to="/" className="text-2xl font-bold text-blue-950">
+                  Octo<span className="text-red-600">CV</span>
+                </Link>
+              </div>
+
+              <div className="hidden sm:block">
+                <div className="ml-10 flex space-x-4">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.to}
+                      className="rounded-md px-3 py-2 text-sm font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="sm:hidden">
+                <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-blue-950 hover:bg-red-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500">
+                  {open ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </DisclosureButton>
+              </div>
+            </div>
+          </div>
+
+          <DisclosurePanel className="sm:hidden bg-white shadow-inner">
+            <div className="space-y-1 px-2 pt-2 pb-3">
+              {navigation.map((item) => (
+                <DisclosureButton
+                  key={item.name}
+                  as={Link}
+                  to={item.to}
+                  className="block rounded-md px-3 py-2 text-base font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
+                >
+                  {item.name}
+                </DisclosureButton>
+              ))}
+            </div>
+          </DisclosurePanel>
+        </>
+      )}
+    </Disclosure>
+  )
+}
