@@ -1,4 +1,4 @@
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
+import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 
@@ -12,7 +12,6 @@ const navigation = [
   { name: '@user', to: '/user' },
   { name: '@admin', to: '/admin' },
 ]
-
 
 export default function Navbar() {
   return (
@@ -42,31 +41,30 @@ export default function Navbar() {
               </div>
 
               <div className="sm:hidden">
-                <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-blue-950 hover:bg-red-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500">
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-blue-950 hover:bg-red-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500">
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                   ) : (
                     <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                   )}
-                </DisclosureButton>
+                </Disclosure.Button>
               </div>
             </div>
           </div>
 
-          <DisclosurePanel className="sm:hidden bg-white shadow-inner">
+          <Disclosure.Panel className="sm:hidden bg-white shadow-inner">
             <div className="space-y-1 px-2 pt-2 pb-3">
               {navigation.map((item) => (
-                <DisclosureButton
+                <Link
                   key={item.name}
-                  as={Link}
                   to={item.to}
                   className="block rounded-md px-3 py-2 text-base font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
                 >
                   {item.name}
-                </DisclosureButton>
+                </Link>
               ))}
             </div>
-          </DisclosurePanel>
+          </Disclosure.Panel>
         </>
       )}
     </Disclosure>
