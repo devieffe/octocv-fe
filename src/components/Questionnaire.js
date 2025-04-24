@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { answerQuestion, resetQuiz } from "../slices/questionnaireSlice";
-import { useNavigate } from "react-router-dom"; // For navigation
+import { useNavigate } from "react-router-dom";
 
 const Questionnaire = () => {
   const dispatch = useDispatch();
@@ -9,17 +9,16 @@ const Questionnaire = () => {
 
   const [currentQuizId, setCurrentQuizId] = useState("quiz1");
   const [started, setStarted] = useState(false);
-  // const [quiz1Completed, setQuiz1Completed] = useState(false); // Track if quiz 1 is completed
 
   const quizState = useSelector((state) => state.questionnaire.quizzes[currentQuizId]);
 
   useEffect(() => {
     if (currentQuizId === "quiz2" && !quizState?.questions?.length) {
-      dispatch(resetQuiz({ quizId: "quiz2" })); // Load/reset quiz2 when it's started
+      dispatch(resetQuiz({ quizId: "quiz2" }));
     }
   }, [currentQuizId, dispatch, quizState]);
 
-  if (!quizState) return <p>Loading quiz...</p>;
+  if (!quizState) return <p className="text-center mt-10 text-blue-950">Loading quiz...</p>;
 
   const {
     questions,
@@ -49,39 +48,44 @@ const Questionnaire = () => {
 
   const handleContinueToQuiz2 = () => {
     setCurrentQuizId("quiz2");
-    setStarted(false); // Show announcement for quiz2
+    setStarted(false);
   };
 
   const handleCreateCV = () => {
-    // Navigate to '/make' route to start creating CV
     navigate("/make");
   };
 
   const score = answers.filter((a) => a.isCorrect).length;
 
-  // Announcement screen before quiz starts
+  // Start screen
   if (!started) {
     return (
-      <div className='container text-center'>
+      <div className="max-w-xl mx-auto text-center px-4 py-16">
         {currentQuizId === "quiz1" ? (
           <>
-            <h2>Welcome User!</h2>
-            <p>
-              Let’s test your cognitive ability as well as your computer literacy skills.
+            <h2 className="text-3xl font-semibold text-blue-950 mb-4">Welcome!</h2>
+            <p className="text-gray-700 mb-6">
+              Let’s test your cognitive ability and computer literacy skills.
             </p>
-            <button className="btn btn-dark" onClick={handleStartAssessment}>
-              OK
+            <button
+              onClick={handleStartAssessment}
+              className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+            >
+              Start Assessment
             </button>
           </>
         ) : (
           <>
-            <h2>Congratulations</h2>
-            <p>The First part is completed!</p>
-            <p className='fw-bold'>
-              The following questions are designed to test your problem-solving skills.
+            <h2 className="text-3xl font-semibold text-blue-950 mb-4">Congratulations!</h2>
+            <p className="text-gray-700 mb-2">You’ve completed the first part.</p>
+            <p className="text-red-600 font-semibold">
+              Now let's test your problem-solving skills.
             </p>
-            <p>Please answer each question to the best of your ability.</p>
-            <button className="btn btn-dark" onClick={handleStartAssessment}>
+            <p className="text-gray-600 mt-2">Answer carefully and do your best.</p>
+            <button
+              onClick={handleStartAssessment}
+              className="mt-6 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+            >
               Continue
             </button>
           </>
@@ -90,20 +94,22 @@ const Questionnaire = () => {
     );
   }
 
-  // Quiz content
+  // Main quiz
   return (
-    <div className="container text-center col-6 custom-container">
+    <div className="max-w-2xl mx-auto text-center px-4 py-16">
       {!completed ? (
         <>
-          <h2>Question {currentQuestionIndex + 1}:</h2>
-          <h3>{currentQuestion.text}</h3>
+          <h2 className="text-xl font-semibold text-blue-950 mb-4">
+            Question {currentQuestionIndex + 1}
+          </h2>
+          <h3 className="text-lg text-gray-800 mb-6">{currentQuestion.text}</h3>
 
-          <div className="options mt-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {currentQuestion.options.map((option, index) => (
               <button
                 key={index}
-                className="btn btn-outline-dark m-2"
                 onClick={() => handleAnswerClick(option)}
+                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-red-50 hover:text-red-600 transition text-blue-950"
               >
                 {option}
               </button>
@@ -112,24 +118,34 @@ const Questionnaire = () => {
         </>
       ) : !readyForNextChapter ? (
         <>
-          <p>Your Score: {score} / {questions.length}</p>
-          <button className="btn btn-dark mt-3" onClick={handleResetQuiz}>
+          <h3 className="text-lg text-gray-800 mb-4">
+            Your Score: <span className="text-red-600">{score} / {questions.length}</span>
+          </h3>
+          <button
+            onClick={handleResetQuiz}
+            className="mt-4 px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition"
+          >
             Restart Quiz
           </button>
         </>
       ) : currentQuizId === "quiz1" ? (
-        <div className="mt-4">
-          <p>You've successfully completed Part 1!</p>
-          <button className="btn btn-dark" onClick={handleContinueToQuiz2}>
+        <div className="mt-6">
+          <p className="text-gray-800">You've successfully completed Part 1!</p>
+          <button
+            onClick={handleContinueToQuiz2}
+            className="mt-4 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+          >
             Continue to Part 2
           </button>
         </div>
       ) : (
-        <div className="mt-4">
-          <h4>Assessment Complete!</h4>
-          <p>Your final score: {score} / {questions.length}</p>
-          {/* Show "Create CV" button after both quizzes are completed */}
-          <button className="btn btn-dark mt-3" onClick={handleCreateCV}>
+        <div className="mt-6">
+          <h4 className="text-xl font-semibold text-blue-950 mb-2">Assessment Complete!</h4>
+          <p className="text-gray-800 mb-4">Your final score: <span className="text-red-600">{score} / {questions.length}</span></p>
+          <button
+            onClick={handleCreateCV}
+            className="px-6 py-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 transition"
+          >
             Create CV
           </button>
         </div>

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../slices/authSlice";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from "react-router-dom";
 
 const API_URL = "http://localhost:3000";
 
 const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,10 +21,7 @@ const LogIn = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const togglePasswordVisibility = () => {
@@ -39,81 +36,90 @@ const LogIn = () => {
     try {
       const response = await axios.post(`${API_URL}/login`, formData);
       dispatch(login({ user: response.data.user, token: response.data.token }));
-      window.location.href = "/CandidateDashboard";
+      navigate("/CandidateDashboard");
     } catch (error) {
       setError("Invalid email or password. Please try again.");
       console.error("Login failed", error);
     }
-    
+
     setLoading(false);
   };
 
   return (
-    <div className="contact-form row justify-content-center">
-      <div className="col-6 custom-container">
-        <h2>Log in</h2>
-        <form onSubmit={handleSubmit}>
-
-          {error && <p className="text-danger">{error}</p>}
-        
-          <div className='mb-3'>
-            <label htmlFor="Email1" className="form-label">Email address</label>
-            <input
-              type="email"
-              className="form-control"
-              name="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              disabled={loading}
-              maxLength="50"
-              required
-            />
-          </div>
-          
-          <div className='mb-3'>
-            <label htmlFor="password" className="form-label">Password</label>
-            <input
-              type={showPassword ? "text" : "password"}
-              className="form-control"
-              name="password"
-              placeholder="Password*"
-              value={formData.password}
-              onChange={handleChange}
-              disabled={loading}
-              maxLength="16"
-              required
-            />
-            <button
-              type="button"
-              className="btn btn-link"
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? "Hide" : " Show"}
-            </button>
-          </div>
-
-          <div className='mb-3'>
-            <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2"></span>
-                  Logging in...
-                </>
-              ) : (
-                "Submit"
-              )}
-            </button>
-          </div>
-        </form>
-
-        <div className="mt-3">
-          <p>
-            Don't have an account? <button className="btn btn-link" onClick={() => navigate("/signup")}>Create an account</button>
-          </p>
-        </div>
+    <section className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="mt-10 text-center text-2xl font-bold text-blue-950">
+          Log in to your account
+        </h2>
       </div>
-    </div>
+
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {error && <p className="text-red-600 text-sm text-center">{error}</p>}
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-blue-950">
+              Email Address
+            </label>
+            <div className="mt-2">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                disabled={loading}
+                required
+                className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 focus:outline-2 focus:outline-red-600 sm:text-sm"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-blue-950">
+              Password
+            </label>
+            <div className="mt-2">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                disabled={loading}
+                required
+                className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 focus:outline-2 focus:outline-red-600 sm:text-sm"
+              />
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="text-sm font-semibold text-red-600 hover:text-red-500"
+          >
+            {showPassword ? "Hide Password" : "Show Password"}
+          </button>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus:outline-2 focus:outline-red-600"
+          >
+            {loading ? "Logging in..." : "Submit"}
+          </button>
+
+          <p className="mt-10 text-center text-sm text-gray-500">
+            Don’t have an account?{" "}
+            <Link to="/signup" className="font-semibold text-red-600 hover:text-red-500">
+              Create one
+            </Link>
+          </p>
+        </form>
+      </div>
+    </section>
   );
 };
 

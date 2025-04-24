@@ -1,57 +1,32 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { signup } from "../slices/authSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Link } from 'react-router-dom';
 
 const API_URL = "http://localhost:3000";
-
-
-const academicLevels = [
-  "High School",
-  "Associate Degree",
-  "Bachelor’s Degree",
-  "Master’s Degree",
-  "Doctorate (PhD)",
-  "Other",
-];
 
 const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const errRef = useRef();
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
-    country: "",
-    academylevel: "",
-    edubg: "",
+    first_name: "",
+    last_name: "",
   });
 
-  const [countries, setCoutries] = useState([]);
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await axios.get("https://restcountries.com/v3.1/all");
-        const countryNames = response.data.map((country) => country.name.common).sort();
-        setCoutries(countryNames);
-      } catch (error) {
-        console.error("Error fetching countries:", error);
-      }
-    };
-
-    fetchCountries();
-  }, []);
-
-  useEffect(() => {
     setErrMsg("");
-  }, [formData.name, formData.email, formData.password]);
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,7 +37,7 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${API_URL}/signup`, formData);
+      const response = await axios.post(`${API_URL}/api/register/`, formData);
 
       if (response?.status === 201) {
         dispatch(signup({ user: response.data.user, token: response.data.token }));
@@ -89,99 +64,150 @@ const SignUp = () => {
     <>
       {success ? (
         <section>
-          <h1>Registration Successful!</h1>
+          <h1 className="text-xl font-semibold">Registration Successful!</h1>
           <p>
-            <Link to="/login">Log in</Link>
+            <Link to="/login" className="text-red-600 hover:text-red-500">
+              Log in
+            </Link>
           </p>
         </section>
       ) : (
-        <section className="signup-container">
-            <div className="signup-form">
-            <h1>Sign Up</h1>
-              <form onSubmit={handleSubmit}>
-              <label>Personal Information</label>
-              <input
-                type="text"
-                id="name"
-                onChange={handleChange}
-                name="name"
-                placeholder="Full Name"
-                value={formData.name}
-                required
-              />
-              <input
-                type="email"
-                id="email"
-                autoComplete="off"
-                onChange={handleChange}
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                required
-              />
-              <input
-                type="password"
-                id="password"
-                onChange={handleChange}
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                required
-              />
-              <select
-                name="country"
-                className="form-control"
-                value={formData.country}
-                onChange={handleChange}
-                required
+        <section className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+            <h2 className="mt-10 text-center text-2xl font-bold text-blue-950">
+              Sign up for an account
+            </h2>
+          </div>
+
+          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <form onSubmit={handleSubmit} className="space-y-6">
+
+              {/* First + Last Name side by side */}
+              <div className="flex flex-col sm:flex-row sm:space-x-4">
+                <div className="sm:w-1/2">
+                  <label htmlFor="first_name" className="block text-sm font-medium text-blue-950">
+                    First Name
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      id="first_name"
+                      name="first_name"
+                      placeholder="First Name"
+                      value={formData.first_name}
+                      onChange={handleChange}
+                      required
+                      className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-blue-950 focus:outline-2 focus:outline-red-600 sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div className="sm:w-1/2 mt-4 sm:mt-0">
+                  <label htmlFor="last_name" className="block text-sm font-medium text-blue-950">
+                    Last Name
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      id="last_name"
+                      name="last_name"
+                      placeholder="Last Name"
+                      value={formData.last_name}
+                      onChange={handleChange}
+                      required
+                      className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-blue-950 focus:outline-2 focus:outline-red-600 sm:text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="username" className="block text-sm font-medium text-blue-950">
+                  Username
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                    className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-blue-950 focus:outline-2 focus:outline-red-600 sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-blue-950">
+                  Email Address
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 focus:outline-2 focus:outline-red-600 sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-blue-950">
+                  Password
+                </label>
+                <div className="mt-2">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 focus:outline-2 focus:outline-red-600 sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-sm font-semibold text-red-600 hover:text-red-500"
               >
-                <option value="" disabled>Select Country</option>
-                {countries.map((country) => (
-                <option key={country} value={country}>{country}</option>
-                ))}
-                </select>
-              <label>Academic Information</label>
-              <select
-                name="academylevel"
-                className="form-control"
-                value={formData.academylevel} 
-                onChange={handleChange}
-                required
+                {showPassword ? "Hide Password" : "Show Password"}
+              </button>
+
+              <button
+                type="submit"
+                className="w-full rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus:outline-2 focus:outline-red-600"
               >
-              <option value="" disabled>Select Academic Level</option>
-              {academicLevels.map((level) => (
-              <option key={level} value={level}>{level}</option>
-              ))}  
-              </select>
-              <input
-                type="text"
-                id="edubg"
-                onChange={handleChange}
-                name="edubg"
-                placeholder="Education Background"
-                value={formData.edubg}
-                required
-              />
-              <button type="submit">Register</button>
-              <p>
-                Already have an account?
-                <br />
-                <span className="line">
-                  <a href="/login">Log in</a>
-                </span>
+                Register
+              </button>
+
+              <p className="mt-10 text-center text-sm text-gray-500">
+                Already have an account?{" "}
+                <Link to="/login" className="font-semibold text-red-600 hover:text-red-500">
+                  Log in
+                </Link>
+              </p>
+
+              <p
+                ref={errRef}
+                className={errMsg ? "errmsg text-red-600" : "offscreen"}
+                aria-live="assertive"
+              >
+                {errMsg}
               </p>
             </form>
-            <p
-              ref={errRef}
-              className={errMsg ? "errmsg show-errmsg" : "offscreen"}
-              aria-live="assertive"
-            >
-              {errMsg}
-            </p>
           </div>
         </section>
       )}
-
     </>
   );
 };
