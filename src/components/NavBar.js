@@ -13,9 +13,6 @@ const navigation = [
   { name: '@admin', to: '/admin' },
 ]
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function Navbar() {
   return (
