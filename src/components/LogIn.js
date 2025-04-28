@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../slices/authSlice";
-import axios from "axios";
+import api from "../api"; 
 import { useNavigate, Link } from "react-router-dom";
-
-const API_URL = "http://localhost:3000";
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -34,11 +32,22 @@ const LogIn = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${API_URL}/login`, formData);
+      const response = await api.post("/login", formData); 
       dispatch(login({ user: response.data.user, token: response.data.token }));
       navigate("/CandidateDashboard");
     } catch (error) {
-      setError("Invalid email or password. Please try again.");
+
+      if (!error?.response) {
+        setError("No Server Response");
+      } else if (error.response?.status === 400) {
+        setError("Invalid email or password");
+      } else if (error.response?.status === 401) {
+        setError("Unauthorized. Please check your credentials.");
+      } else if (error.response?.status === 500) {
+        setError("Server error. Please try again later.");
+      } else {
+        setError("Login failed. Please try again.");
+      }
       console.error("Login failed", error);
     }
 
