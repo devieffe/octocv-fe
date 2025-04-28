@@ -1,45 +1,9 @@
 // questionnaireSlice.js
 import { createSlice } from "@reduxjs/toolkit";
+import questionsData from '../assets/Questionnaire/questions.json'; 
 
 const initialState = {
-  quizzes: {
-    quiz1: {
-      questions: [
-        {
-          text: "What is (1)?",
-          options: ["1", "2", "3", "4"],
-          correctAnswer: "1",
-        },
-        {
-          text: "What is (2)?",
-          options: ["1", "2", "3", "4"],
-          correctAnswer: "2",
-        }
-      ],
-      currentQuestionIndex: 0,
-      completed: false,
-      answers: [],
-      readyForNextChapter: false,
-    },
-    quiz2: {
-      questions: [
-        {
-          text: "What is (3)?",
-          options: ["1", "2", "3", "4"],
-          correctAnswer: "3",
-        },
-        {
-          text: "What is (4)?",
-          options: ["1", "2", "3", "4"],
-          correctAnswer: "4",
-        }
-      ],
-      currentQuestionIndex: 0,
-      completed: false,
-      answers: [],
-      readyForNextChapter: false,
-    },
-  },
+  quizzes: questionsData, 
 };
 
 const questionnaireSlice = createSlice({

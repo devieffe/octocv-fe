@@ -6,7 +6,7 @@ const navigation = [
   { name: 'Home', to: '/' },
   { name: 'Log in', to: '/login' },
   { name: 'Sign up', to: '/signup' },
-  { name: 'Questionnaire', to: '/questionnaire' },
+  { name: 'Questionnaire', to: '/announce1' },
   { name: 'Make CV', to: '/make' },
   { name: '@authenticate', to: '/authenticate' },
   { name: '@user', to: '/user' },
@@ -15,14 +15,14 @@ const navigation = [
 
 export default function Navbar() {
   return (
-    <Disclosure as="nav" className="bg-white shadow-sm">
+    <Disclosure as="nav" className="bg-white shadow-sm ">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <Link to="/" className="text-2xl font-bold text-blue-950">
-                  Octo<span className="text-red-600">CV</span>
+                  Octo<span className="text-red-500">CV</span>
                 </Link>
               </div>
 
@@ -64,7 +64,11 @@ export default function Navbar() {
                 </Link>
               ))}
             </div>
+         
           </Disclosure.Panel>
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="h-0.5 bg-red-500 w-full" />
+          </div> 
         </>
       )}
     </Disclosure>
