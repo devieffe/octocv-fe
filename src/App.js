@@ -3,19 +3,20 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/NavBar";
 import Home from "./components/HomePage";
-import SignUp from "./components/SignUp";
-import LogIn from "./components/LogIn";
+import SignUp from "./components/user/SignUp";
+import LogIn from "./components/user/LogIn";
 import Authenticate from "./components/Authenticate";
 import MakeCv from "./components/MakeCv";
 import BlankPage from "./components/BlankPage";
 import Questionnaire from "./components/Questionnaire/Questionnaire";
-import AdminDashboard from "./components/admin/AdminDashboard";
+import AdminDashboard from "./components/user/admin/AdminDashboard";
 import UserDashboard from "./components/user/UserDashboard";
 import NotFound from "./components/404";
 import Announce1 from "./components/Questionnaire/Announce1";
 import Announce2 from "./components/Questionnaire/Announce2";
 import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
-
+import VerifyEmail from "./components/user/verify_emails/VerifyEmail";
+import ResendVerification from "./components/user/verify_emails/ResendVerification";
 
 const App = () => {
   const year = new Date().getFullYear();
@@ -30,7 +31,10 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/resend-verification"element={<ResendVerification />}/>
             <Route path="/login" element={<LogIn />} />
+            <Route path="/user" element={<UserDashboard />} />
             <Route path="/authenticate" element={<Authenticate />} />
             <Route path="/blank" element={<BlankPage />} />
             <Route path="/announce1" element={<Announce1 />} />
@@ -39,7 +43,6 @@ const App = () => {
             <Route path="/questionnaire2" element={<Questionnaire2 />} />
             <Route path="/make" element={<MakeCv />} />
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/user" element={<UserDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

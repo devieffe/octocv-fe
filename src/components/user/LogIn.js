@@ -1,20 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../slices/authSlice";
+import { login } from "../../slices/authSlice";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
-const API_URL = "http://localhost:3000";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -28,21 +24,62 @@ const LogIn = () => {
     setShowPassword((prev) => !prev);
   };
 
+  const handleLogin = async (formData) => {
+    try {
+      const response = await axios.post(`${SERVER_URL}api/login/`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const { access, refresh, user } = response.data;
+      localStorage.setItem("access_token", access);
+  
+      // TEMP fallback user (until backend sends user data)
+      const fallbackUser = {
+        id: 0,
+        username: formData.username,
+        email: "", // Or any default
+      };
+  
+      dispatch(login({ 
+        user: user || fallbackUser, 
+        accessToken: access, 
+        refreshToken: refresh || null 
+      }));
+
+      console.log("Access Token after login:", access);
+  
+      return response;
+    } catch (error) {
+      if (!error?.response) {
+        setError("No Server Response");
+      } else if (error.response?.status === 400) {
+        setError("Invalid username or password");
+      } else if (error.response?.status === 401) {
+        setError("Unauthorized. Please check your credentials.");
+      } else if (error.response?.status === 500) {
+        setError("Server error. Please try again later.");
+      } else {
+        setError("Login failed. Please try again.");
+      }
+      console.error("Error details:", error.response?.data);
+      return null;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    try {
-      const response = await axios.post(`${API_URL}/login`, formData);
-      dispatch(login({ user: response.data.user, token: response.data.token }));
-      navigate("/CandidateDashboard");
-    } catch (error) {
-      setError("Invalid email or password. Please try again.");
-      console.error("Login failed", error);
-    }
-
+    const loginResponse = await handleLogin(formData);
     setLoading(false);
+
+    if (loginResponse) {
+      console.log("Redirecting...");
+      navigate("/user");
+    }
   };
 
   return (
@@ -58,16 +95,17 @@ const LogIn = () => {
           {error && <p className="text-red-600 text-sm text-center">{error}</p>}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-blue-950">
-              Email Address
+            <label htmlFor="username" className="block text-sm font-medium text-blue-950">
+              Username
             </label>
             <div className="mt-2">
               <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                value={formData.email}
+                type="text"
+                id="username"
+                name="username"
+                autoComplete="username"
+                placeholder="Username"
+                value={formData.username}
                 onChange={handleChange}
                 disabled={loading}
                 required
@@ -85,6 +123,7 @@ const LogIn = () => {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
+                autoComplete="current-password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
