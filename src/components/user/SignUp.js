@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { signup } from "../slices/authSlice";
-import api from "../api";
+import { signup } from "../../slices/authSlice";
+import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -35,9 +37,19 @@ const SignUp = () => {
     setLoading(true);
 
     try {
-      const response = await api.post("/register", formData); 
-      dispatch(signup({ user: response.data.user, token: response.data.token }));
-      navigate("/CandidateDashboard");
+      const response = await axios.post(
+        `${SERVER_URL}api/register/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      dispatch(
+        signup({ user: response.data.user, token: response.data.token })
+      );
+      navigate("/verify-email");
     } catch (error) {
       // Handle errors based on status code
       if (!error?.response) {
@@ -51,7 +63,7 @@ const SignUp = () => {
       } else {
         setError("Sign up failed. Please try again.");
       }
-      console.error("Sign up failed", error);
+      console.error("Error details:", error.response.data);
     }
 
     setLoading(false);
@@ -72,7 +84,10 @@ const SignUp = () => {
           {/* First + Last Name side by side */}
           <div className="flex flex-col sm:flex-row sm:space-x-4">
             <div className="sm:w-1/2">
-              <label htmlFor="first_name" className="block text-sm font-medium text-blue-950">
+              <label
+                htmlFor="first_name"
+                className="block text-sm font-medium text-blue-950"
+              >
                 First Name
               </label>
               <div className="mt-2">
@@ -80,6 +95,7 @@ const SignUp = () => {
                   type="text"
                   id="first_name"
                   name="first_name"
+                  autoComplete="first_name"
                   placeholder="First Name"
                   value={formData.first_name}
                   onChange={handleChange}
@@ -91,7 +107,10 @@ const SignUp = () => {
             </div>
 
             <div className="sm:w-1/2 mt-4 sm:mt-0">
-              <label htmlFor="last_name" className="block text-sm font-medium text-blue-950">
+              <label
+                htmlFor="last_name"
+                className="block text-sm font-medium text-blue-950"
+              >
                 Last Name
               </label>
               <div className="mt-2">
@@ -99,6 +118,7 @@ const SignUp = () => {
                   type="text"
                   id="last_name"
                   name="last_name"
+                  autoComplete="last_name"
                   placeholder="Last Name"
                   value={formData.last_name}
                   onChange={handleChange}
@@ -111,7 +131,10 @@ const SignUp = () => {
           </div>
 
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-blue-950">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-blue-950"
+            >
               Username
             </label>
             <div className="mt-2">
@@ -119,6 +142,7 @@ const SignUp = () => {
                 type="text"
                 id="username"
                 name="username"
+                autoComplete="username"
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
@@ -130,7 +154,10 @@ const SignUp = () => {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-blue-950">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-blue-950"
+            >
               Email Address
             </label>
             <div className="mt-2">
@@ -138,6 +165,7 @@ const SignUp = () => {
                 type="email"
                 id="email"
                 name="email"
+                autoComplete="email"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
@@ -149,7 +177,10 @@ const SignUp = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-blue-950">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-blue-950"
+            >
               Password
             </label>
             <div className="mt-2">
@@ -157,6 +188,7 @@ const SignUp = () => {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
+                autoComplete="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
@@ -185,7 +217,10 @@ const SignUp = () => {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Already have an account?{" "}
-            <Link to="/login" className="font-semibold text-red-600 hover:text-red-500">
+            <Link
+              to="/login"
+              className="font-semibold text-red-600 hover:text-red-500"
+            >
               Log in
             </Link>
           </p>

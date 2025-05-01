@@ -1,25 +1,24 @@
 import React from "react";
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../slices/authSlice";
 
 const navigation = [
   { name: 'Home', to: '/' },
-  { name: 'Questionnaire', to: '/announce1' },
-  { name: 'Make CV', to: '/make' },
-  { name: '@authenticate', to: '/authenticate' },
-  { name: '@user', to: '/user' },
-  { name: '@admin', to: '/admin' },
 ];
 
 export default function Navbar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const handleLogout = () => {
     dispatch(logout());
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    navigate("/login");
   };
 
   return (
@@ -37,20 +36,35 @@ export default function Navbar() {
               {/* Desktop Menu */}
               <div className="hidden sm:block">
                 <div className="ml-10 flex space-x-4">
-                  {navigation.map((item) => (
-                    // Render links based on authentication state
-                    (isAuthenticated || item.name === 'Home') && (
-                      <Link
-                        key={item.name}
-                        to={item.to}
-                        className="rounded-md px-3 py-2 text-sm font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
-                      >
-                        {item.name}
-                      </Link>
-                    )
+                  {/* Only show Home if not authenticated */}
+                  {!isAuthenticated && navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.to}
+                      className="rounded-md px-3 py-2 text-sm font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
+                    >
+                      {item.name}
+                    </Link>
                   ))}
 
-                  {/* Show login and signup only when not authenticated */}
+                  {/* Conditional Links based on Authentication */}
+                  {isAuthenticated && (
+                    <>
+                      <Link
+                        to="/announce1"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
+                      >
+                        Questionnaire
+                      </Link>
+                      <Link
+                        to="/make"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
+                      >
+                        Make CV
+                      </Link>
+                    </>
+                  )}
+
                   {!isAuthenticated ? (
                     <>
                       <Link
@@ -101,20 +115,35 @@ export default function Navbar() {
           {/* Mobile Menu */}
           <Disclosure.Panel className="sm:hidden bg-white shadow-inner">
             <div className="space-y-1 px-2 pt-2 pb-3">
-              {navigation.map((item) => (
-                // Render links based on authentication state for mobile
-                (isAuthenticated || item.name === 'Home') && (
-                  <Link
-                    key={item.name}
-                    to={item.to}
-                    className="block rounded-md px-3 py-2 text-base font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                )
+              {/* Only show Home if not authenticated */}
+              {!isAuthenticated && navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.to}
+                  className="block rounded-md px-3 py-2 text-base font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
+                >
+                  {item.name}
+                </Link>
               ))}
 
-              {/* Show login and signup only when not authenticated for mobile */}
+              {/* Conditional Links for Mobile Menu */}
+              {isAuthenticated && (
+                <>
+                  <Link
+                    to="/announce1"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
+                  >
+                    Questionnaire
+                  </Link>
+                  <Link
+                    to="/make"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
+                  >
+                    Make CV
+                  </Link>
+                </>
+              )}
+
               {!isAuthenticated ? (
                 <>
                   <Link
