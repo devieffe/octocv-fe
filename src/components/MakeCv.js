@@ -14,14 +14,13 @@ const careerPaths = [
 const MAX_FILE_SIZE_MB = 2;
 const ALLOWED_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
+// Load API URL from .env file
+const API_URL = process.env.REACT_APP_API_URL;
+
 const CandidateDashboard = () => {
   const [selectedCareerPath, setSelectedCareerPath] = useState("");
   const [file, setFile] = useState(null);
-<<<<<<< Updated upstream
-  const [uploadStatus, setUploadStatus] = useState("");
-=======
   const [error, setError] = useState("");
->>>>>>> Stashed changes
 
   const handleCareerPathChange = (e) => {
     setSelectedCareerPath(e.target.value);
@@ -51,13 +50,11 @@ const CandidateDashboard = () => {
     }
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (e) => {
+    e.preventDefault();
+
     if (!file) {
-<<<<<<< Updated upstream
-      setUploadStatus("Please select a file first.");
-=======
       setError("Please select a valid file first.");
->>>>>>> Stashed changes
       return;
     }
 
@@ -65,21 +62,12 @@ const CandidateDashboard = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/upload/', {
+      const response = await fetch(`${API_URL}/api/upload/`, {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
-<<<<<<< Updated upstream
-        setUploadStatus("File uploaded successfully!");
-      } else {
-        setUploadStatus("Failed to upload file.");
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      setUploadStatus("Upload error.");
-=======
         alert("File uploaded successfully!");
         setFile(null);
         setError("");
@@ -89,7 +77,6 @@ const CandidateDashboard = () => {
     } catch (error) {
       console.error("Error uploading file:", error);
       setError("Error uploading file. Please try again.");
->>>>>>> Stashed changes
     }
   };
 
@@ -103,7 +90,7 @@ const CandidateDashboard = () => {
           </p>
         </div>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleUpload}>
           <div>
             <label htmlFor="careerPath" className="block text-sm font-medium text-blue-950">
               Career Path
@@ -136,31 +123,17 @@ const CandidateDashboard = () => {
             />
           </div>
 
-<<<<<<< Updated upstream
-          {uploadStatus && (
-            <p className="text-sm text-center text-red-600">{uploadStatus}</p>
-          )}
+          {error && <div className="text-red-600 text-sm">{error}</div>}
 
           <button
-            type="button"
-            onClick={handleUpload}
-            className="w-full rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus:outline-2 focus:outline-red-600"
+            type="submit"
+            className="w-full rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-500"
           >
             Upload CV
           </button>
         </form>
       </div>
     </section>
-=======
-      <h2>Upload your CV</h2>
-      <p>PDF and DOCX files only, max 2MB</p>
-
-      <input type="file" onChange={handleFileChange} />
-      {error && <div className="text-danger mt-2">{error}</div>}
-
-      <button className="btn btn-dark mt-3" onClick={handleUpload}>Upload CV</button>
-    </div>
->>>>>>> Stashed changes
   );
 };
 
