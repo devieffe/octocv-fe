@@ -1,3 +1,3 @@
 # OctoCV FE
 
-// don't forget and skipp commenting.
+// don't skip commenting.
