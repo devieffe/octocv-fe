@@ -11,22 +11,53 @@ const careerPaths = [
   "Other",
 ];
 
+const MAX_FILE_SIZE_MB = 2;
+const ALLOWED_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+
 const CandidateDashboard = () => {
   const [selectedCareerPath, setSelectedCareerPath] = useState("");
   const [file, setFile] = useState(null);
+<<<<<<< Updated upstream
   const [uploadStatus, setUploadStatus] = useState("");
+=======
+  const [error, setError] = useState("");
+>>>>>>> Stashed changes
 
   const handleCareerPathChange = (e) => {
     setSelectedCareerPath(e.target.value);
   };
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const selected = event.target.files[0];
+
+    if (selected) {
+      const isValidType = ALLOWED_TYPES.includes(selected.type);
+      const isValidSize = selected.size <= MAX_FILE_SIZE_MB * 1024 * 1024;
+
+      if (!isValidType) {
+        setError("Invalid file type. Only PDF and DOCX files are allowed.");
+        setFile(null);
+        return;
+      }
+
+      if (!isValidSize) {
+        setError("File size exceeds 2MB limit.");
+        setFile(null);
+        return;
+      }
+
+      setError("");
+      setFile(selected);
+    }
   };
 
   const handleUpload = async () => {
     if (!file) {
+<<<<<<< Updated upstream
       setUploadStatus("Please select a file first.");
+=======
+      setError("Please select a valid file first.");
+>>>>>>> Stashed changes
       return;
     }
 
@@ -40,6 +71,7 @@ const CandidateDashboard = () => {
       });
 
       if (response.ok) {
+<<<<<<< Updated upstream
         setUploadStatus("File uploaded successfully!");
       } else {
         setUploadStatus("Failed to upload file.");
@@ -47,6 +79,17 @@ const CandidateDashboard = () => {
     } catch (error) {
       console.error("Error uploading file:", error);
       setUploadStatus("Upload error.");
+=======
+        alert("File uploaded successfully!");
+        setFile(null);
+        setError("");
+      } else {
+        setError("Failed to upload file.");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      setError("Error uploading file. Please try again.");
+>>>>>>> Stashed changes
     }
   };
 
@@ -93,6 +136,7 @@ const CandidateDashboard = () => {
             />
           </div>
 
+<<<<<<< Updated upstream
           {uploadStatus && (
             <p className="text-sm text-center text-red-600">{uploadStatus}</p>
           )}
@@ -107,6 +151,16 @@ const CandidateDashboard = () => {
         </form>
       </div>
     </section>
+=======
+      <h2>Upload your CV</h2>
+      <p>PDF and DOCX files only, max 2MB</p>
+
+      <input type="file" onChange={handleFileChange} />
+      {error && <div className="text-danger mt-2">{error}</div>}
+
+      <button className="btn btn-dark mt-3" onClick={handleUpload}>Upload CV</button>
+    </div>
+>>>>>>> Stashed changes
   );
 };
 
