@@ -20,15 +20,56 @@
     "quiz2": {
       "questions": [
         {
-          "text": "What is (3)?",
-          "options": ["1", "2", "3", "4"],
-          "correctAnswer": "3"
+          "text": "If it takes 5 machines 5 minutes to make 5 parts, how long would it take 100 machines to make 100 parts?",
+          "options": ["1 minute", "5 minutes", "100 minutes", "25 minutes"],
+          "correctAnswer": "5 minutes"
         },
         {
-          "text": "What is (4)?",
-          "options": ["1", "2", "3", "4"],
-          "correctAnswer": "4"
+          "text": "What comes next in the pattern? 2, 6, 12, 20, __ ?",
+          "options": ["24", "30", "36", "40"],
+          "correctAnswer": "30"
+        },
+        {
+          "text": "You have a 3-liter and a 5-liter container. How can you measure exactly 4 liters?",
+          "options": ["Fill the 3-liter twice", "Fill the 5-liter and pour into 3-liter until it’s full", "Fill the 3-liter and 5-liter once", "Fill the 5-liter and empty 1 liter"],
+          "correctAnswer": "Fill the 5-liter and pour into 3-liter until it’s full"
+        },
+        {
+          "text": "Which number logically completes the sequence? 1, 4, 9, 16, 25, __ ?",
+          "options": ["35", "36", "40", "49"],
+          "correctAnswer": "36"
+        },
+        {
+          "text": "A bat and a ball cost $1.10 in total. The bat costs $1 more than the ball. How much does the ball cost??",
+          "options": ["$0.05", "$0.10", "$0.15", "$0.50"],
+          "correctAnswer": "$0.05"
+        },
+        {
+          "text": "If all Bloops are Razzies and all Razzies are Lazzies, are all Bloops definitely Lazzies",
+          "options": ["Yes", "No", "Only sometimes", "Not enough information"],
+          "correctAnswer": "Yes"
+        },
+        {
+          "text": "A farmer has 17 sheep, and all but 9 run away. How many are left?",
+          "options": ["8", "9", "17", "0"],
+          "correctAnswer": "9"
+        },
+        {
+          "text": "What is the missing letter in the series? J, F, M, A, M, J, __ , A",
+          "options": ["M", "N", "J", "D"],
+          "correctAnswer": "J"
+        },
+        {
+          "text": "You’re in a room with 3 light switches and a closed door. One switch controls a light bulb inside the room. How can you find out which one it is by entering the room only once?",
+          "options": ["Flip one switch and enter", "Flip two switches", "Turn one switch on, wait, turn it off, then turn another one on and enter", "Turn them all on"],
+          "correctAnswer": "Turn one switch on, wait, turn it off, then turn another one on and enter"
+        },
+        {
+          "text": "Which of the following is the odd one out",
+          "options": ["Apple", "Banana", "Carrot", "Grape"],
+          "correctAnswer": "Carrot"
         }
+
       ],
       "currentQuestionIndex": 0,
       "completed": false,

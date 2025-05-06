@@ -9,6 +9,7 @@ import Authenticate from "./components/Authenticate";
 import MakeCv from "./components/MakeCv";
 import BlankPage from "./components/BlankPage";
 import Questionnaire from "./components/Questionnaire/Questionnaire";
+import RequireQuestionnaire from "./components/Questionnaire/RequireQuestionnaire";
 import AdminDashboard from "./components/user/admin/AdminDashboard";
 import UserDashboard from "./components/user/UserDashboard";
 import NotFound from "./components/404";
@@ -34,9 +35,9 @@ const App = () => {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/resend-verification"element={<ResendVerification />}/>
             <Route path="/login" element={<LogIn />} />
-            <Route path="/user" element={<UserDashboard />} />
             <Route path="/authenticate" element={<Authenticate />} />
             <Route path="/blank" element={<BlankPage />} />
+            <Route path="/user" element={<RequireQuestionnaire quizId="quiz1"> <UserDashboard /> </RequireQuestionnaire>}/>
             <Route path="/announce1" element={<Announce1 />} />
             <Route path="/announce2" element={<Announce2 />} />
             <Route path="/questionnaire" element={<Questionnaire />} />

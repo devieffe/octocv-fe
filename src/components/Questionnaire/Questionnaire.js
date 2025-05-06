@@ -7,11 +7,11 @@ const Questionnaire = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const quizId = "quiz1"; // You can make this dynamic based on the quiz
+  const quizId = "quiz1";
   const quiz = useSelector((state) => state.questionnaire.quizzes[quizId]);
 
   if (!quiz) {
-    return <div className="text-center text-gray-700">Loading...</div>; // Handle the case where the quiz doesn't exist
+    return <div className="text-center text-gray-700">Loading...</div>; 
   }
 
   const { questions, currentQuestionIndex, completed, answers } = quiz;
