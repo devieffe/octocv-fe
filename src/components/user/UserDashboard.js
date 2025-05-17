@@ -15,7 +15,7 @@ const UserDashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
-  const userData = useSelector((state) => state.auth.user);
+  // const userData = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const fetchUserData = async () => {
