@@ -1,29 +1,44 @@
-import React, { useState } from 'react';
-
-const careerPaths = [
-  "Software Engineer",
-  "Data Scientist",
-  "Product Manager",
-  "UI/UX Designer",
-  "Cybersecurity Specialist",
-  "Marketing Specialist",
-  "Business Analyst",
-  "Other",
-];
+import React, { useState, useEffect } from 'react';
+import axiosInstance from "../api/axiosInstance";
 
 const MAX_FILE_SIZE_MB = 2;
-const ALLOWED_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+const ALLOWED_TYPES = [
+  'application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+];
 
-// Load API URL from .env file
-const API_URL = process.env.REACT_APP_API_URL;
-
-const CandidateDashboard = () => {
+const MakeCv = () => {
+  const [careerPaths, setCareerPaths] = useState([]);
   const [selectedCareerPath, setSelectedCareerPath] = useState("");
+  const [downloadUrl, setDownloadUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const fetchCareerPaths = async () => {
+      try {
+        console.log("Access token:", localStorage.getItem("access_token"));
+        const response = await axiosInstance.get("/api/career/");
+        setCareerPaths(response.data);
+      } catch (error) {
+        console.error("Failed to fetch career paths:", error);
+        setError("Failed to load career paths. Please try again later.");
+      }
+    };
+
+    fetchCareerPaths();
+
+    const savedPath = localStorage.getItem("selectedCareerPath");
+    if (savedPath) {
+      setSelectedCareerPath(savedPath);
+    }
+  }, []);
+
   const handleCareerPathChange = (e) => {
-    setSelectedCareerPath(e.target.value);
+    const value = e.target.value;
+    setSelectedCareerPath(value);
+    localStorage.setItem("selectedCareerPath", value);
   };
 
   const handleFileChange = (event) => {
@@ -58,35 +73,58 @@ const CandidateDashboard = () => {
       return;
     }
 
+    if (!selectedCareerPath) {
+      setError("Please select a career path.");
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
+    formData.append("job_title", selectedCareerPath);
+
+    setError("");
+    setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/upload/`, {
-        method: 'POST',
-        body: formData,
-      });
 
-      if (response.ok) {
-        alert("File uploaded successfully!");
-        setFile(null);
-        setError("");
+      console.log("Uploading:", {
+        file,
+        job_title: selectedCareerPath
+      });
+      
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("job_title", selectedCareerPath);
+      
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      };
+      
+      const response = await axiosInstance.post("/api/upload-cv/", formData);
+      setDownloadUrl(response.data.url);
+    } catch (err) {
+      console.error("Upload error:", err);
+      console.log("Response:", err?.response);
+      if (err.response?.data?.error) {
+        setError(err.response.data.error);
+      } else if (err.response?.data?.message) {
+        setError(err.response.data.message);
       } else {
-        setError("Failed to upload file.");
+        setError("Server error. Please try again.");
       }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      setError("Error uploading file. Please try again.");
     }
+    
   };
 
   return (
     <section className="flex min-h-screen items-center justify-center bg-white px-6 py-12 lg:px-8">
       <div className="w-full max-w-xl space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-blue-950">Create Your New CV</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-blue-950">
+            Create Your New CV
+          </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Let’s personalize your career journey — start by selecting your target path and uploading your existing CV.
+            Select your career path and upload your current CV. We’ll enhance it for your future!
           </p>
         </div>
 
@@ -104,8 +142,10 @@ const CandidateDashboard = () => {
               className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 text-blue-950 focus:outline-2 focus:outline-red-600 sm:text-sm"
             >
               <option value="" disabled>Select a Career Path</option>
-              {careerPaths.map((path) => (
-                <option key={path} value={path}>{path}</option>
+              {careerPaths.map(({ job_title, course_title }) => (
+                <option key={job_title} value={job_title}>
+                  {job_title} - {course_title}
+                </option>
               ))}
             </select>
           </div>
@@ -129,12 +169,33 @@ const CandidateDashboard = () => {
             type="submit"
             className="w-full rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-500"
           >
-            Upload CV
+            {isLoading ? "Uploading..." : "Upload CV"}
           </button>
+
+          {isLoading && (
+            <p className="text-sm text-gray-700 flex items-center gap-2 mt-2">
+              <span className="animate-spin rounded-full h-4 w-4 border-t-2 border-red-600" />
+              Processing your CV... This may take up to a minute.
+            </p>
+          )}
+
+          {downloadUrl && (
+            <p className="text-sm mt-4 text-green-700">
+              ✅ Your enhanced CV is ready:{" "}
+              <a
+                href={downloadUrl}
+                className="underline text-blue-800"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Click here to download
+              </a>
+            </p>
+          )}
         </form>
       </div>
     </section>
   );
 };
 
-export default CandidateDashboard;
+export default MakeCv;

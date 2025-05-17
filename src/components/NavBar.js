@@ -51,7 +51,7 @@ export default function Navbar() {
                   {isAuthenticated && (
                     <>
                       <Link
-                        to="/announce1"
+                        to="/announce"
                         className="rounded-md px-3 py-2 text-sm font-medium text-blue-950 hover:bg-red-50 hover:text-red-600 transition-colors"
                       >
                         Questionnaire

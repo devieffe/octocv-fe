@@ -11,6 +11,8 @@ const ResendVerification = () => {
   const [error, setError] = useState("");
   const [verified, setVerified] = useState(false);
   const [alreadyVerified, setAlreadyVerified] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);  // New state for handling redirect
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,13 +22,27 @@ const ResendVerification = () => {
     setVerified(false);
     setAlreadyVerified(false);
 
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const res = await axios.post(`${SERVER_URL}api/resend-verification-email/`, { email });
+      const res = await axios.post(`${SERVER_URL}api/resend-verification-email/`, { email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       setMessage(res.data.message);
       setVerifyLink(res.data.verify_email_url);
     } catch (err) {
       const errMsg = err.response?.data?.error || "Failed to resend email.";
       setError(errMsg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -34,21 +50,30 @@ const ResendVerification = () => {
     try {
       const res = await axios.get(verifyLink);
       const msg = res.data.message || "";
-  
+
       if (msg.includes("confirmed")) {
         setVerified(true);
+        setMessage(msg);
+        // After verification, set redirect state to true and navigate
+        setRedirecting(true);
       } else if (msg.toLowerCase().includes("already verified")) {
         setAlreadyVerified(true);
+        setMessage(msg);
+        // After already verified, set redirect state to true and navigate
+        setRedirecting(true);
       }
-  
-      setMessage(msg);
-      setError("");
     } catch (err) {
       const errMsg = err.response?.data?.detail || "Verification failed.";
       setError(errMsg);
     }
   };
-  
+
+  // Redirect immediately if we are in the redirecting state
+  if (redirecting) {
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);  // Delay the redirect for 2 seconds so the user can see the message
+  }
 
   return (
     <div className="max-w-md mx-auto p-6">
@@ -66,9 +91,10 @@ const ResendVerification = () => {
           />
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-500"
           >
-            Resend Email
+            {loading ? "Sending..." : "Verify Email"}
           </button>
         </form>
       )}
@@ -94,6 +120,7 @@ const ResendVerification = () => {
               ? "Your email was verified successfully!"
               : "Email is already verified."}
           </p>
+          {/* Display button for redirection */}
           <button
             onClick={() => navigate("/login")}
             className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500"

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../slices/authSlice";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+import axiosInstance from "../../api/axiosInstance";
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -26,30 +24,38 @@ const LogIn = () => {
 
   const handleLogin = async (formData) => {
     try {
-      const response = await axios.post(`${SERVER_URL}api/login/`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
+      const { username, password } = formData;
+      const response = await axiosInstance.post(`/api/login/`, {
+        username,
+        password,
+      },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
       const { access, refresh, user } = response.data;
+
       localStorage.setItem("access_token", access);
-  
-      // TEMP fallback user (until backend sends user data)
+      localStorage.setItem("refresh_token", refresh);
+
       const fallbackUser = {
         id: 0,
         username: formData.username,
-        email: "", // Or any default
+        email: "",
       };
-  
-      dispatch(login({ 
-        user: user || fallbackUser, 
-        accessToken: access, 
-        refreshToken: refresh || null 
-      }));
 
-      console.log("Access Token after login:", access);
-  
+      dispatch(
+        login({
+          user: user || fallbackUser,
+          accessToken: access,
+          refreshToken: refresh || null,
+        })
+      );
+
+      console.log("Access token received:", access);
+      
       return response;
     } catch (error) {
       if (!error?.response) {
@@ -77,7 +83,7 @@ const LogIn = () => {
     setLoading(false);
 
     if (loginResponse) {
-      console.log("Redirecting...");
+      // Redirect to the dashboard after successful login
       navigate("/user");
     }
   };
