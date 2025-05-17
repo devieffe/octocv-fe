@@ -10,12 +10,18 @@ const VerifyEmail = () => {
   const [message, setMessage] = useState("Verifying...");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const token = searchParams.get("token");
     if (token) {
       axios
-        .get(`${SERVER_URL}api/verify-email/?token=${token}`)
+        .get(`${SERVER_URL}api/verify-email/?token=${token}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
         .then((res) => {
           setMessage(res.data.message);
           setSuccess(true);
@@ -26,6 +32,9 @@ const VerifyEmail = () => {
           setTimeout(() => {
             navigate("/resend-verification");
           }, 3000);
+        })
+        .finally(() => {
+          setLoading(false); 
         });
     } else {
       setError("Invalid verification link. Redirecting...");
@@ -37,7 +46,9 @@ const VerifyEmail = () => {
 
   return (
     <div className="p-4 max-w-md mx-auto text-center">
-      {error ? (
+      {loading ? (
+        <p className="text-blue-900">{message}</p> // Show message while loading
+      ) : error ? (
         <p className="text-red-600">{error}</p>
       ) : success ? (
         <div className="text-green-600 space-y-4">
@@ -49,9 +60,7 @@ const VerifyEmail = () => {
             Go to Login
           </button>
         </div>
-      ) : (
-        <p className="text-blue-900">{message}</p>
-      )}
+      ) : null}
     </div>
   );
 };

@@ -1,13 +1,12 @@
+import { store } from "../store"; // Corrected to use named import
 import axios from "axios";
+import { logout } from "../slices/authSlice";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 // Create an Axios instance
 const axiosInstance = axios.create({
   baseURL: SERVER_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // Token refresh function
@@ -20,9 +19,7 @@ const refreshAccessToken = async () => {
   }
 
   try {
-    const response = await axios.post(`${SERVER_URL}api/token/refresh/`, {
-      refresh: refreshToken,
-    });
+    const response = await axiosInstance.post(`/api/token/refresh/`, { refresh: refreshToken });
 
     const newAccessToken = response.data.access;
     localStorage.setItem("access_token", newAccessToken);
@@ -61,16 +58,25 @@ axiosInstance.interceptors.response.use(
       const newToken = await refreshAccessToken();
 
       if (newToken) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
         originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
         return axiosInstance(originalRequest); // Retry original request
       } else {
         // Optionally redirect to login
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
+        store.dispatch(logout());  // Dispatch logout action
         window.location.href = "/login";
       }
     }
+
+    axiosInstance.interceptors.request.use(
+      (config) => {
+        console.log("Request Headers:", config.headers);
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
 
     return Promise.reject(error);
   }
