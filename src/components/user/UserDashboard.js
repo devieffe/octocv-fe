@@ -1,8 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import Sidebar from "../user/Sidebar";
 import axiosInstance from "../../api/axiosInstance";
 import { logout } from "../../slices/authSlice";
+import {
+  LogOut,
+  FileText,
+  Compass,
+  Settings,
+  User,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 const MOCK_USER = {
   first_name: "Pam",
@@ -10,36 +19,47 @@ const MOCK_USER = {
   email: "pamellaester.ps@gmail.com",
 };
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i = 1) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.2,
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  }),
+};
+
 const UserDashboard = () => {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
-  // const userData = useSelector((state) => state.auth.user);
+
+  const fetchUserData = useCallback(async () => {
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const res = await axiosInstance.get("/api/profile/show/", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setUserInfo(res.data);
+    } catch (error) {
+      console.warn("Backend not ready, using mock data.");
+      setUserInfo(MOCK_USER);
+    }
+  }, [navigate, token]);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-
-      try {
-        const res = await axiosInstance.get("/api/user/",
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-        setUserInfo(res.data);
-      } catch (error) {
-        console.warn("Backend not ready, using mock data.");
-        setUserInfo(MOCK_USER);
-      }
-    };
-
     fetchUserData();
-  }, [navigate, token]);
+  }, [fetchUserData]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -53,32 +73,82 @@ const UserDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-white">
-      <div className="max-w-md w-full space-y-6">
-        <h2 className="text-3xl font-bold text-blue-950 text-center">User Dashboard</h2>
-        <p className="text-center text-gray-700">
-          Welcome, <span className="font-semibold">{userInfo.first_name}</span>
-        </p>
+    <div className="flex h-screen bg-white">
+      {/* Sidebar */}
+      <Sidebar />
 
-        <div className="bg-gray-100 rounded-lg p-4 shadow space-y-4">
-          <div className="space-y-2">
-            <p><span className="font-medium">Username:</span> {userInfo.username}</p>
-            <p><span className="font-medium">Email:</span> {userInfo.email}</p>
-            <p>
-              <span className="font-medium">CV Type:</span>{" "}
-              <Link to="/download-cv" className="text-red-600 underline hover:text-red-700 transition">
-                Download
+      {/* Main Content */}
+      <main className="flex-1 p-10 overflow-y-auto bg-white">
+        <div className="flex items-center justify-between mb-10">
+          <h1 className="text-3xl font-semibold text-[#e91919]">
+            Welcome, {userInfo.first_name}!
+          </h1>
+          <User className="text-[#e91919]" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Personal Info Card */}
+          <motion.div
+            custom={1}
+            initial="hidden"
+            animate="visible"
+            variants={cardVariants}
+            className="bg-white border border-gray-200 rounded-2xl shadow-md p-6 space-y-4 transition hover:shadow-lg"
+          >
+            <h2 className="text-xl font-semibold text-[#e91919] flex items-center gap-2">
+              <User className="w-5 h-5" />
+              Personal Info
+            </h2>
+            <div className="text-gray-700 space-y-3">
+              <div className="flex items-center justify-between border-b pb-2">
+                <span className="font-medium">Username:</span>
+                <span>{userInfo.username}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-medium">Email:</span>
+                <span>{userInfo.email}</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Actions Card */}
+          <motion.div
+            custom={2}
+            initial="hidden"
+            animate="visible"
+            variants={cardVariants}
+            className="bg-white border border-gray-200 rounded-2xl shadow-md p-6 space-y-5 transition hover:shadow-lg"
+          >
+            <h2 className="text-xl font-semibold text-[#e91919]">Quick Actions</h2>
+
+            <div className="grid gap-3">
+              <Link
+                to="/make"
+                className="flex items-center justify-center gap-2 bg-[#e91919] text-white font-medium rounded-xl px-5 py-3 hover:bg-[#cc1616] transition-transform hover:scale-105"
+              >
+                <FileText className="w-5 h-5" />
+                Download CV
               </Link>
-            </p>
-          </div>
-        </div>
 
-        <div className="flex justify-between items-center text-sm text-gray-600">
-          <button onClick={handleLogout} className="hover:text-red-600 transition">
-            Log out
-          </button>
+              <Link
+                to="/career-path"
+                className="flex items-center justify-center gap-2 border border-[#e91919] text-[#e91919] font-medium rounded-xl px-5 py-3 hover:bg-[#e91919] hover:text-white transition-transform hover:scale-105"
+              >
+                <Compass className="w-5 h-5" />
+                Explore Career Path
+              </Link>
+
+              <Link
+                to="/profile-settings"
+                className="flex items-center justify-center gap-2 bg-gray-100 text-gray-800 font-medium rounded-xl px-5 py-3 hover:bg-gray-200 transition-transform hover:scale-105"
+              >
+                <Settings className="w-5 h-5" />
+                Update Settings
+              </Link>
+            </div>
+          </motion.div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

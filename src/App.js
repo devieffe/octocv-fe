@@ -20,6 +20,7 @@ import Announce2 from "./components/Questionnaire/Announce2";
 import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
 import VerifyEmail from "./components/user/verify_emails/VerifyEmail";
 import ResendVerification from "./components/user/verify_emails/ResendVerification";
+import Settings from "./components/user/Settings";
 
 const App = () => {
   const year = new Date().getFullYear();
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="/questionnaire" element={<Questionnaire />} />
             <Route path="/questionnaire2" element={<Questionnaire2 />} />
             <Route path="/motivationalsurvey" element={<MotivationalSurvey />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/make" element={<MakeCv />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
