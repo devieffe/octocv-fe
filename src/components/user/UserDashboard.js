@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../user/Sidebar";
 import axiosInstance from "../../api/axiosInstance";
-import { logout } from "../../slices/authSlice";
 import {
-  LogOut,
   FileText,
   Compass,
   Settings,
@@ -35,7 +33,6 @@ const cardVariants = {
 const UserDashboard = () => {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
 
   const fetchUserData = useCallback(async () => {
@@ -60,13 +57,6 @@ const UserDashboard = () => {
   useEffect(() => {
     fetchUserData();
   }, [fetchUserData]);
-
-  const handleLogout = () => {
-    dispatch(logout());
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    navigate("/login");
-  };
 
   if (!userInfo) {
     return <div className="text-center py-10">Loading user dashboard...</div>;
