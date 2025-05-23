@@ -70,8 +70,8 @@ const UserDashboard = () => {
       {/* Main Content */}
       <main className="flex-1 p-10 overflow-y-auto bg-white">
         <div className="flex items-center justify-between mb-10">
-          <h1 className="text-3xl font-semibold text-[#e91919]">
-            Welcome, {userInfo.first_name}!
+          <h1 className="text-3xl font-semibold text-blue-950">
+            Welcome {userInfo.first_name}!
           </h1>
           <User className="text-[#e91919]" />
         </div>

@@ -27,6 +27,7 @@ const App = () => {
 
   return (
     <Router>
+      <div className="relative bg-white bg-cv-pattern">
       <div className="min-h-screen flex flex-col bg-white">
         <header>
           <Navbar />
@@ -56,7 +57,8 @@ const App = () => {
         <footer className="text-center py-4 border-t border-gray-300 text-sm text-blue-950">
           © {year} OctoCV
         </footer>
-      </div>
+        </div>
+        </div>
     </Router>
   );
 };
