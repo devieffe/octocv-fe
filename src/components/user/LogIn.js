@@ -25,52 +25,44 @@ const LogIn = () => {
   const handleLogin = async (formData) => {
     try {
       const { username, password } = formData;
-      const response = await axiosInstance.post(`/api/login/`, {
-        username,
-        password,
-      },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+      const response = await axiosInstance.post(
+        `/api/login/`,
+        { username, password },
+        { headers: { "Content-Type": "application/json" } }
+      );
 
       const { access, refresh, user } = response.data;
 
       localStorage.setItem("access_token", access);
       localStorage.setItem("refresh_token", refresh);
 
-      const fallbackUser = {
-        id: 0,
-        username: formData.username,
-        email: "",
-      };
-
       dispatch(
         login({
-          user: user || fallbackUser,
+          user: user || { id: 0, username, email: "" },
           accessToken: access,
           refreshToken: refresh || null,
         })
       );
 
-      console.log("Access token received:", access);
-      
-      return response;
+      return true;
     } catch (error) {
+      setLoading(false);
       if (!error?.response) {
-        setError("No Server Response");
-      } else if (error.response?.status === 400) {
-        setError("Invalid username or password");
-      } else if (error.response?.status === 401) {
-        setError("Unauthorized. Please check your credentials.");
-      } else if (error.response?.status === 500) {
-        setError("Server error. Please try again later.");
+        setError("No server response. Please check your internet connection.");
       } else {
-        setError("Login failed. Please try again.");
+        const status = error.response.status;
+        if (status === 400) setError("Invalid username or password.");
+        else if (status === 401) setError("Unauthorized. Check your credentials.");
+        else if (status === 500) setError("Server error. Please try again later.");
+        else setError("Login failed. Please try again.");
       }
-      console.error("Error details:", error.response?.data);
-      return null;
+
+      console.error("Login error:", {
+        message: error.message,
+        response: error.response,
+      });
+
+      return false;
     }
   };
 
@@ -79,13 +71,24 @@ const LogIn = () => {
     setError("");
     setLoading(true);
 
-    const loginResponse = await handleLogin(formData);
-    setLoading(false);
+    const success = await handleLogin(formData);
 
-    if (loginResponse) {
-      // Redirect to the dashboard after successful login
-      navigate("/user");
+    if (success) {
+      try {
+        const testResponse = await axiosInstance.get("/api/passed-tests/",
+        { headers: { "Content-Type": "application/json" } });
+        const tests = testResponse.data.response;
+        console.log(tests)
+        const allPassed = tests.every(Boolean);
+
+        navigate(allPassed ? "/user" : "/questionnaire");
+      } catch (testError) {
+        console.error("Failed to fetch onboarding status:", testError);
+        setError("Something went wrong checking your onboarding progress.");
+      }
     }
+
+    setLoading(false);
   };
 
   return (
@@ -104,40 +107,36 @@ const LogIn = () => {
             <label htmlFor="username" className="block text-sm font-medium text-blue-950">
               Username
             </label>
-            <div className="mt-2">
-              <input
-                type="text"
-                id="username"
-                name="username"
-                autoComplete="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-                disabled={loading}
-                required
-                className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 focus:outline-2 focus:outline-red-600 sm:text-sm"
-              />
-            </div>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              autoComplete="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+              disabled={loading}
+              required
+              className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 focus:outline-2 focus:outline-red-600 sm:text-sm"
+            />
           </div>
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-blue-950">
               Password
             </label>
-            <div className="mt-2">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                autoComplete="current-password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                disabled={loading}
-                required
-                className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 focus:outline-2 focus:outline-red-600 sm:text-sm"
-              />
-            </div>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              autoComplete="current-password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              disabled={loading}
+              required
+              className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 focus:outline-2 focus:outline-red-600 sm:text-sm"
+            />
           </div>
 
           <button
