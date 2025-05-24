@@ -8,16 +8,14 @@ import LogIn from "./components/user/LogIn";
 import Authenticate from "./components/Authenticate";
 import MakeCv from "./components/MakeCv";
 import BlankPage from "./components/BlankPage";
-import Questionnaire from "./components/Questionnaire/Questionnaire";
-// import RequireQuestionnaire from "./components/Questionnaire/RequireQuestionnaire";
+import QuestionnaireIntro from "./components/Questionnaire/QuestionnaireIntro";
+import QuestionnaireFlow from "./components/Questionnaire/QuestionnaireFlow";
+import ProblemSolvingTest from "./components/Questionnaire/ProblemSolvingTest";
 import MotivationalSurvey from "./components/Questionnaire/MotivationalSurvey";
-import AdminDashboard from "./components/user/admin/AdminDashboard";
 import UserDashboard from "./components/user/UserDashboard";
+import CareerPath from "./components/user/CareerPath";
 import NotFound from "./components/404";
-import Announce from "./components/Questionnaire/Announce";
-import Announce1 from "./components/Questionnaire/Announce1";
-import Announce2 from "./components/Questionnaire/Announce2";
-import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
+import ComputerLiteracyTest from "./components/Questionnaire/ComputerLiteracyTest";
 import VerifyEmail from "./components/user/verify_emails/VerifyEmail";
 import ResendVerification from "./components/user/verify_emails/ResendVerification";
 import Settings from "./components/user/Settings";
@@ -41,16 +39,15 @@ const App = () => {
             <Route path="/login" element={<LogIn />} />
             <Route path="/authenticate" element={<Authenticate />} />
             <Route path="/blank" element={<BlankPage />} />
+            <Route path="/onboarding" element={<QuestionnaireIntro />} />
             <Route path="/user" element={<UserDashboard />} />
-            <Route path="/announce" element={<Announce />} />
-            <Route path="/announce1" element={<Announce1 />} />
-            <Route path="/announce2" element={<Announce2 />} />
-            <Route path="/questionnaire" element={<Questionnaire />} />
-            <Route path="/questionnaire2" element={<Questionnaire2 />} />
+            <Route path="/questionnaire" element={<QuestionnaireFlow />} />
+            <Route path="/problemsolvingtest" element={<ProblemSolvingTest/>} />
+            <Route path="/computerliteracytest" element={<ComputerLiteracyTest />} />
             <Route path="/motivationalsurvey" element={<MotivationalSurvey />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/make" element={<MakeCv />} />
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/careerpath" element={<CareerPath />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

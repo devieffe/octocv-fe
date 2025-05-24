@@ -34,7 +34,7 @@ const Sidebar = () => {
             Generate CV
           </Link>
           <Link
-            to="/career-path"
+            to="/careerpath"
             className="flex items-center text-gray-800 hover:text-[#e91919] transition"
           >
             <Compass className="w-5 h-5 mr-3" />

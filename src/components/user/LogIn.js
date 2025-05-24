@@ -81,7 +81,7 @@ const LogIn = () => {
         console.log(tests)
         const allPassed = tests.every(Boolean);
 
-        navigate(allPassed ? "/user" : "/questionnaire");
+        navigate(allPassed ? "/user" : "/onboarding");
       } catch (testError) {
         console.error("Failed to fetch onboarding status:", testError);
         setError("Something went wrong checking your onboarding progress.");
