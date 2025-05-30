@@ -62,6 +62,20 @@ const UserDashboard = () => {
     return <div className="text-center py-10">Loading user dashboard...</div>;
   }
 
+  const clearTests = async () => {
+    try {
+      const res = await axiosInstance.post("/api/clear-tests/", {
+        headers:
+          { "Content-Type": "application/json",}
+       
+      },);
+      console.log(res.data.message)
+      alert(res.data.message || "Test results cleared!");
+    } catch (error) {
+      console.error("Error clearing tests", error);
+    }
+  };  
+
   return (
     <div className="flex h-screen bg-white">
       {/* Sidebar */}
@@ -138,6 +152,13 @@ const UserDashboard = () => {
             </div>
           </motion.div>
         </div>
+        <button
+            type="button"
+            onClick={clearTests}
+            className="text-sm font-semibold text-red-600 hover:text-red-500"
+          >
+           clear test
+          </button>
       </main>
     </div>
   );

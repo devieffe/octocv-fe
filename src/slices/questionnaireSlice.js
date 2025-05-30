@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import questionsData from '../assets/Questionnaire/questions.json'; 
+import questionsData from "../assets/Questionnaire/questions.json";
 
 const initialState = {
-  quizzes: questionsData, 
+  quizzes: questionsData,
 };
 
 const questionnaireSlice = createSlice({
@@ -12,35 +12,37 @@ const questionnaireSlice = createSlice({
     answerQuestion: (state, action) => {
       const { quizId, answer } = action.payload;
       const quiz = state.quizzes[quizId];
-      const currentQuestion = quiz.questions[quiz.currentQuestionIndex];
-    
-      // Check if currentQuestion has a correctAnswer property
+
+      if (!quiz || quiz.completed) return;
+
+      const index = quiz.currentQuestionIndex;
+      const currentQuestion = quiz.questions[index];
       const hasCorrectAnswer = currentQuestion.hasOwnProperty("correctAnswer");
-    
-      // Determine correctness only if correctAnswer exists
       const isCorrect = hasCorrectAnswer ? answer === currentQuestion.correctAnswer : true;
-    
-      quiz.answers.push({ answer, isCorrect });
-    
-      if (quiz.currentQuestionIndex + 1 < quiz.questions.length) {
+
+      // Ensure the answers array has consistent indexing
+      quiz.answers[index] = { answer, isCorrect };
+
+      // Progress to next question or mark as completed
+      if (index + 1 < quiz.questions.length) {
         quiz.currentQuestionIndex += 1;
       } else {
         quiz.completed = true;
-    
-        // For quizzes: readyForNextChapter is true if all answers correct
-        // For surveys: readyForNextChapter is true by default (or you can customize)
         quiz.readyForNextChapter = hasCorrectAnswer
-          ? quiz.answers.every((a) => a.isCorrect)
+          ? quiz.answers.every((a) => a?.isCorrect)
           : true;
       }
     },
+
     resetQuiz: (state, action) => {
       const { quizId } = action.payload;
       const quiz = state.quizzes[quizId];
-      quiz.currentQuestionIndex = 0;
-      quiz.completed = false;
-      quiz.answers = [];
-      quiz.readyForNextChapter = false;
+      if (quiz) {
+        quiz.currentQuestionIndex = 0;
+        quiz.completed = false;
+        quiz.answers = [];
+        quiz.readyForNextChapter = false;
+      }
     },
   },
 });
