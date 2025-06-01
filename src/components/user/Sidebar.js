@@ -41,6 +41,13 @@ const Sidebar = () => {
             Career Path
           </Link>
           <Link
+            to="/admin"
+            className="flex items-center text-gray-800 hover:text-[#e91919] transition"
+          >
+            <Compass className="w-5 h-5 mr-3" />
+            Admin 
+          </Link>
+          <Link
             to="/settings"
             className="flex items-center text-gray-800 hover:text-[#e91919] transition"
           >

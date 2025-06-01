@@ -13,6 +13,8 @@ import QuestionnaireFlow from "./components/Questionnaire/QuestionnaireFlow";
 import ProblemSolvingTest from "./components/Questionnaire/ProblemSolvingTest";
 import MotivationalSurvey from "./components/Questionnaire/MotivationalSurvey";
 import UserDashboard from "./components/user/UserDashboard";
+import AdminDashboard from "./components/Admin/admin-dashboard";
+import AdminUserDetail from "./components/Admin/AdminUserDetail";
 import CareerPath from "./components/user/CareerPath";
 import NotFound from "./components/404";
 import ComputerLiteracyTest from "./components/Questionnaire/ComputerLiteracyTest";
@@ -41,6 +43,9 @@ const App = () => {
             <Route path="/blank" element={<BlankPage />} />
             <Route path="/onboarding" element={<QuestionnaireIntro />} />
             <Route path="/user" element={<UserDashboard />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/user/:id" element={<AdminUserDetail />} />
             <Route path="/questionnaire" element={<QuestionnaireFlow />} />
             <Route path="/problemsolvingtest" element={<ProblemSolvingTest/>} />
             <Route path="/computerliteracytest" element={<ComputerLiteracyTest />} />
