@@ -30,21 +30,23 @@ const LogIn = () => {
         { username, password },
         { headers: { "Content-Type": "application/json" } }
       );
-
+  
       const { access, refresh, user } = response.data;
-
+  
       localStorage.setItem("access_token", access);
       localStorage.setItem("refresh_token", refresh);
-
+  
+      const safeUser = user || { username, is_staff: false };
+  
       dispatch(
         login({
-          user: user || { id: 0, username, email: "" },
+          user: safeUser,
           accessToken: access,
           refreshToken: refresh || null,
         })
       );
-
-      return true;
+  
+      return safeUser;
     } catch (error) {
       setLoading(false);
       if (!error?.response) {
@@ -56,40 +58,46 @@ const LogIn = () => {
         else if (status === 500) setError("Server error. Please try again later.");
         else setError("Login failed. Please try again.");
       }
-
+  
       console.error("Login error:", {
         message: error.message,
         response: error.response,
       });
-
-      return false;
+  
+      return null;
     }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-
-    const success = await handleLogin(formData);
-
-    if (success) {
+  
+    const user = await handleLogin(formData);
+  
+    if (user) {
       try {
-        const testResponse = await axiosInstance.get("/api/passed-tests/",
-        { headers: { "Content-Type": "application/json" } });
-        const tests = testResponse.data.response;
-        console.log(tests)
-        const allPassed = tests.every(Boolean);
-
-        navigate(allPassed ? "/user" : "/onboarding");
+        if (user.is_staff) {
+          navigate("/admin");
+        } else {
+          const testResponse = await axiosInstance.get("/api/passed-tests/", {
+            headers: { "Content-Type": "application/json" },
+          });
+          const tests = testResponse.data.response;
+          const allPassed = tests.every(Boolean);
+  
+          navigate(allPassed ? "/user" : "/onboarding");
+        }
       } catch (testError) {
         console.error("Failed to fetch onboarding status:", testError);
         setError("Something went wrong checking your onboarding progress.");
       }
     }
-
+  
     setLoading(false);
   };
+  
 
   return (
     <section className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

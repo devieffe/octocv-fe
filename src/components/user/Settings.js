@@ -19,10 +19,15 @@ const Settings = () => {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
-    name: user?.name || "",
+    first_name: user?.first_name || "",
+    last_name: user?.last_name || "",
     email: user?.email || "",
-    password: "",
+    old_password: "",
+    new_password: "",
+    confirm_password: "",
+    delete_password: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
@@ -34,10 +39,11 @@ const Settings = () => {
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      await axiosInstance.patch("/user/update", {
-        name: formData.name,
-        email: formData.email,
-      });
+      const payload = {};
+      if (formData.first_name.trim()) payload.first_name = formData.first_name;
+      if (formData.last_name.trim()) payload.last_name = formData.last_name;
+
+      await axiosInstance.put("/api/profile/update/", payload);
       setMessage("Profile updated successfully");
     } catch {
       setMessage("Update failed");
@@ -47,10 +53,21 @@ const Settings = () => {
   };
 
   const handlePasswordChange = async () => {
+    if (!formData.old_password || !formData.new_password) {
+      setMessage("Please fill in both old and new passwords.");
+      return;
+    }
+
+    if (formData.new_password !== formData.confirm_password) {
+      setMessage("Passwords do not match.");
+      return;
+    }
+
     setLoading(true);
     try {
-      await axiosInstance.post("/user/change-password", {
-        password: formData.password,
+      await axiosInstance.post("/api/password/change/", {
+        old_password: formData.old_password,
+        new_password: formData.new_password,
       });
       setMessage("Password changed successfully");
     } catch {
@@ -64,8 +81,15 @@ const Settings = () => {
     const confirmed = window.confirm("Are you sure you want to delete your account?");
     if (!confirmed) return;
 
+    if (!formData.delete_password) {
+      setMessage("Please enter your password to delete account.");
+      return;
+    }
+
     try {
-      await axiosInstance.delete("/user/delete-account");
+      await axiosInstance.delete("/api/profile/delete/", {
+        data: { password: formData.delete_password },
+      });
       dispatch(logout());
     } catch {
       setMessage("Account deletion failed");
@@ -73,10 +97,10 @@ const Settings = () => {
   };
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex min-h-screen bg-white">
       <Sidebar />
 
-      <section className="flex-1 p-10 overflow-y-auto bg-white">
+      <section className="flex-1 p-10 bg-white">
         <motion.h2
           className="text-2xl font-semibold text-blue-950 mb-6"
           initial={{ opacity: 0, y: -10 }}
@@ -108,22 +132,22 @@ const Settings = () => {
             <h3 className="text-lg font-medium text-blue-950 mb-4">Profile</h3>
             <div className="flex flex-col gap-4">
               <label className="flex flex-col">
-                <span className="text-sm text-gray-700">Name</span>
+                <span className="text-sm text-gray-700">First Name</span>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="first_name"
+                  value={formData.first_name}
                   onChange={handleChange}
                   className="mt-1 rounded-md border border-gray-300 p-2 focus:outline-red-600"
                 />
               </label>
 
               <label className="flex flex-col">
-                <span className="text-sm text-gray-700">Email</span>
+                <span className="text-sm text-gray-700">Last Name</span>
                 <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
+                  type="text"
+                  name="last_name"
+                  value={formData.last_name}
                   onChange={handleChange}
                   className="mt-1 rounded-md border border-gray-300 p-2 focus:outline-red-600"
                 />
@@ -149,18 +173,32 @@ const Settings = () => {
             animate="visible"
             custom={2}
           >
-            <h3 className="text-lg font-medium text-blue-950 mb-4">Security</h3>
+            <h3 className="text-lg font-medium text-blue-950 mb-4">Change Password</h3>
             <div className="flex flex-col gap-4">
-              <label className="flex flex-col">
-                <span className="text-sm text-gray-700">New Password</span>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="mt-1 rounded-md border border-grey-300 p-2  focus:outline-red-600"
-                />
-              </label>
+              <input
+                type="password"
+                name="old_password"
+                placeholder="Old Password"
+                value={formData.old_password}
+                onChange={handleChange}
+                className="rounded-md border border-gray-300 p-2 focus:outline-red-600"
+              />
+              <input
+                type="password"
+                name="new_password"
+                placeholder="New Password"
+                value={formData.new_password}
+                onChange={handleChange}
+                className="rounded-md border border-gray-300 p-2 focus:outline-red-600"
+              />
+              <input
+                type="password"
+                name="confirm_password"
+                placeholder="Confirm New Password"
+                value={formData.confirm_password}
+                onChange={handleChange}
+                className="rounded-md border border-gray-300 p-2 focus:outline-red-600"
+              />
 
               <motion.button
                 whileHover={{ scale: 1.03 }}
@@ -183,6 +221,16 @@ const Settings = () => {
             custom={3}
           >
             <h3 className="text-lg font-medium text-red-700 mb-4">Danger Zone</h3>
+
+            <input
+              type="password"
+              name="delete_password"
+              placeholder="Enter password to confirm"
+              value={formData.delete_password}
+              onChange={handleChange}
+              className="mb-4 rounded-md border border-gray-300 p-2 focus:outline-red-600"
+            />
+
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}

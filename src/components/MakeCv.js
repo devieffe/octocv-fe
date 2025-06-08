@@ -11,7 +11,9 @@ const ALLOWED_TYPES = [
 
 const MakeCv = () => {
   const [careerPaths, setCareerPaths] = useState([]);
+  const [languages, setLanguages] = useState([]);
   const [selectedCareerPath, setSelectedCareerPath] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null);
@@ -27,12 +29,20 @@ const MakeCv = () => {
       }
     };
 
+    const fetchLanguages = async () => {
+      try {
+        const response = await axiosInstance.get("/api/languages/");
+        setLanguages(response.data);
+      } catch {
+        setError("⚠️ Failed to load languages. Please try again later.");
+      }
+    };
+
     fetchCareerPaths();
+    fetchLanguages();
 
     const savedPath = localStorage.getItem("selectedCareerPath");
-    if (savedPath) {
-      setSelectedCareerPath(savedPath);
-    }
+    if (savedPath) setSelectedCareerPath(savedPath);
   }, []);
 
   const handleCareerPathChange = (e) => {
@@ -78,9 +88,15 @@ const MakeCv = () => {
       return;
     }
 
+    if (!selectedLanguage) {
+      setError("🌍 Please select a language.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("job_title", selectedCareerPath);
+    formData.append("language", selectedLanguage);
 
     setError("");
     setIsLoading(true);
@@ -101,12 +117,8 @@ const MakeCv = () => {
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Sidebar */}
-      
-        <Sidebar />
-    
+      <Sidebar />
 
-      {/* Main Content */}
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -121,7 +133,7 @@ const MakeCv = () => {
         >
           <div className="text-center">
             <h2 className="text-3xl font-bold tracking-tight text-blue-950">
-               Create Your Dream CV
+              Create Your Dream CV
             </h2>
             <p className="mt-2 text-sm text-gray-600">
               Choose a career path, upload your CV, and let us do the magic 🪄
@@ -145,6 +157,27 @@ const MakeCv = () => {
                 {careerPaths.map(({ job_title, course_title }) => (
                   <option key={job_title} value={job_title}>
                     {job_title} - {course_title}
+                  </option>
+                ))}
+              </select>
+            </motion.div>
+
+            {/* Language Selector */}
+            <motion.div whileHover={{ scale: 1.02 }} className="transition-transform duration-200">
+              <label htmlFor="language" className="block text-sm font-medium text-blue-950">
+                CV Language
+              </label>
+              <select
+                id="language"
+                value={selectedLanguage}
+                onChange={(e) => setSelectedLanguage(e.target.value)}
+                required
+                className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 text-blue-950 focus:outline-2 focus:outline-red-600 sm:text-sm"
+              >
+                <option value="" disabled>Select a Language</option>
+                {languages.map((lang) => (
+                  <option key={lang.language} value={lang.language}>
+                    {lang.language_self_name}
                   </option>
                 ))}
               </select>
@@ -198,16 +231,17 @@ const MakeCv = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-sm mt-4 text-green-700"
+                className="mt-6 flex flex-col items-center"
               >
-                ✅ Done! Your new CV is ready:{" "}
+                <p className="text-green-700 font-medium mb-2">✅ Done! Your new CV is ready:</p>
                 <a
                   href={downloadUrl}
-                  className="underline text-blue-800"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="inline-block rounded-md bg-red-600 px-5 py-2 text-white font-semibold hover:bg-red-500 transition"
+                  download
                 >
-                  Download Now
+                  Download CV
                 </a>
               </motion.div>
             )}
