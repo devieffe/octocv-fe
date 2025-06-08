@@ -6,6 +6,7 @@ import Home from "./components/HomePage";
 import SignUp from "./components/user/SignUp";
 import LogIn from "./components/user/LogIn";
 import Authenticate from "./components/Authenticate";
+import StaffRoute from "./components/routes/StaffRoute";
 import MakeCv from "./components/MakeCv";
 import BlankPage from "./components/BlankPage";
 import QuestionnaireIntro from "./components/Questionnaire/QuestionnaireIntro";
@@ -44,7 +45,6 @@ const App = () => {
             <Route path="/onboarding" element={<QuestionnaireIntro />} />
             <Route path="/user" element={<UserDashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/user/:id" element={<AdminUserDetail />} />
             <Route path="/questionnaire" element={<QuestionnaireFlow />} />
             <Route path="/problemsolvingtest" element={<ProblemSolvingTest/>} />
@@ -54,6 +54,10 @@ const App = () => {
             <Route path="/make" element={<MakeCv />} />
             <Route path="/careerpath" element={<CareerPath />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/admin" element={
+            <StaffRoute><AdminDashboard /></StaffRoute>} />
+            <Route path="/admin/user/:id" element={<StaffRoute><AdminUserDetail /></StaffRoute>} />
+            <Route path="/unauthorized" element={<div className="text-center text-red-600 text-lg"> 🚫 Access Denied. You are not authorized to view this page.</div>} />
           </Routes>
         </main>
         <footer className="text-center py-4 border-t border-gray-300 text-sm text-blue-950">

@@ -1,38 +1,35 @@
 import { motion } from "framer-motion";
-import { Briefcase } from "lucide-react";
+import { Briefcase } from "lucide-react"; // Optional icon
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i = 1) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.4,
-      ease: "easeOut",
-    },
-  }),
-};
-
-const CareerStepCard = ({ step, index }) => {
+const CareerStepCard = ({ step, index, onClick }) => {
   return (
     <motion.div
       custom={index}
       initial="hidden"
       animate="visible"
-      variants={cardVariants}
-      className="bg-white border border-gray-200 rounded-2xl shadow-md p-6 space-y-4 transition hover:shadow-lg"
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { delay: index * 0.1, duration: 0.4 },
+        },
+      }}
+      onClick={onClick}
+      className="group bg-white border border-gray-100 rounded-2xl shadow-lg hover:shadow-xl transition-transform hover:-translate-y-1 cursor-pointer p-5"
     >
-      <h3 className="text-xl font-semibold text-[#e91919] flex items-center gap-2">
-        <Briefcase className="w-5 h-5" />
-        {step.title}
-      </h3>
-      <div className="text-gray-700 space-y-2 text-sm leading-relaxed">
-        <p><span className="font-medium">Description:</span> {step.description}</p>
-        <p><span className="font-medium">Skills:</span> {step.skills}</p>
-        <p><span className="font-medium">Experience:</span> {step.experience}</p>
-        <p><span className="font-medium">Expected Salary:</span> {step.salary}</p>
+      <div className="flex items-center gap-4 mb-4">
+        <div className="bg-red-100 text-red-600 p-2 rounded-full">
+          <Briefcase className="w-5 h-5" />
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-gray-800">{step.stage_title}</h3>
+          <span className="text-xs bg-red-50 text-red-600 px-2 py-0.5 rounded-full">
+            {step.years_from}–{step.years_to} yrs
+          </span>
+        </div>
       </div>
+      <p className="text-sm text-gray-600 line-clamp-3">{step.goal}</p>
     </motion.div>
   );
 };

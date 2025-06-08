@@ -135,7 +135,7 @@ const UserDashboard = () => {
               </Link>
 
               <Link
-                to="/career-path"
+                to="/careerpath"
                 className="flex items-center justify-center gap-2 border border-[#e91919] text-[#e91919] font-medium rounded-xl px-5 py-3 hover:bg-[#e91919] hover:text-white transition-transform hover:scale-105"
               >
                 <Compass className="w-5 h-5" />
@@ -143,7 +143,7 @@ const UserDashboard = () => {
               </Link>
 
               <Link
-                to="/profile-settings"
+                to="/settings"
                 className="flex items-center justify-center gap-2 bg-gray-100 text-gray-800 font-medium rounded-xl px-5 py-3 hover:bg-gray-200 transition-transform hover:scale-105"
               >
                 <Settings className="w-5 h-5" />
