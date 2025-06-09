@@ -15,7 +15,8 @@ import ProblemSolvingTest from "./components/Questionnaire/ProblemSolvingTest";
 import MotivationalSurvey from "./components/Questionnaire/MotivationalSurvey";
 import UserDashboard from "./components/user/UserDashboard";
 import AdminDashboard from "./components/Admin/admin-dashboard";
-import AdminUserDetail from "./components/Admin/AdminUserDetail";
+import AdminToolsDashboard from "./components/Admin/AdminToolsDashboard";
+import AdminUserDetail from "./components/Admin/AdminToolsDashboard";
 import CareerPath from "./components/user/CareerPath";
 import NotFound from "./components/404";
 import ComputerLiteracyTest from "./components/Questionnaire/ComputerLiteracyTest";
@@ -44,8 +45,7 @@ const App = () => {
             <Route path="/blank" element={<BlankPage />} />
             <Route path="/onboarding" element={<QuestionnaireIntro />} />
             <Route path="/user" element={<UserDashboard />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/user/:id" element={<AdminUserDetail />} />
+
             <Route path="/questionnaire" element={<QuestionnaireFlow />} />
             <Route path="/problemsolvingtest" element={<ProblemSolvingTest/>} />
             <Route path="/computerliteracytest" element={<ComputerLiteracyTest />} />
@@ -53,11 +53,11 @@ const App = () => {
             <Route path="/settings" element={<Settings />} />
             <Route path="/make" element={<MakeCv />} />
             <Route path="/careerpath" element={<CareerPath />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/admin" element={
-            <StaffRoute><AdminDashboard /></StaffRoute>} />
-            <Route path="/admin/user/:id" element={<StaffRoute><AdminUserDetail /></StaffRoute>} />
-            <Route path="/unauthorized" element={<div className="text-center text-red-600 text-lg"> 🚫 Access Denied. You are not authorized to view this page.</div>} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/admin/tools" element={<StaffRoute><AdminToolsDashboard /></StaffRoute>}/>
+              <Route path="/admin" element={<StaffRoute><AdminDashboard /></StaffRoute>} />
+              <Route path="/admin/user/:id" element={<StaffRoute><AdminUserDetail /></StaffRoute>} />
+              <Route path="/unauthorized" element={<div className="text-center text-red-600 text-lg"> 🚫 Access Denied. You are not authorized to view this page.</div>} />
           </Routes>
         </main>
         <footer className="text-center py-4 border-t border-gray-300 text-sm text-blue-950">

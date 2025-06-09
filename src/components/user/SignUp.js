@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { signup } from "../../slices/authSlice";
 import axios from "axios";
@@ -10,63 +11,37 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    first_name: "",
-    last_name: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
+  const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        `${SERVER_URL}api/register/`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      dispatch(
-        signup({ user: response.data.user, token: response.data.token })
-      );
+      const response = await axios.post(`${SERVER_URL}api/register/`, data, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      dispatch(signup({ user: response.data.user, token: response.data.token }));
       navigate("/verify-email");
     } catch (error) {
-      // Handle errors based on status code
-      if (!error?.response) {
-        setError("No Server Response");
-      } else if (error.response?.status === 400) {
-        setError("Missing Required Fields");
-      } else if (error.response?.status === 409) {
-        setError("User Already Exists");
-      } else if (error.response?.status === 500) {
-        setError("Server error. Please try again later.");
-      } else {
-        setError("Sign up failed. Please try again.");
-      }
-      console.error("Error details:", error.response.data);
-    }
+      const errData = error?.response?.data;
 
-    setLoading(false);
+      if (errData && typeof errData === "object") {
+        for (const [field, messages] of Object.entries(errData)) {
+          if (Array.isArray(messages)) {
+            setError(field, {
+              type: "server",
+              message: messages[0], // or use a formatter
+            });
+          }
+        }
+      } else {
+        setError("root", { message: "Sign up failed. Please try again." });
+      }
+    }
   };
 
   return (
@@ -78,149 +53,101 @@ const SignUp = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {error && <p className="text-red-600 text-sm text-center">{error}</p>}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {errors.root && (
+            <p className="text-red-600 text-sm text-center">{errors.root.message}</p>
+          )}
 
-          {/* First + Last Name side by side */}
+          {/* First + Last Name */}
           <div className="flex flex-col sm:flex-row sm:space-x-4">
             <div className="sm:w-1/2">
-              <label
-                htmlFor="first_name"
-                className="block text-sm font-medium text-blue-950"
-              >
-                First Name
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  id="first_name"
-                  name="first_name"
-                  autoComplete="first_name"
-                  placeholder="First Name"
-                  value={formData.first_name}
-                  onChange={handleChange}
-                  disabled={loading}
-                  required
-                  className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-blue-950 focus:outline-2 focus:outline-red-600 sm:text-sm"
-                />
-              </div>
+              <label className="block text-sm font-medium text-blue-950">First Name</label>
+              <input
+                {...register("first_name", { required: "First name is required" })}
+                className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-blue-950 sm:text-sm"
+                placeholder="First Name"
+              />
+              {errors.first_name && (
+                <p className="text-red-500 text-sm mt-1">{errors.first_name.message}</p>
+              )}
             </div>
 
             <div className="sm:w-1/2 mt-4 sm:mt-0">
-              <label
-                htmlFor="last_name"
-                className="block text-sm font-medium text-blue-950"
-              >
-                Last Name
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  id="last_name"
-                  name="last_name"
-                  autoComplete="last_name"
-                  placeholder="Last Name"
-                  value={formData.last_name}
-                  onChange={handleChange}
-                  disabled={loading}
-                  required
-                  className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-blue-950 focus:outline-2 focus:outline-red-600 sm:text-sm"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-blue-950"
-            >
-              Username
-            </label>
-            <div className="mt-2">
+              <label className="block text-sm font-medium text-blue-950">Last Name</label>
               <input
-                type="text"
-                id="username"
-                name="username"
-                autoComplete="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-                disabled={loading}
-                required
-                className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-blue-950 focus:outline-2 focus:outline-red-600 sm:text-sm"
+                {...register("last_name", { required: "Last name is required" })}
+                className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-blue-950 sm:text-sm"
+                placeholder="Last Name"
               />
+              {errors.last_name && (
+                <p className="text-red-500 text-sm mt-1">{errors.last_name.message}</p>
+              )}
             </div>
           </div>
 
+          {/* Username */}
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-blue-950"
-            >
-              Email Address
-            </label>
-            <div className="mt-2">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                autoComplete="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-                disabled={loading}
-                required
-                className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 focus:outline-2 focus:outline-red-600 sm:text-sm"
-              />
-            </div>
+            <label className="block text-sm font-medium text-blue-950">Username</label>
+            <input
+              {...register("username", { required: "Username is required" })}
+              className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-blue-950 sm:text-sm"
+              placeholder="Username"
+            />
+            {errors.username && (
+              <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
+            )}
           </div>
 
+          {/* Email */}
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-blue-950"
-            >
-              Password
-            </label>
-            <div className="mt-2">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                autoComplete="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                disabled={loading}
-                required
-                className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 focus:outline-2 focus:outline-red-600 sm:text-sm"
-              />
-            </div>
+            <label className="block text-sm font-medium text-blue-950">Email Address</label>
+            <input
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "Invalid email format",
+                },
+              })}
+              type="email"
+              className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 sm:text-sm"
+              placeholder="Enter your email"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+            )}
           </div>
 
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="text-sm font-semibold text-red-600 hover:text-red-500"
-          >
-            {showPassword ? "Hide Password" : "Show Password"}
-          </button>
+          {/* Password */}
+          <div>
+            <label className="block text-sm font-medium text-blue-950">Password</label>
+            <input
+              {...register("password", {
+                required: "Password is required",
+                minLength: { value: 6, message: "Minimum 6 characters" },
+              })}
+              type="password"
+              className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900 sm:text-sm"
+              placeholder="Password"
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            )}
+          </div>
 
+          {/* Submit */}
           <button
             type="submit"
-            disabled={loading}
-            className="w-full rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus:outline-2 focus:outline-red-600"
+            disabled={isSubmitting}
+            className="w-full rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-red-500"
           >
-            {loading ? "Signing up..." : "Submit"}
+            {isSubmitting ? "Signing up..." : "Submit"}
           </button>
 
+          {/* Login link */}
           <p className="mt-10 text-center text-sm text-gray-500">
             Already have an account?{" "}
-            <Link
-              to="/login"
-              className="font-semibold text-red-600 hover:text-red-500"
-            >
+            <Link to="/login" className="font-semibold text-red-600 hover:text-red-500">
               Log in
             </Link>
           </p>

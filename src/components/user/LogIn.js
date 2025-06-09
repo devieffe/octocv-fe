@@ -31,12 +31,15 @@ const LogIn = () => {
         { headers: { "Content-Type": "application/json" } }
       );
   
-      const { access, refresh, user } = response.data;
+      const { access, refresh, is_staff } = response.data;
   
       localStorage.setItem("access_token", access);
       localStorage.setItem("refresh_token", refresh);
   
-      const safeUser = user || { username, is_staff: false };
+      const safeUser = {
+        username,
+        is_staff: Boolean(is_staff),
+      };
   
       dispatch(
         login({
@@ -66,7 +69,7 @@ const LogIn = () => {
   
       return null;
     }
-  };
+  };  
   
 
   const handleSubmit = async (e) => {
@@ -176,3 +179,5 @@ const LogIn = () => {
 };
 
 export default LogIn;
+
+
