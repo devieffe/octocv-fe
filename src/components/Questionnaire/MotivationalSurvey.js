@@ -58,7 +58,7 @@ const MotivationalSurvey = ({ onComplete }) => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-xl border border-gray-200 rounded-2xl p-8 shadow-md bg-white">
         <AnimatePresence mode="wait">
           {!completed && currentQuestion ? (

@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axiosInstance from "../../api/axiosInstance";
 import CareerStepCard from "./CareerStepCard";
 import CareerModal from "./CareerModal";
-import Sidebar from "./Sidebar";
 
 const CareerPath = () => {
   const [careerTitles, setCareerTitles] = useState([]);
@@ -42,12 +41,13 @@ const CareerPath = () => {
   }, [selectedPath]);
 
   return (
-    <div className="flex h-screen bg-white">
-      <Sidebar />
-      <main className="flex-1 p-8 overflow-y-auto">
-        <h1 className="text-3xl font-semibold text-blue-950 mb-8">Career Path</h1>
+    <div className="flex min-h-screen bg-gray-50">
+      <main className="flex-1 max-w-7xl mx-auto px-6 py-12">
+        <h1 className="text-4xl font-extrabold text-[#e91919] mb-10 select-none drop-shadow-sm">
+          Career Path
+        </h1>
 
-        <div className="flex flex-wrap gap-3 mb-6">
+        <section className="flex flex-wrap gap-4 mb-10">
           {careerTitles.map((title, i) => (
             <motion.button
               key={title}
@@ -63,20 +63,20 @@ const CareerPath = () => {
                 },
               }}
               onClick={() => setSelectedPath(title)}
-              className={`px-4 py-2 rounded-full border font-medium transition hover:scale-105 ${
+              className={`px-6 py-3 rounded-full text-sm font-semibold shadow-sm transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#e91919] focus:ring-offset-2 ${
                 title === selectedPath
                   ? "bg-[#e91919] text-white"
-                  : "border-[#e91919] text-[#e91919]"
+                  : "border border-[#e91919] text-[#e91919] bg-white"
               }`}
             >
               {title}
             </motion.button>
           ))}
-        </div>
+        </section>
 
-        {error && <p className="text-red-600 mb-4">{error}</p>}
+        {error && <p className="text-red-600 mb-6 text-center text-lg">{error}</p>}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {careerSteps.map((step, idx) => (
             <CareerStepCard
               key={idx}
@@ -85,7 +85,7 @@ const CareerPath = () => {
               onClick={() => setSelectedStep(step)}
             />
           ))}
-        </div>
+        </section>
 
         {selectedStep && (
           <CareerModal step={selectedStep} onClose={() => setSelectedStep(null)} />

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../slices/authSlice";
-import Sidebar from "../user/Sidebar";
 import { motion } from "framer-motion";
 
 const fadeIn = {
@@ -97,10 +96,9 @@ const Settings = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-white">
-      <Sidebar />
+    <div className="flex min-h-screen">
 
-      <section className="flex-1 p-10 bg-white">
+      <section className="flex-1 p-6 sm:p-8 max-w-6xl mx-auto overflow-y-auto">
         <motion.h2
           className="text-2xl font-semibold text-blue-950 mb-6"
           initial={{ opacity: 0, y: -10 }}

@@ -1,7 +1,6 @@
 import React from "react";
 import { FileText, Compass, Users, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../../components/user/Sidebar";
 
 const tools = [
   {
@@ -34,9 +33,9 @@ const AdminToolsDashboard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex min-h-screen bg-white">
-      <Sidebar />
-      <div className="flex-1 p-6 space-y-6">
+      <div className="flex min-h-screen">
+          
+      <div className="flex-1 p-6 space-y-6 sm:p-8 max-w-6xl mx-auto overflow-y-auto">
         {tools.map((tool, index) => (
           <div
             key={index}

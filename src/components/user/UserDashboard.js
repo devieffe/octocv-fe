@@ -1,167 +1,198 @@
-import React, { useEffect, useState, useCallback } from "react";
-import {  useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import Sidebar from "../user/Sidebar";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-import {
-  FileText,
-  Compass,
-  Settings,
-  User,
-} from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Compass, ArrowLeft, ArrowRight, FileText, Settings, User } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const MOCK_USER = {
-  first_name: "Pam",
-  username: "pamstr",
-  email: "pamellaester.ps@gmail.com",
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i = 1) => ({
+const variants = {
+  enter: (direction) => ({
+    x: direction > 0 ? 100 : -100,
+    opacity: 0,
+    position: "absolute",
+  }),
+  center: {
+    x: 0,
     opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.6,
-      ease: "easeOut",
-    },
+    position: "relative",
+    transition: { duration: 0.5, ease: "easeInOut" },
+  },
+  exit: (direction) => ({
+    x: direction > 0 ? -100 : 100,
+    opacity: 0,
+    position: "absolute",
+    transition: { duration: 0.5, ease: "easeInOut" },
   }),
 };
 
-const UserDashboard = () => {
-  const [userInfo, setUserInfo] = useState(null);
-  const navigate = useNavigate();
-  const token = useSelector((state) => state.auth.accessToken);
+export default function MockDashboard() {
+  const userInfo = {
+    first_name: "Pam",
+    username: "pamstr",
+    email: "pamellaester.ps@gmail.com",
+  };
 
-  const fetchUserData = useCallback(async () => {
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
-    try {
-      const res = await axiosInstance.get("/api/profile/show/", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setUserInfo(res.data);
-    } catch (error) {
-      console.warn("Backend not ready, using mock data.");
-      setUserInfo(MOCK_USER);
-    }
-  }, [navigate, token]);
+  const [careerStages, setCareerStages] = useState([]);
+  const [currentStage, setCurrentStage] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    fetchUserData();
-  }, [fetchUserData]);
+    const fetchCareerMap = async () => {
+      try {
+        const response = await axiosInstance.post("/api/career-map/", {
+          job_title: "Full Stack Developer",
+        });
+        setCareerStages(response.data);
+      } catch (error) {
+        console.error("Error fetching career map:", error);
+      }
+    };
+    fetchCareerMap();
+  }, []);
 
-  if (!userInfo) {
-    return <div className="text-center py-10">Loading user dashboard...</div>;
-  }
+  const goPrev = () => {
+    if (isAnimating || careerStages.length === 0) return;
+    setDirection(-1);
+    setIsAnimating(true);
+    setCurrentStage((prev) => (prev === 0 ? careerStages.length - 1 : prev - 1));
+  };
 
-  const clearTests = async () => {
-    try {
-      const res = await axiosInstance.post("/api/clear-tests/", {
-        headers:
-          { "Content-Type": "application/json",}
-       
-      },);
-      console.log(res.data.message)
-      alert(res.data.message || "Test results cleared!");
-    } catch (error) {
-      console.error("Error clearing tests", error);
-    }
-  };  
+  const goNext = () => {
+    if (isAnimating || careerStages.length === 0) return;
+    setDirection(1);
+    setIsAnimating(true);
+    setCurrentStage((prev) => (prev === careerStages.length - 1 ? 0 : prev + 1));
+  };
 
   return (
-    <div className="flex h-screen bg-white">
-      {/* Sidebar */}
-      <Sidebar />
+    <div className="flex min-h-screen bg-gray-50">
+      <main className="flex-1 p-6 space-y-12 sm:p-8 max-w-6xl mx-auto overflow-y-auto">
+        {/* Title */}
+        <h1 className="text-4xl font-extrabold text-[#e91919] select-none drop-shadow-sm mb-4">
+          Welcome, {userInfo.first_name}!
+        </h1>
 
-      {/* Main Content */}
-      <main className="flex-1 p-10 overflow-y-auto bg-white">
-        <div className="flex items-center justify-between mb-10">
-          <h1 className="text-3xl font-semibold text-blue-950">
-            Welcome {userInfo.first_name}!
-          </h1>
-          <User className="text-[#e91919]" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Personal Info Card */}
-          <motion.div
-            custom={1}
-            initial="hidden"
-            animate="visible"
-            variants={cardVariants}
-            className="bg-white border border-gray-200 rounded-2xl shadow-md p-6 space-y-4 transition hover:shadow-lg"
-          >
-            <h2 className="text-xl font-semibold text-[#e91919] flex items-center gap-2">
-              <User className="w-5 h-5" />
-              Personal Info
-            </h2>
-            <div className="text-gray-700 space-y-3">
-              <div className="flex items-center justify-between border-b pb-2">
-                <span className="font-medium">Username:</span>
-                <span>{userInfo.username}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="font-medium">Email:</span>
-                <span>{userInfo.email}</span>
-              </div>
+        {/* Career Journey Card */}
+        <section className="relative bg-white border border-[#f8d7da] rounded-3xl shadow-lg p-8  mx-auto overflow-hidden">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-[#e91919] p-3 rounded-full shadow">
+              <Compass className="w-5 h-5 text-white" />
             </div>
-          </motion.div>
+            <h2 className="text-xl font-bold text-[#e91919]">Career Journey</h2>
+          </div>
 
-          {/* Actions Card */}
-          <motion.div
-            custom={2}
-            initial="hidden"
-            animate="visible"
-            variants={cardVariants}
-            className="bg-white border border-gray-200 rounded-2xl shadow-md p-6 space-y-5 transition hover:shadow-lg"
-          >
-            <h2 className="text-xl font-semibold text-[#e91919]">Quick Actions</h2>
-
-            <div className="grid gap-3">
-              <Link
-                to="/make"
-                className="flex items-center justify-center gap-2 bg-[#e91919] text-white font-medium rounded-xl px-5 py-3 hover:bg-[#cc1616] transition-transform hover:scale-105"
-              >
-                <FileText className="w-5 h-5" />
-                Download CV
-              </Link>
-
-              <Link
-                to="/careerpath"
-                className="flex items-center justify-center gap-2 border border-[#e91919] text-[#e91919] font-medium rounded-xl px-5 py-3 hover:bg-[#e91919] hover:text-white transition-transform hover:scale-105"
-              >
-                <Compass className="w-5 h-5" />
-                Explore Career Path
-              </Link>
-
-              <Link
-                to="/settings"
-                className="flex items-center justify-center gap-2 bg-gray-100 text-gray-800 font-medium rounded-xl px-5 py-3 hover:bg-gray-200 transition-transform hover:scale-105"
-              >
-                <Settings className="w-5 h-5" />
-                Update Settings
-              </Link>
-            </div>
-          </motion.div>
+          <div className="relative min-h-[180px]">
+            <AnimatePresence
+              initial={false}
+              custom={direction}
+              onExitComplete={() => setIsAnimating(false)}
+            >
+              {careerStages.length > 0 && (
+                <motion.div
+                  key={careerStages[currentStage].stage_number}
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="text-center"
+                >
+                  <h3 className="text-lg font-semibold text-[#e91919] mb-1">
+                    {careerStages[currentStage].stage_title}
+                  </h3>
+                  <p className="text-sm text-[#e91919]/90 mb-2">
+                    {careerStages[currentStage].goal}
+                  </p>
+                  <div className="flex justify-center flex-wrap gap-3 mt-4">
+            {careerStages[currentStage].skills.slice(0, 4).map((skill, idx) => (
+             <div
+              key={idx}
+             className="bg-[#fff0f0] border border-[#f8d7da] rounded-xl px-4 py-2 shadow-sm text-[#b71c1c] text-sm font-medium transition hover:shadow-md"
+             >
+            {skill}
+           </div>
+    ))}
         </div>
-        <button
-            type="button"
-            onClick={clearTests}
-            className="text-sm font-semibold text-red-600 hover:text-red-500"
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Arrows */}
+          <button
+            onClick={goPrev}
+            disabled={isAnimating}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-[#e91919] hover:bg-[#c21515] text-white p-2 rounded-full shadow transition disabled:opacity-50"
           >
-           clear test
+            <ArrowLeft className="w-5 h-5" />
           </button>
+          <button
+            onClick={goNext}
+            disabled={isAnimating}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#e91919] hover:bg-[#c21515] text-white p-2 rounded-full shadow transition disabled:opacity-50"
+          >
+            <ArrowRight className="w-5 h-5" />
+          </button>
+
+          {/* Progress Dots */}
+          <div className="flex justify-center gap-2 mt-6">
+            {careerStages.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  if (isAnimating || idx === currentStage) return;
+                  setDirection(idx > currentStage ? 1 : -1);
+                  setIsAnimating(true);
+                  setCurrentStage(idx);
+                }}
+                className={`w-3 h-3 rounded-full transition ${
+                  currentStage === idx ? "bg-[#e91919]" : "bg-red-200"
+                }`}
+                aria-label={`Step ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* User Info Cards */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Profile */}
+          <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow hover:shadow-lg transition">
+            <h2 className="text-lg font-semibold text-[#e91919] mb-3 flex items-center gap-2">
+              <User className="w-5 h-5" />
+              Profile
+            </h2>
+            <p className="text-sm text-gray-800 mb-1">Username: {userInfo.username}</p>
+            <p className="text-sm text-gray-800">Email: {userInfo.email}</p>
+          </div>
+
+          {/* Generate CV */}
+          <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow hover:shadow-lg transition">
+            <h2 className="text-lg font-semibold text-[#e91919] mb-3">
+              Build Your CV
+            </h2>
+            <Link
+              to="/make"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#e91919] hover:bg-[#c21515] text-white font-medium rounded-3xl px-5 py-3 transition"
+            >
+              <FileText className="w-5 h-5" />
+              Generate CV
+            </Link>
+          </div>
+
+          {/* Settings */}
+          <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow hover:shadow-lg transition">
+            <h2 className="text-lg font-semibold text-[#e91919] mb-3">Settings</h2>
+            <Link
+              to="/settings"
+              className="w-full inline-flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-[#e91919] font-medium rounded-3xl px-5 py-3 transition"
+            >
+              <Settings className="w-5 h-5" />
+              Update Settings
+            </Link>
+          </div>
+        </section>
       </main>
     </div>
   );
-};
-
-export default UserDashboard;
+}
