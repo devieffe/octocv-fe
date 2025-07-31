@@ -1,5 +1,6 @@
+import React from "react";
 import { motion } from "framer-motion";
-import { Briefcase } from "lucide-react"; // Optional icon
+import { Briefcase } from "lucide-react";
 
 const CareerStepCard = ({ step, index, onClick }) => {
   return (
@@ -16,20 +17,24 @@ const CareerStepCard = ({ step, index, onClick }) => {
         },
       }}
       onClick={onClick}
-      className="group bg-white border border-gray-100 rounded-2xl shadow-lg hover:shadow-xl transition-transform hover:-translate-y-1 cursor-pointer p-5"
+      className="group bg-white border border-[#e91919]/20 rounded-3xl shadow-md hover:shadow-xl transition-transform hover:-translate-y-1 cursor-pointer p-6"
     >
       <div className="flex items-center gap-4 mb-4">
-        <div className="bg-red-100 text-red-600 p-2 rounded-full">
+        <div className="bg-[#e91919]/10 text-[#e91919] p-2 rounded-full">
           <Briefcase className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="text-lg font-bold text-gray-800">{step.stage_title}</h3>
-          <span className="text-xs bg-red-50 text-red-600 px-2 py-0.5 rounded-full">
+          <h3 className="text-lg font-semibold text-[#e91919] truncate">
+            {step.stage_title}
+          </h3>
+          <span className="text-xs bg-[#e91919]/10 text-[#e91919] px-3 py-1 rounded-full">
             {step.years_from}–{step.years_to} yrs
           </span>
         </div>
       </div>
-      <p className="text-sm text-gray-600 line-clamp-3">{step.goal}</p>
+      <p className="text-sm text-gray-700 leading-relaxed line-clamp-3">
+        {step.goal}
+      </p>
     </motion.div>
   );
 };

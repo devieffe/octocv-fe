@@ -9,7 +9,7 @@ const QuestionnaireIntro = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-white">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 ">
       <div className="max-w-md w-full space-y-6">
         <h2 className="text-3xl font-bold text-blue-950 text-center">Welcome!</h2>
         <p className="text-center text-gray-700">
