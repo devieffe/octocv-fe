@@ -1,21 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" href="/logo.png" />
+
+  <!-- Anti-FOUC: set theme before first paint -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("octocv_theme");
+        if (!t) {
+          var m = document.cookie.match(/octocv_theme=([^;]+)/);
+          t = m ? decodeURIComponent(m[1]) : null;
+        }
+        if (!t) {
+          t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
+
+  <!-- Viewport & compatibility -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="OctoCV — AI-powered CV builder and career platform" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark light" />
+
+  <!-- SEO core -->
+  <title>OctoCV — AI-Powered CV Builder & Career Platform</title>
+  <meta name="description" content="OctoCV is an AI-powered career platform that creates tailored, ATS-optimised CVs, maps your career path, and matches you with ideal job opportunities. Trusted by 5,000+ professionals." />
+  <meta name="keywords" content="AI CV builder, ATS resume, career path planner, job matching, CV generator, career platform, OctoCV" />
+  <meta name="author" content="OctoCV" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://octocv.io/" />
+
+  <!-- Theme colour for mobile browsers -->
+  <meta name="theme-color" content="#020617" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#020617" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc" />
+
+  <!-- Favicons & PWA -->
+  <link rel="icon" href="/logo.png" />
   <link rel="apple-touch-icon" href="/logo192.png" />
   <link rel="manifest" href="/manifest.json" />
-  <title>Octocv</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://octocv.io/" />
+  <meta property="og:site_name"   content="OctoCV" />
+  <meta property="og:locale"      content="en_US" />
+  <meta property="og:title"       content="OctoCV — AI-Powered CV Builder & Career Platform" />
+  <meta property="og:description" content="Create tailored, ATS-optimised CVs, discover your career path, and land your dream job — powered by AI." />
+  <meta property="og:image"       content="https://octocv.io/og-image.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt"   content="OctoCV platform screenshot" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@octocv" />
+  <meta name="twitter:creator"     content="@octocv" />
+  <meta name="twitter:title"       content="OctoCV — AI-Powered CV Builder & Career Platform" />
+  <meta name="twitter:description" content="Create tailored, ATS-optimised CVs, discover your career path, and land your dream job — powered by AI." />
+  <meta name="twitter:image"       content="https://octocv.io/og-image.png" />
+  <meta name="twitter:image:alt"   content="OctoCV platform screenshot" />
+
+  <!-- Structured data: WebSite + Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://octocv.io/#website",
+        "url": "https://octocv.io/",
+        "name": "OctoCV",
+        "description": "AI-Powered CV Builder and Career Platform",
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://octocv.io/#organization",
+        "name": "OctoCV",
+        "url": "https://octocv.io/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://octocv.io/logo.png",
+          "width": 192,
+          "height": 192
+        },
+        "sameAs": []
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "OctoCV",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "AI-powered CV builder and career platform with personalised career path planning and job matching.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Performance hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 </head>
 
 <body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <noscript>
+    <p style="text-align:center;padding:2rem;font-family:sans-serif;">
+      You need to enable JavaScript to run OctoCV.
+    </p>
+  </noscript>
   <div id="root"></div>
   <script type="module" src="/src/index.jsx"></script>
 </body>
-
 </html>

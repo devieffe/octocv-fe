@@ -2,4 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Global ──────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
 
+/* Dark / light color-scheme for native browser controls */
+:root,
+[data-theme="dark"]  { color-scheme: dark;  }
+[data-theme="light"] { color-scheme: light; }
+
+/* ─── Accessibility: visible focus ring ────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #ef4444; /* red-500 */
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Light theme overrides                                                       */
+/* Tailwind classes are overridden by higher-specificity [data-theme] selector */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+/* Backgrounds */
+[data-theme="light"] .bg-slate-950           { background-color: #f8fafc; }
+[data-theme="light"] .bg-slate-950\/95       { background-color: rgba(248,250,252,0.95); }
+[data-theme="light"] .bg-slate-900           { background-color: #ffffff; }
+[data-theme="light"] .bg-slate-900\/95       { background-color: rgba(255,255,255,0.95); }
+[data-theme="light"] .bg-slate-800           { background-color: #f1f5f9; }
+[data-theme="light"] .bg-slate-800\/50       { background-color: rgba(241,245,249,0.8); }
+[data-theme="light"] .bg-slate-800\/60       { background-color: rgba(241,245,249,0.9); }
+[data-theme="light"] .bg-white\/3            { background-color: rgba(15,23,42,0.025); }
+[data-theme="light"] .bg-white\/5            { background-color: rgba(15,23,42,0.04);  }
+[data-theme="light"] .bg-white\/10           { background-color: rgba(15,23,42,0.06);  }
+[data-theme="light"] .bg-red-950\/20         { background-color: rgba(254,226,226,0.5); }
+[data-theme="light"] .bg-black\/60           { background-color: rgba(0,0,0,0.45);     }
+
+/* Hover backgrounds */
+[data-theme="light"] .hover\:bg-white\/3:hover   { background-color: rgba(15,23,42,0.025); }
+[data-theme="light"] .hover\:bg-white\/5:hover   { background-color: rgba(15,23,42,0.05);  }
+[data-theme="light"] .hover\:bg-white\/10:hover  { background-color: rgba(15,23,42,0.07);  }
+[data-theme="light"] .hover\:bg-slate-800\/60:hover { background-color: rgba(241,245,249,0.9); }
+
+/* Text */
+[data-theme="light"] .text-white   { color: #0f172a; }
+[data-theme="light"] .text-gray-300 { color: #374151; }
+[data-theme="light"] .text-gray-400 { color: #4b5563; }
+[data-theme="light"] .text-gray-500 { color: #6b7280; }
+[data-theme="light"] .text-gray-600 { color: #9ca3af; }
+
+/* Red accents — darken for contrast on light backgrounds */
+[data-theme="light"] .text-red-400  { color: #dc2626; } /* red-600 */
+[data-theme="light"] .hover\:text-red-400:hover { color: #b91c1c; }
+[data-theme="light"] .hover\:text-red-300:hover { color: #dc2626; }
+
+/* Borders */
+[data-theme="light"] .border-white\/5  { border-color: rgba(15,23,42,0.08); }
+[data-theme="light"] .border-white\/8  { border-color: rgba(15,23,42,0.10); }
+[data-theme="light"] .border-white\/10 { border-color: rgba(15,23,42,0.12); }
+[data-theme="light"] .border-white\/25 { border-color: rgba(15,23,42,0.20); }
+
+/* Hover borders */
+[data-theme="light"] .hover\:border-white\/10:hover { border-color: rgba(15,23,42,0.15); }
+[data-theme="light"] .hover\:border-white\/25:hover { border-color: rgba(15,23,42,0.25); }
+
+/* Placeholders */
+[data-theme="light"] .placeholder-gray-600::placeholder { color: #9ca3af; }
+
+/* Focus overrides for inputs in light mode */
+[data-theme="light"] .focus\:border-red-500\/40:focus { border-color: rgba(220,38,38,0.4); }
+[data-theme="light"] .focus\:ring-red-500\/20:focus   { --tw-ring-color: rgba(220,38,38,0.15); }
+
+/* Gradient borders / dividers used in landing page connector line */
+[data-theme="light"] .via-red-500\/25 { --tw-gradient-via: rgba(239,68,68,0.25); }
+
+/* Hero ambient blobs — subtle in light mode */
+[data-theme="light"] .bg-red-600\/10 { background-color: rgba(220,38,38,0.06); }
+[data-theme="light"] .bg-red-500\/6  { background-color: rgba(239,68,68,0.04); }
+
+/* Sidebar active ring */
+[data-theme="light"] .ring-red-500\/30 { --tw-ring-color: rgba(220,38,38,0.35); }
