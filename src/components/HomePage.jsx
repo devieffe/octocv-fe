@@ -11,18 +11,18 @@ import { useTheme } from "../context/ThemeContext";
 
 // ─── Animation helpers ────────────────────────────────────────────────────────
 const fadeUp = {
-  hidden:  { opacity: 0, y: 36 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
 };
 const stagger = {
-  hidden:  {},
-  visible: { transition: { staggerChildren: 0.11 } },
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06 } },
 };
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 const Navbar = () => {
-  const [scrolled,  setScrolled]  = useState(false);
-  const [menuOpen,  setMenuOpen]  = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
@@ -32,21 +32,20 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { label: "Features",      href: "#features"      },
-    { label: "How it works",  href: "#how-it-works"  },
-    { label: "Testimonials",  href: "#testimonials"  },
-    { label: "About",         href: "#about"         },
+    { label: "Features", href: "#features" },
+    { label: "How it works", href: "#how-it-works" },
+    { label: "Testimonials", href: "#testimonials" },
+    { label: "About", href: "#about" },
   ];
 
   return (
     <header
       role="banner"
       aria-label="Site header"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
           ? "bg-slate-950/95 backdrop-blur-md border-b border-white/5 shadow-lg"
           : "bg-transparent"
-      }`}
+        }`}
     >
       {/* Skip link */}
       <a
@@ -104,7 +103,7 @@ const Navbar = () => {
               className="ml-1 w-9 h-9 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
             >
               {theme === "dark"
-                ? <Sun  size={16} aria-hidden="true" />
+                ? <Sun size={16} aria-hidden="true" />
                 : <Moon size={16} aria-hidden="true" />
               }
             </button>
@@ -121,7 +120,7 @@ const Navbar = () => {
               className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
             >
               {theme === "dark"
-                ? <Sun  size={16} aria-hidden="true" />
+                ? <Sun size={16} aria-hidden="true" />
                 : <Moon size={16} aria-hidden="true" />
               }
             </button>
@@ -248,7 +247,7 @@ const Hero = () => (
               ))}
             </div>
             <p className="text-sm text-gray-400">
-              <span className="text-white font-semibold">5,000+</span> professionals trust OctoCV
+              Professionals trust OctoCV
             </p>
           </motion.div>
         </motion.div>
@@ -277,8 +276,8 @@ const Hero = () => (
 
             {/* Floating card — CV score */}
             <motion.div
-              animate={{ y: [0, -9, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
               aria-hidden="true"
               className="absolute -left-6 top-1/3 bg-slate-900 border border-white/10 rounded-2xl p-3 shadow-2xl"
             >
@@ -295,8 +294,8 @@ const Hero = () => (
 
             {/* Floating card — match rate */}
             <motion.div
-              animate={{ y: [0, 9, 0] }}
-              transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              animate={{ y: [0, 5, 0] }}
+              transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
               aria-hidden="true"
               className="absolute -right-6 bottom-1/3 bg-slate-900 border border-white/10 rounded-2xl p-3 shadow-2xl"
             >
@@ -320,9 +319,9 @@ const Hero = () => (
 // ─── Stats bar ────────────────────────────────────────────────────────────────
 const STATS = [
   { value: "10K+", label: "CVs Generated" },
-  { value: "5K+",  label: "Active Users"  },
+  { value: "5K+", label: "Active Users" },
   { value: "200+", label: "Partner Companies" },
-  { value: "95%",  label: "Job Match Rate" },
+  { value: "95%", label: "Job Match Rate" },
 ];
 
 const Stats = () => (
@@ -348,12 +347,12 @@ const Stats = () => (
 
 // ─── Features ─────────────────────────────────────────────────────────────────
 const FEATURES = [
-  { icon: FileText, title: "AI CV Builder",         desc: "Generate tailored, ATS-optimised CVs in minutes using advanced AI trained on thousands of successful resumes." },
-  { icon: Brain,    title: "Skills Assessment",      desc: "Comprehensive questionnaires that evaluate your technical skills, problem-solving ability, and career fit."   },
-  { icon: Map,      title: "Career Path Planner",    desc: "Get a personalised roadmap of skills and milestones needed to reach your target role."                       },
-  { icon: Target,   title: "Job Matching",           desc: "Intelligent matching algorithms surface the roles most aligned with your background and aspirations."         },
-  { icon: BarChart3,title: "Progress Analytics",     desc: "Track your growth, identify skill gaps, and benchmark against professionals in your field."                  },
-  { icon: Shield,   title: "Smart Templates",        desc: "Industry-specific CV templates crafted by hiring experts to make you stand out from day one."                 },
+  { icon: FileText, title: "AI CV Builder", desc: "Generate tailored, ATS-optimised CVs in minutes using advanced AI trained on thousands of successful resumes." },
+  { icon: Brain, title: "Skills Assessment", desc: "Comprehensive questionnaires that evaluate your technical skills, problem-solving ability, and career fit." },
+  { icon: Map, title: "Career Path Planner", desc: "Get a personalised roadmap of skills and milestones needed to reach your target role." },
+  { icon: Target, title: "Job Matching", desc: "Intelligent matching algorithms surface the roles most aligned with your background and aspirations." },
+  { icon: BarChart3, title: "Progress Analytics", desc: "Track your growth, identify skill gaps, and benchmark against professionals in your field." },
+  { icon: Shield, title: "Smart Templates", desc: "Industry-specific CV templates crafted by hiring experts to make you stand out from day one." },
 ];
 
 const Features = () => (
@@ -404,9 +403,9 @@ const Features = () => (
 
 // ─── How it works ─────────────────────────────────────────────────────────────
 const STEPS = [
-  { num: "01", icon: Users,    title: "Create your account",     desc: "Sign up in seconds — no credit card required. Tell us about your background and career goals."                                      },
-  { num: "02", icon: BookOpen, title: "Complete your assessment", desc: "Take our adaptive skills and personality tests so our AI can build an accurate picture of your strengths."                          },
-  { num: "03", icon: Zap,      title: "Get your career toolkit",  desc: "Receive your AI-generated CV, personalised career roadmap, and top job matches — ready to go."                                     },
+  { num: "01", icon: Users, title: "Create your account", desc: "Sign up in seconds — no credit card required. Tell us about your background and career goals." },
+  { num: "02", icon: BookOpen, title: "Complete your assessment", desc: "Take our adaptive skills and personality tests so our AI can build an accurate picture of your strengths." },
+  { num: "03", icon: Zap, title: "Get your career toolkit", desc: "Receive your AI-generated CV, personalised career roadmap, and top job matches — ready to go." },
 ];
 
 const HowItWorks = () => (
@@ -454,9 +453,9 @@ const HowItWorks = () => (
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 const TESTIMONIALS = [
-  { name: "Alexandra Liu",    role: "UX Designer at Figma",         stars: 5, text: "OctoCV's AI caught gaps in my CV I had completely overlooked. Within two weeks I landed three interviews at top companies." },
-  { name: "Marcus Williams",  role: "Backend Engineer at Stripe",   stars: 5, text: "The career path planner showed me exactly which skills to build to move from mid to senior. Six months later I got promoted with a 40% pay rise." },
-  { name: "Priya Nair",       role: "Product Manager at HubSpot",   stars: 5, text: "I was switching industries with no idea how to position myself. OctoCV's assessments helped me present my transferable skills in a compelling way." },
+  { name: "Alexandra Liu", role: "UX Designer at Figma", stars: 5, text: "OctoCV's AI caught gaps in my CV I had completely overlooked. Within two weeks I landed three interviews at top companies." },
+  { name: "Marcus Williams", role: "Backend Engineer at Stripe", stars: 5, text: "The career path planner showed me exactly which skills to build to move from mid to senior. Six months later I got promoted with a 40% pay rise." },
+  { name: "Priya Nair", role: "Product Manager at HubSpot", stars: 5, text: "I was switching industries with no idea how to position myself. OctoCV's assessments helped me present my transferable skills in a compelling way." },
 ];
 
 const Testimonials = () => (
@@ -508,9 +507,9 @@ const Testimonials = () => (
 
 // ─── About / Mission ──────────────────────────────────────────────────────────
 const PILLARS = [
-  { icon: Award,    title: "Merit-first",       desc: "We believe skills and potential should speak louder than credentials or connections."        },
-  { icon: Shield,   title: "Privacy by design", desc: "Your data is encrypted at rest and never sold to third parties. Period."                     },
-  { icon: Sparkles, title: "Always improving",  desc: "Our AI models are retrained monthly on real hiring signals to stay ahead of market trends."   },
+  { icon: Award, title: "Merit-first", desc: "We believe skills and potential should speak louder than credentials or connections." },
+  { icon: Shield, title: "Privacy by design", desc: "Your data is encrypted at rest and never sold to third parties. Period." },
+  { icon: Sparkles, title: "Always improving", desc: "Our AI models are retrained monthly on real hiring signals to stay ahead of market trends." },
 ];
 
 const About = () => (
@@ -616,9 +615,9 @@ const CTA = () => (
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 const FOOTER_LINKS = {
-  Product:   ["Features", "How it works", "Career Guide", "CV Templates"],
+  Product: ["Features", "How it works", "Career Guide", "CV Templates"],
   Resources: ["Documentation", "Blog", "FAQ", "Changelog"],
-  Company:   ["About", "Careers", "Privacy Policy", "Terms of Service"],
+  Company: ["About", "Careers", "Privacy Policy", "Terms of Service"],
 };
 
 const Footer = () => {
