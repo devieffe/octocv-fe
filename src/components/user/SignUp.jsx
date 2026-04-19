@@ -5,7 +5,7 @@ import { signup } from "../../slices/authSlice";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const SignUp = () => {
   const dispatch = useDispatch();

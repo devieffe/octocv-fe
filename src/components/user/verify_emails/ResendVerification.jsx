@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const ResendVerification = () => {
   const [email, setEmail] = useState("");

@@ -7,7 +7,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import 'jquery';
 import '@popperjs/core';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -18,5 +17,3 @@ root.render(
     </PersistGate>
   </Provider>
 );
-
-reportWebVitals();

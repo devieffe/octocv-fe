@@ -106,10 +106,9 @@ const ProblemSolvingTest = ({ onComplete }) => {
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleAnswerClick(optionLabel)}
                       className={`w-full py-3 px-5 border rounded-lg transition text-base font-medium shadow-sm
-                        ${
-                          isSelected
-                            ? "bg-red-100 border-red-500 text-red-700 font-semibold"
-                            : "bg-white hover:border-[#e91919] hover:text-[#e91919] border-gray-300 text-gray-800"
+                        ${isSelected
+                          ? "bg-red-100 border-red-500 text-red-700 font-semibold"
+                          : "bg-white hover:border-[#e91919] hover:text-[#e91919] border-gray-300 text-gray-800"
                         }`}
                     >
                       {optionText}

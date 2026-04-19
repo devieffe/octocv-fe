@@ -2,7 +2,7 @@ import { store } from "../store"; // Corrected to use named import
 import axios from "axios";
 import { logout } from "../slices/authSlice";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 // Create an Axios instance
 const axiosInstance = axios.create({

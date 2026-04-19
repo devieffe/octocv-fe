@@ -98,11 +98,10 @@ const ComputerLiteracyTest = ({ onComplete }) => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleAnswerClick(key)}
-                      className={`w-full py-3 px-5 border rounded-lg text-base font-medium shadow-sm transition ${
-                        isSelected
+                      className={`w-full py-3 px-5 border rounded-lg text-base font-medium shadow-sm transition ${isSelected
                           ? "bg-red-100 border-[#e91919] text-[#e91919] font-semibold"
                           : "bg-white border-gray-300 text-gray-800 hover:border-[#e91919] hover:text-[#e91919]"
-                      }`}
+                        }`}
                     >
                       {currentQuestion.optionMap[key]}
                     </motion.button>

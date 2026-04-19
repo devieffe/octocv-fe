@@ -74,7 +74,7 @@ const MotivationalSurvey = ({ onComplete }) => {
                   {currentQuestion.text}
                 </p>
               </div>
-  
+
               <div className="space-y-4">
                 {currentQuestion.options.map((optionLabel, index) => {
                   const optionText = currentQuestion.optionMap[optionLabel];
