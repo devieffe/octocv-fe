@@ -25,8 +25,6 @@ import Settings from "./components/user/Settings";
 import AppLayout from "./components/DashboardLayout";
 
 const App = () => {
-  const year = new Date().getFullYear();
-
   return (
     <Router>
       <Routes>
@@ -64,10 +62,6 @@ const App = () => {
         </Route>
       </Routes>
 
-      {/* Global footer (optional) */}
-      <footer className="text-center py-4 border-t border-gray-300 text-sm text-blue-950">
-        © {year} OctoCV
-      </footer>
     </Router>
   );
 };
