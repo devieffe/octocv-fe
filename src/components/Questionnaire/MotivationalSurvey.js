@@ -37,7 +37,7 @@ const MotivationalSurvey = ({ onComplete }) => {
 
   const handleSubmitSurvey = async () => {
     try {
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         "/api/submit-motivation-test/",
         {
           responses: answers.map((a) => a.answer),
@@ -47,7 +47,6 @@ const MotivationalSurvey = ({ onComplete }) => {
         }
       );
 
-      console.log("Survey submitted:", response.data);
       if (onComplete) onComplete();
     } catch (error) {
       console.error(

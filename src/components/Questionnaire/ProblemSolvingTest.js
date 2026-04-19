@@ -48,7 +48,6 @@ const ProblemSolvingTest = ({ onComplete }) => {
       );
 
       if (res.status === 200) {
-        console.log("Submitted successfully");
         setSubmitted(true);
         if (onComplete) onComplete();
       }

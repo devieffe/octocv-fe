@@ -70,14 +70,6 @@ axiosInstance.interceptors.response.use(
       }
     }
 
-    axiosInstance.interceptors.request.use(
-      (config) => {
-        console.log("Request Headers:", config.headers);
-        return config;
-      },
-      (error) => Promise.reject(error)
-    );
-
     return Promise.reject(error);
   }
 );

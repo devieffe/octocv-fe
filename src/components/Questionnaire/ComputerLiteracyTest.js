@@ -38,7 +38,6 @@ const ComputerLiteracyTest = ({ onComplete }) => {
 
       if (response.status === 200) {
         setSubmitted(true);
-        console.log("Submitted:", response.data.message);
         if (onComplete) onComplete();
       }
     } catch (error) {
