@@ -1,9 +1,8 @@
 import "./App.css";
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./components/HomePage";
-import SignUp from "./components/user/SignUp";
-import LogIn from "./components/user/LogIn";
+import AuthModal from "./components/AuthModal";
 import Authenticate from "./components/Authenticate";
 import StaffRoute from "./components/routes/StaffRoute";
 import MakeCv from "./components/MakeCv";
@@ -25,15 +24,32 @@ import Settings from "./components/user/Settings";
 import AppLayout from "./components/DashboardLayout";
 import CookieBanner from "./components/CookieBanner";
 
-const App = () => {
+// Landing page + modal rendered together (direct URL access e.g. paste /login)
+const HomeWithModal = ({ type }) => (
+  <>
+    <Home />
+    <AuthModal type={type} />
+  </>
+);
+
+// Inner component — must be inside <Router> to use useLocation
+const AppRoutes = () => {
+  const location = useLocation();
+  // When navigating from the landing page with background state, keep that page
+  // rendered behind the modal instead of re-mounting HomePage
+  const backgroundLocation = location.state?.backgroundLocation;
+
   return (
-    <Router>
-      <Routes>
-        {/* Public Routes */}
+    <>
+      <Routes location={backgroundLocation || location}>
+        {/* Public landing page */}
         <Route path="/" element={<Home />} />
+
+        {/* Auth modal routes — show landing page as background on direct URL access */}
+        <Route path="/login"  element={<HomeWithModal type="login"  />} />
+        <Route path="/signup" element={<HomeWithModal type="signup" />} />
+
         <Route element={<AppLayout />}>
-          <Route path="/signup"               element={<SignUp />} />
-          <Route path="/login"                element={<LogIn />} />
           <Route path="/verify-email"         element={<VerifyEmail />} />
           <Route path="/resend-verification"  element={<ResendVerification />} />
           <Route path="/authenticate"         element={<Authenticate />} />
@@ -47,26 +63,40 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
 
           {/* Protected user routes */}
-          <Route path="/user"              element={<UserDashboard />} />
-          <Route path="/make"              element={<MakeCv />} />
-          <Route path="/careerpath"        element={<CareerPath />} />
-          <Route path="/questionnaire"     element={<QuestionnaireFlow />} />
-          <Route path="/problemsolvingtest"  element={<ProblemSolvingTest />} />
+          <Route path="/user"               element={<UserDashboard />} />
+          <Route path="/make"               element={<MakeCv />} />
+          <Route path="/careerpath"         element={<CareerPath />} />
+          <Route path="/questionnaire"      element={<QuestionnaireFlow />} />
+          <Route path="/problemsolvingtest"   element={<ProblemSolvingTest />} />
           <Route path="/computerliteracytest" element={<ComputerLiteracyTest />} />
-          <Route path="/motivationalsurvey" element={<MotivationalSurvey />} />
-          <Route path="/settings"          element={<Settings />} />
+          <Route path="/motivationalsurvey"   element={<MotivationalSurvey />} />
+          <Route path="/settings"           element={<Settings />} />
 
           {/* Staff-only routes */}
-          <Route path="/admin"           element={<StaffRoute><AdminDashboard /></StaffRoute>} />
-          <Route path="/admin/tools"     element={<StaffRoute><AdminToolsDashboard /></StaffRoute>} />
-          <Route path="/admin/user/:id"  element={<StaffRoute><AdminUserDetail /></StaffRoute>} />
+          <Route path="/admin"          element={<StaffRoute><AdminDashboard /></StaffRoute>} />
+          <Route path="/admin/tools"    element={<StaffRoute><AdminToolsDashboard /></StaffRoute>} />
+          <Route path="/admin/user/:id" element={<StaffRoute><AdminUserDetail /></StaffRoute>} />
         </Route>
       </Routes>
 
-      {/* GDPR cookie banner — rendered outside Routes so it persists across navigation */}
+      {/* Modal layer — rendered on top when navigating with background location state */}
+      {backgroundLocation && (
+        <Routes>
+          <Route path="/login"  element={<AuthModal type="login"  />} />
+          <Route path="/signup" element={<AuthModal type="signup" />} />
+        </Routes>
+      )}
+
+      {/* GDPR cookie banner */}
       <CookieBanner />
-    </Router>
+    </>
   );
 };
+
+const App = () => (
+  <Router>
+    <AppRoutes />
+  </Router>
+);
 
 export default App;

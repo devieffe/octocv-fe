@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   FileText, Brain, Map, Target, BarChart3, Sparkles,
@@ -23,8 +23,8 @@ const stagger = {
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
-
+  const { theme, toggleTheme } = useTheme();  const location = useLocation();
+  const bgState = { backgroundLocation: location };
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -43,8 +43,8 @@ const Navbar = () => {
       role="banner"
       aria-label="Site header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-          ? "bg-slate-950/95 backdrop-blur-md border-b border-white/5 shadow-lg"
-          : "bg-transparent"
+        ? "bg-slate-950/95 backdrop-blur-md border-b border-white/5 shadow-lg"
+        : "bg-transparent"
         }`}
     >
       {/* Skip link */}
@@ -83,12 +83,14 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-2">
             <Link
               to="/login"
+              state={bgState}
               className="text-sm text-gray-300 hover:text-white transition-colors px-4 py-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
             >
               Sign in
             </Link>
             <Link
               to="/signup"
+              state={bgState}
               className="text-sm font-semibold bg-red-600 hover:bg-red-500 text-white px-5 py-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
             >
               Get started
@@ -160,6 +162,7 @@ const Navbar = () => {
           ))}
           <Link
             to="/login"
+            state={bgState}
             className="text-sm text-gray-300 hover:text-white"
             onClick={() => setMenuOpen(false)}
           >
@@ -167,6 +170,7 @@ const Navbar = () => {
           </Link>
           <Link
             to="/signup"
+            state={bgState}
             className="text-sm font-semibold bg-red-600 text-white px-4 py-2 rounded-lg text-center"
             onClick={() => setMenuOpen(false)}
           >
