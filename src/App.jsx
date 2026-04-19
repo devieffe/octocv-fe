@@ -31,21 +31,21 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route element={<AppLayout />}>
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/resend-verification" element={<ResendVerification />} />
-        <Route path="/authenticate" element={<Authenticate />} />
-        <Route path="/blank" element={<BlankPage />} />
-        <Route path="/onboarding" element={<QuestionnaireIntro />} />
-        <Route path="/unauthorized" element={
-          <div className="text-center text-red-600 text-lg">
-            🚫 Access Denied. You are not authorized to view this page.
-          </div>
-        } />
-        <Route path="*" element={<NotFound />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/resend-verification" element={<ResendVerification />} />
+          <Route path="/authenticate" element={<Authenticate />} />
+          <Route path="/blank" element={<BlankPage />} />
+          <Route path="/onboarding" element={<QuestionnaireIntro />} />
+          <Route path="/unauthorized" element={
+            <div className="text-center text-red-600 text-lg">
+              🚫 Access Denied. You are not authorized to view this page.
+            </div>
+          } />
+          <Route path="*" element={<NotFound />} />
 
-        {/* Protected Routes with Sidebar Layout */}
+          {/* Protected Routes with Sidebar Layout */}
           <Route path="/user" element={<UserDashboard />} />
           <Route path="/make" element={<MakeCv />} />
           <Route path="/careerpath" element={<CareerPath />} />

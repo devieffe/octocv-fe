@@ -4,9 +4,10 @@ import axiosInstance from "../../api/axiosInstance";
 import MotivationSurvey from "./MotivationalSurvey";
 import ComputerLiteracyTest from "./ComputerLiteracyTest";
 import ProblemSolvingTest from "./ProblemSolvingTest";
+import { Loader } from "lucide-react";
 
 const QuestionnaireFlow = () => {
-  const [status, setStatus] = useState(null); // [true, false, false]
+  const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -23,7 +24,6 @@ const QuestionnaireFlow = () => {
         navigate("/login");
       }
     };
-
     fetchTestStatus();
   }, [navigate]);
 
@@ -34,17 +34,20 @@ const QuestionnaireFlow = () => {
       });
       const newStatus = res.data.response;
       setStatus(newStatus);
-
-      const allPassed = newStatus.every(Boolean);
-      if (allPassed) {
-        navigate("/user");
-      }
+      if (newStatus.every(Boolean)) navigate("/user");
     } catch (err) {
       console.error("Error refreshing status", err);
     }
   };
 
-  if (loading) return <div className="text-center py-10">Loading questionnaires...</div>;
+  if (loading) return (
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="flex items-center gap-3 text-gray-400">
+        <Loader size={20} className="animate-spin" />
+        <span className="text-sm">Loading assessment...</span>
+      </div>
+    </div>
+  );
 
   const renderCurrentTest = () => {
     if (!status[0]) return <MotivationSurvey onComplete={updateStatus} />;
@@ -54,7 +57,7 @@ const QuestionnaireFlow = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
       {renderCurrentTest()}
     </div>
   );

@@ -19,7 +19,7 @@ const CareerPath = () => {
         setCareerTitles(paths);
         if (paths.length > 0) setSelectedPath(paths[0]);
       } catch {
-        setError("❌ Could not load career paths.");
+        setError("Could not load career paths.");
       }
     };
     fetchCareerPaths();
@@ -29,68 +29,51 @@ const CareerPath = () => {
     const fetchCareerMap = async () => {
       if (!selectedPath) return;
       try {
-        const response = await axiosInstance.post("/api/career-map/", {
-          job_title: selectedPath,
-        });
+        const response = await axiosInstance.post("/api/career-map/", { job_title: selectedPath });
         setCareerSteps(response.data);
       } catch {
-        setError("❌ Failed to load career map data.");
+        setError("Failed to load career map data.");
       }
     };
     fetchCareerMap();
   }, [selectedPath]);
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <main className="flex-1 max-w-7xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-extrabold text-[#e91919] mb-10 select-none drop-shadow-sm">
-          Career Path
-        </h1>
+    <div className="bg-slate-950 px-6 py-8 max-w-6xl mx-auto">
+      <h1 className="text-3xl font-black text-white mb-8">Career Path</h1>
 
-        <section className="flex flex-wrap gap-4 mb-10">
-          {careerTitles.map((title, i) => (
-            <motion.button
-              key={title}
-              custom={i + 1}
-              initial="hidden"
-              animate="visible"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { delay: i * 0.1, duration: 0.4 },
-                },
-              }}
-              onClick={() => setSelectedPath(title)}
-              className={`px-6 py-3 rounded-full text-sm font-semibold shadow-sm transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#e91919] focus:ring-offset-2 ${
-                title === selectedPath
-                  ? "bg-[#e91919] text-white"
-                  : "border border-[#e91919] text-[#e91919] bg-white"
-              }`}
-            >
-              {title}
-            </motion.button>
-          ))}
-        </section>
+      <section className="flex flex-wrap gap-3 mb-8">
+        {careerTitles.map((title, i) => (
+          <motion.button
+            key={title}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.07, duration: 0.3 }}
+            onClick={() => setSelectedPath(title)}
+            className={`px-5 py-2 rounded-full text-sm font-semibold transition-all border ${
+              title === selectedPath
+                ? "bg-red-600 border-red-600 text-white"
+                : "border-white/10 text-gray-400 hover:text-white hover:border-white/25 bg-white/5"
+            }`}
+          >
+            {title}
+          </motion.button>
+        ))}
+      </section>
 
-        {error && <p className="text-red-600 mb-6 text-center text-lg">{error}</p>}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 mb-6">
+          <p className="text-red-400 text-sm">{error}</p>
+        </div>
+      )}
 
-        <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {careerSteps.map((step, idx) => (
-            <CareerStepCard
-              key={idx}
-              step={step}
-              index={idx}
-              onClick={() => setSelectedStep(step)}
-            />
-          ))}
-        </section>
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {careerSteps.map((step, idx) => (
+          <CareerStepCard key={idx} step={step} index={idx} onClick={() => setSelectedStep(step)} />
+        ))}
+      </section>
 
-        {selectedStep && (
-          <CareerModal step={selectedStep} onClose={() => setSelectedStep(null)} />
-        )}
-      </main>
+      {selectedStep && <CareerModal step={selectedStep} onClose={() => setSelectedStep(null)} />}
     </div>
   );
 };

@@ -6,26 +6,34 @@ const tools = [
   {
     title: "Manage Users",
     description: "View and manage all registered users.",
-    icon: <Users className="w-6 h-6 text-blue-600" />,
-    path: "/admin/manage-users",
+    icon: Users,
+    path: "/admin",
+    color: "text-blue-400",
+    bg: "bg-blue-500/10 border-blue-500/20",
   },
   {
     title: "Career Paths",
     description: "View and edit available career paths.",
-    icon: <Compass className="w-6 h-6 text-green-600" />,
+    icon: Compass,
     path: "/careerpath",
+    color: "text-green-400",
+    bg: "bg-green-500/10 border-green-500/20",
   },
   {
-    title: "Generate CV",
-    description: "Access CV generator tool.",
-    icon: <FileText className="w-6 h-6 text-purple-600" />,
+    title: "CV Generator",
+    description: "Access the CV generator tool.",
+    icon: FileText,
     path: "/make",
+    color: "text-purple-400",
+    bg: "bg-purple-500/10 border-purple-500/20",
   },
   {
     title: "Admin Settings",
     description: "Configure admin settings and options.",
-    icon: <Settings className="w-6 h-6 text-red-600" />,
+    icon: Settings,
     path: "/settings",
+    color: "text-red-400",
+    bg: "bg-red-500/10 border-red-500/20",
   },
 ];
 
@@ -33,22 +41,25 @@ const AdminToolsDashboard = () => {
   const navigate = useNavigate();
 
   return (
-      <div className="flex min-h-screen">
-          
-      <div className="flex-1 p-6 space-y-6 sm:p-8 max-w-6xl mx-auto overflow-y-auto">
-        {tools.map((tool, index) => (
-          <div
-            key={index}
-            onClick={() => navigate(tool.path)}
-            className="cursor-pointer bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition"
-          >
-            <div className="flex items-center gap-4 mb-3">
-              <div className="bg-gray-100 p-2 rounded-full">{tool.icon}</div>
-              <h3 className="text-lg font-semibold text-gray-900">{tool.title}</h3>
+    <div className="bg-slate-950 px-6 py-8 max-w-3xl mx-auto">
+      <h1 className="text-3xl font-black text-white mb-8">Admin Tools</h1>
+      <div className="grid sm:grid-cols-2 gap-4">
+        {tools.map((tool) => {
+          const Icon = tool.icon;
+          return (
+            <div
+              key={tool.title}
+              onClick={() => navigate(tool.path)}
+              className="bg-slate-900 border border-white/5 hover:border-white/10 rounded-2xl p-6 cursor-pointer transition group"
+            >
+              <div className={`w-10 h-10 rounded-xl border flex items-center justify-center mb-4 ${tool.bg}`}>
+                <Icon size={18} className={tool.color} />
+              </div>
+              <h3 className="text-sm font-bold text-white mb-1 group-hover:text-red-400 transition">{tool.title}</h3>
+              <p className="text-xs text-gray-400 leading-relaxed">{tool.description}</p>
             </div>
-            <p className="text-sm text-gray-600">{tool.description}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

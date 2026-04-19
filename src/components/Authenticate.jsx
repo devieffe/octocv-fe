@@ -1,29 +1,31 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { LogIn } from "lucide-react";
 
 const Authenticate = () => {
   const navigate = useNavigate();
 
-  const handleStartAssessment = () => {
-    navigate('/login');
-  };
-
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center bg-white">
-      <div className="max-w-md w-full space-y-6">
-        <h2 className="text-3xl font-bold text-blue-950">Please Authenticate</h2>
-        <p className="text-gray-700">
-          <Link to="/login" className="text-red-600 underline hover:text-red-700 transition">
-            Sign in
-          </Link>{' '}
-          to access Octo<span className="text-red-600 font-semibold">CV</span>.
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+      <div className="text-center max-w-sm w-full">
+        <div className="w-16 h-16 rounded-2xl bg-red-600/15 border border-red-500/25 flex items-center justify-center mx-auto mb-6">
+          <LogIn size={28} className="text-red-400" />
+        </div>
+        <h2 className="text-2xl font-black text-white mb-2">Please sign in</h2>
+        <p className="text-gray-400 mb-8">
+          You need to be authenticated to access{" "}
+          <span className="text-white font-semibold">Octo<span className="text-red-500">CV</span></span>.
         </p>
         <button
-          onClick={handleStartAssessment}
-          className="mt-6 w-full px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+          onClick={() => navigate("/login")}
+          className="w-full bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl py-3 transition-colors"
         >
-          OK
+          Sign in
         </button>
+        <p className="text-gray-500 text-sm mt-4">
+          No account?{" "}
+          <Link to="/signup" className="text-red-400 hover:text-red-300 transition-colors">Create one</Link>
+        </p>
       </div>
     </div>
   );

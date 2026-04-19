@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Mail } from "lucide-react";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -12,35 +13,27 @@ const ResendVerification = () => {
   const [verified, setVerified] = useState(false);
   const [alreadyVerified, setAlreadyVerified] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [redirecting, setRedirecting] = useState(false);  // New state for handling redirect
+  const [redirecting, setRedirecting] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
-    setError("");
-    setVerified(false);
-    setAlreadyVerified(false);
-
+    setMessage(""); setError(""); setVerified(false); setAlreadyVerified(false);
     if (!/\S+@\S+\.\S+/.test(email)) {
       setError("Please enter a valid email address.");
       return;
     }
-
     setLoading(true);
-
     try {
-      const res = await axios.post(`${SERVER_URL}api/resend-verification-email/`, { email },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+      const res = await axios.post(
+        `${SERVER_URL}api/resend-verification-email/`,
+        { email },
+        { headers: { "Content-Type": "application/json" } }
+      );
       setMessage(res.data.message);
       setVerifyLink(res.data.verify_email_url);
     } catch (err) {
-      const errMsg = err.response?.data?.error || "Failed to resend email.";
-      setError(errMsg);
+      setError(err.response?.data?.error || "Failed to resend email.");
     } finally {
       setLoading(false);
     }
@@ -50,87 +43,69 @@ const ResendVerification = () => {
     try {
       const res = await axios.get(verifyLink);
       const msg = res.data.message || "";
-
       if (msg.includes("confirmed")) {
-        setVerified(true);
-        setMessage(msg);
-        // After verification, set redirect state to true and navigate
-        setRedirecting(true);
+        setVerified(true); setMessage(msg); setRedirecting(true);
       } else if (msg.toLowerCase().includes("already verified")) {
-        setAlreadyVerified(true);
-        setMessage(msg);
-        // After already verified, set redirect state to true and navigate
-        setRedirecting(true);
+        setAlreadyVerified(true); setMessage(msg); setRedirecting(true);
       }
     } catch (err) {
-      const errMsg = err.response?.data?.detail || "Verification failed.";
-      setError(errMsg);
+      setError(err.response?.data?.detail || "Verification failed.");
     }
   };
 
-  // Redirect immediately if we are in the redirecting state
   if (redirecting) {
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);  // Delay the redirect for 2 seconds so the user can see the message
+    setTimeout(() => navigate("/login"), 2000);
   }
 
   return (
-    <div className="max-w-md mx-auto p-6">
-      <h2 className="text-xl font-semibold text-center text-blue-950 mb-4">Resend Verification Email</h2>
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <div className="w-14 h-14 rounded-2xl bg-red-600/15 border border-red-500/25 flex items-center justify-center mx-auto mb-4">
+            <Mail size={24} className="text-red-400" />
+          </div>
+          <h2 className="text-xl font-bold text-white">Resend verification email</h2>
+          <p className="text-gray-500 text-sm mt-1">Enter your email to get a new link</p>
+        </div>
 
-      {!verified && !alreadyVerified && (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="Enter your email"
-            className="w-full rounded-md border px-3 py-2"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-500"
-          >
-            {loading ? "Sending..." : "Verify Email"}
-          </button>
-        </form>
-      )}
-
-      {message && !verified && !alreadyVerified && (
-        <div className="mt-4 text-green-600 text-sm text-center space-y-2">
-          <p>{message}</p>
-          {verifyLink && (
-            <button
-              onClick={handleVerifyClick}
-              className="underline text-blue-800 hover:text-blue-600"
-            >
-              Click here to verify
-            </button>
+        <div className="bg-slate-900 border border-white/5 rounded-2xl p-7">
+          {(verified || alreadyVerified) ? (
+            <div className="text-center space-y-3">
+              <p className="text-green-400 text-sm">{message}</p>
+              {redirecting && <p className="text-gray-500 text-xs">Redirecting to sign in...</p>}
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+                  <p className="text-red-400 text-sm">{error}</p>
+                </div>
+              )}
+              {message && !verifyLink && (
+                <p className="text-green-400 text-sm text-center">{message}</p>
+              )}
+              <div>
+                <label className="block text-xs font-medium text-gray-400 mb-1.5">Email Address</label>
+                <input
+                  type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                  placeholder="jane@example.com" required
+                  className="w-full bg-slate-800/50 border border-white/10 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-500/40 focus:ring-1 focus:ring-red-500/20 transition"
+                />
+              </div>
+              <button type="submit" disabled={loading}
+                className="w-full bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl py-3 text-sm transition-colors disabled:opacity-50">
+                {loading ? "Sending..." : "Resend email"}
+              </button>
+              {verifyLink && (
+                <button type="button" onClick={handleVerifyClick}
+                  className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-semibold rounded-xl py-3 transition-colors">
+                  Confirm verification link
+                </button>
+              )}
+            </form>
           )}
         </div>
-      )}
-
-      {(verified || alreadyVerified) && (
-        <div className="mt-6 text-center space-y-4">
-          <p className="text-green-700 font-medium">
-            {verified
-              ? "Your email was verified successfully!"
-              : "Email is already verified."}
-          </p>
-          {/* Display button for redirection */}
-          <button
-            onClick={() => navigate("/login")}
-            className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500"
-          >
-            Go to Login
-          </button>
-        </div>
-      )}
-
-      {error && <p className="mt-4 text-red-600 text-center">{error}</p>}
+      </div>
     </div>
   );
 };

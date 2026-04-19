@@ -25,13 +25,13 @@ const Sidebar = () => {
   };
 
   const links = [
-    { to: isStaff ? "/admin" : "/user", icon: <User />, label: "User" },
+    { to: isStaff ? "/admin" : "/user", icon: <User size={18} />, label: "Dashboard" },
     ...(isStaff
-      ? [{ to: "/admin/tools", icon: <Shield />, label: "Tools" }]
+      ? [{ to: "/admin/tools", icon: <Shield size={18} />, label: "Tools" }]
       : []),
-    { to: "/make", icon: <FileText />, label: "CV Maker" },
-    { to: "/careerpath", icon: <Compass />, label: "Career" },
-    { to: "/settings", icon: <Settings />, label: "Settings" },
+    { to: "/make", icon: <FileText size={18} />, label: "CV Maker" },
+    { to: "/careerpath", icon: <Compass size={18} />, label: "Career" },
+    { to: "/settings", icon: <Settings size={18} />, label: "Settings" },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -39,61 +39,37 @@ const Sidebar = () => {
   if (!isAuthenticated) return null;
 
   return (
-    <aside className="fixed  left-0 w-16 h-[calc(100vh-4rem)] bg-white text-red-700 flex flex-col items-center justify-between py-4 z-30 border-r border-gray-200">
-      <div className="flex flex-col gap-5 items-center">
+    <aside className="fixed top-14 left-0 w-16 h-[calc(100vh-3.5rem)] bg-slate-900 border-r border-white/5 flex flex-col items-center justify-between py-5 z-30">
+      <div className="flex flex-col gap-2 items-center w-full px-2">
         {links.map(({ to, icon, label }) => (
           <Link
             key={label}
             to={to}
-            className={`group relative p-2 transition duration-300 rounded-lg flex items-center justify-center ${
+            className={`group relative w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 ${
               isActive(to)
-                ? "bg-red-100 shadow-inner ring-1 ring-red-400"
-                : "hover:bg-red-50"
+                ? "bg-red-600/20 text-red-400 ring-1 ring-red-500/30"
+                : "text-gray-500 hover:text-white hover:bg-white/5"
             }`}
           >
-            <div
-              className={`transition-all duration-300 ${
-                isActive(to)
-                  ? "text-red-700"
-                  : "text-red-500 group-hover:text-red-600"
-              }`}
-            >
-              {icon}
-            </div>
-            <span
-              className="
-                absolute left-full top-1/2 -translate-y-1/2 ml-2
-                bg-red-700 text-white text-xs font-medium
-                px-2 py-0.5 rounded
-                opacity-0 group-hover:opacity-100
-                pointer-events-none group-hover:pointer-events-auto
-                transition-all duration-300 shadow-md z-50 whitespace-nowrap
-              "
-            >
+            {icon}
+            <span className="absolute left-full top-1/2 -translate-y-1/2 ml-3 bg-slate-800 border border-white/10 text-white text-xs font-medium px-2.5 py-1 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-lg z-50 whitespace-nowrap">
               {label}
             </span>
           </Link>
         ))}
       </div>
 
-      <button
-        onClick={handleLogout}
-        className="p-2 rounded-lg hover:bg-red-50 transition duration-300 relative group flex items-center justify-center"
-      >
-        <LogOut className="text-red-500 group-hover:text-red-700 w-5 h-5" />
-        <span
-          className="
-            absolute left-full top-1/2 -translate-y-1/2 ml-2
-            bg-red-700 text-white text-xs font-medium
-            px-2 py-0.5 rounded
-            opacity-0 group-hover:opacity-100
-            pointer-events-none group-hover:pointer-events-auto
-            transition-all duration-300 shadow-md z-50 whitespace-nowrap
-          "
+      <div className="px-2 w-full flex justify-center">
+        <button
+          onClick={handleLogout}
+          className="group relative w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
         >
-          Logout
-        </span>
-      </button>
+          <LogOut size={18} />
+          <span className="absolute left-full top-1/2 -translate-y-1/2 ml-3 bg-slate-800 border border-white/10 text-white text-xs font-medium px-2.5 py-1 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-lg z-50 whitespace-nowrap">
+            Sign out
+          </span>
+        </button>
+      </div>
     </aside>
   );
 };
