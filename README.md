@@ -1,46 +1,53 @@
-# OctoCV — AI-Powered CV Builder & Career Platform
+# OctoCV - AI-Powered CV Builder and Career Platform
 
-**Live:** [octocv.io](https://octocv.io) · React 19 · Vite 8 · Tailwind CSS 3 · Redux Toolkit 2 · Vercel
+OctoCV is a frontend application for building ATS-friendly CVs, planning career development, and matching users with opportunities.
 
-AI-powered career platform: tailored CVs, career path planning, skills assessments, and job matching.
+## Highlights
 
-## Features
+- AI CV builder workflow
+- Career path planning with skill-gap focus
+- Skills assessment flows and questionnaires
+- JWT-based authentication and persisted sessions
+- Admin dashboard and role-based routes
+- Cookie consent banner and accessibility-conscious UI
+- Responsive interface built with React and Tailwind
 
-- ✍️ AI CV Builder — ATS-optimised CVs in minutes
-- 🎯 Career Path Planner — personalised roadmaps with skill-gap analysis
-- 📚 Skills Assessments — problem solving, computer literacy, motivational profiling
-- 🔐 Auth — JWT + email verification + redux-persist sessions
-- 🌗 Dark / Light Theme — anti-FOUC, stored in localStorage + cookie
-- 🍪 GDPR Cookie Banner — "Accept all" / "Essential only"
-- ♿ Accessibility — WCAG 2.1 AA, ARIA, skip link, reduced-motion support
-- 🔍 SEO — Open Graph, Twitter Card, JSON-LD structured data
-- 👨‍💼 Admin Dashboard — staff-only user management
+## Tech Stack
 
-## Stack
+- React 19
+- Vite 8
+- React Router 7
+- Redux Toolkit + redux-persist
+- Tailwind CSS 3
+- Framer Motion
+- React Hook Form
+- Axios
 
-React 19 · Vite 8 · Tailwind CSS 3 · React Router 7 · Redux Toolkit 2 · Framer Motion 12 · Lucide React · React Hook Form 7 · Axios
+## Prerequisites
 
-## Local Setup
+- Node.js 18+ (Node.js 20 LTS recommended)
+- npm 9+
 
-```bash
-git clone https://github.com/devieffe/octocv-fe.git
-cd octocv-fe/1
-npm install
-npm run dev        # http://localhost:5173
-npm run build      # production build → dist/
+## Project Structure
+
+```text
+src/
+	api/
+		axiosInstance.js
+	components/
+		Admin/
+		Questionnaire/
+		routes/
+		user/
+		...
+	context/
+	slices/
+		authSlice.js
+		cvSlice.js
+		questionnaireSlice.js
+	utils/
+		mockApi.js
+	App.jsx
+	index.jsx
+	store.js
 ```
-
-## Environment
-
-```env
-VITE_SERVER_URL=https://your-api.example.com/
-```
-
-## Deployment
-
-Auto-deploys to Vercel on push to `main`. `vercel.json` pins framework to `vite`, output to `dist/`, and adds SPA rewrites for React Router.
-
-## License
-
-MIT © OctoCV
-
