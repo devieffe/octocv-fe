@@ -34,6 +34,7 @@ const CareerPath = () => {
         });
         setCareerSteps(response.data);
       } catch {
+        setCareerSteps([]);
         setError("❌ Failed to load career map data.");
       }
     };

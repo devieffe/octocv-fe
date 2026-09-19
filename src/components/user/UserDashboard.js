@@ -3,6 +3,7 @@ import axiosInstance from "../../api/axiosInstance";
 import { motion, AnimatePresence } from "framer-motion";
 import { Compass, ArrowLeft, ArrowRight, FileText, Settings, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const variants = {
   enter: (direction) => ({
@@ -24,12 +25,8 @@ const variants = {
   }),
 };
 
-export default function MockDashboard() {
-  const userInfo = {
-    first_name: "Pam",
-    username: "pamstr",
-    email: "pamellaester.ps@gmail.com",
-  };
+export default function UserDashboard() {
+  const user = useSelector((state) => state.auth.user);
 
   const [careerStages, setCareerStages] = useState([]);
   const [currentStage, setCurrentStage] = useState(0);
@@ -69,7 +66,7 @@ export default function MockDashboard() {
       <main className="flex-1 p-6 space-y-12 sm:p-8 max-w-6xl mx-auto overflow-y-auto">
         {/* Title */}
         <h1 className="text-4xl font-extrabold text-[#e91919] select-none drop-shadow-sm mb-4">
-          Welcome, {userInfo.first_name}!
+          Welcome, {user?.first_name || user?.username || "back"}!
         </h1>
 
         {/* Career Journey Card */}
@@ -162,8 +159,8 @@ export default function MockDashboard() {
               <User className="w-5 h-5" />
               Profile
             </h2>
-            <p className="text-sm text-gray-800 mb-1">Username: {userInfo.username}</p>
-            <p className="text-sm text-gray-800">Email: {userInfo.email}</p>
+            <p className="text-sm text-gray-800 mb-1">Username: {user?.username || "-"}</p>
+            <p className="text-sm text-gray-800">Email: {user?.email || "-"}</p>
           </div>
 
           {/* Generate CV */}

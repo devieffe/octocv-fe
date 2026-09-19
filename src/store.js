@@ -9,7 +9,7 @@ import questionnaireReducer from "./slices/questionnaireSlice";
 const authPersistConfig = {
   key: "auth",
   storage,
-  whitelist: ["user", "accessToken", "refreshToken", "isAuthenticated"],
+  whitelist: ["user", "accessToken", "refreshToken", "isAuthenticated", "isStaff"],
 };
 
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);

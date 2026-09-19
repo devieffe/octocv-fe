@@ -1,14 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { signup } from "../../slices/authSlice";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const SignUp = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const {
@@ -20,12 +17,11 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`${SERVER_URL}api/register/`, data, {
+      await axios.post(`${SERVER_URL}api/register/`, data, {
         headers: { "Content-Type": "application/json" },
       });
 
-      dispatch(signup({ user: response.data.user, token: response.data.token }));
-      navigate("/verify-email");
+      navigate("/verify-email", { state: { email: data.email } });
     } catch (error) {
       const errData = error?.response?.data;
 

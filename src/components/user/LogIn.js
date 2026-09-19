@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../slices/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
+import { getApiErrorMessage } from "../../utils/apiError";
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -52,16 +53,8 @@ const LogIn = () => {
       return safeUser;
     } catch (error) {
       setLoading(false);
-      if (!error?.response) {
-        setError("No server response. Please check your internet connection.");
-      } else {
-        const status = error.response.status;
-        if (status === 400) setError("Invalid username or password.");
-        else if (status === 401) setError("Unauthorized. Check your credentials.");
-        else if (status === 500) setError("Server error. Please try again later.");
-        else setError("Login failed. Please try again.");
-      }
-  
+      setError(getApiErrorMessage(error, "Login failed. Please try again."));
+
       console.error("Login error:", {
         message: error.message,
         response: error.response,

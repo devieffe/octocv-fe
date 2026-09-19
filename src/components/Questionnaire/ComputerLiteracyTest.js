@@ -27,13 +27,9 @@ const ComputerLiteracyTest = ({ onComplete }) => {
     });
 
     try {
-      const accessToken = localStorage.getItem("access_token");
       const response = await axiosInstance.post(
         "/api/submit-literacy-test/",
-        { responses: formattedAnswers },
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
+        { responses: formattedAnswers }
       );
 
       if (response.status === 200) {

@@ -3,6 +3,7 @@ import axiosInstance from "../../api/axiosInstance";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../slices/authSlice";
 import { motion } from "framer-motion";
+import { getApiErrorMessage } from "../../utils/apiError";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -44,8 +45,8 @@ const Settings = () => {
 
       await axiosInstance.put("/api/profile/update/", payload);
       setMessage("Profile updated successfully");
-    } catch {
-      setMessage("Update failed");
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, "Update failed"));
     } finally {
       setLoading(false);
     }
@@ -62,6 +63,11 @@ const Settings = () => {
       return;
     }
 
+    if (formData.old_password === formData.new_password) {
+      setMessage("New password must be different from old password.");
+      return;
+    }
+
     setLoading(true);
     try {
       await axiosInstance.post("/api/password/change/", {
@@ -69,8 +75,8 @@ const Settings = () => {
         new_password: formData.new_password,
       });
       setMessage("Password changed successfully");
-    } catch {
-      setMessage("Password change failed");
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, "Password change failed"));
     } finally {
       setLoading(false);
     }
@@ -85,13 +91,16 @@ const Settings = () => {
       return;
     }
 
+    setLoading(true);
     try {
       await axiosInstance.delete("/api/profile/delete/", {
         data: { password: formData.delete_password },
       });
       dispatch(logout());
-    } catch {
-      setMessage("Account deletion failed");
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, "Account deletion failed"));
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -20,7 +20,8 @@ const QuestionnaireFlow = () => {
         setLoading(false);
       } catch (err) {
         console.error("Error fetching test status", err);
-        navigate("/login");
+        setLoading(false);
+        setStatus([]);
       }
     };
 
@@ -47,6 +48,10 @@ const QuestionnaireFlow = () => {
   if (loading) return <div className="text-center py-10">Loading questionnaires...</div>;
 
   const renderCurrentTest = () => {
+    if (!Array.isArray(status) || status.length === 0) {
+      return <div className="text-center py-10 text-red-600">Unable to load questionnaires right now.</div>;
+    }
+
     if (!status[0]) return <MotivationSurvey onComplete={updateStatus} />;
     if (!status[1]) return <ComputerLiteracyTest onComplete={updateStatus} />;
     if (!status[2]) return <ProblemSolvingTest onComplete={updateStatus} />;

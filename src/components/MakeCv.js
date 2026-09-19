@@ -64,6 +64,10 @@ const MakeCv = () => {
 
     const savedPath = localStorage.getItem("selectedCareerPath");
     if (savedPath) setSelectedCareerPath(savedPath);
+
+    return () => {
+      localStorage.removeItem("selectedCareerPath");
+    };
   }, []);
 
   const handleCareerPathChange = (e) => {

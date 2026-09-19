@@ -60,23 +60,14 @@ axiosInstance.interceptors.response.use(
       if (newToken) {
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
         originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
-        return axiosInstance(originalRequest); // Retry original request
-      } else {
-        // Optionally redirect to login
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        store.dispatch(logout());  // Dispatch logout action
-        window.location.href = "/login";
+        return axiosInstance(originalRequest);
       }
-    }
 
-    axiosInstance.interceptors.request.use(
-      (config) => {
-        console.log("Request Headers:", config.headers);
-        return config;
-      },
-      (error) => Promise.reject(error)
-    );
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      store.dispatch(logout());
+      window.location.href = "/login";
+    }
 
     return Promise.reject(error);
   }

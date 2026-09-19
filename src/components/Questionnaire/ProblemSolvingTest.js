@@ -36,15 +36,9 @@ const ProblemSolvingTest = ({ onComplete }) => {
     if (submitted || !completed) return;
 
     try {
-      const accessToken = localStorage.getItem("access_token");
       const res = await axiosInstance.post(
         "/api/submit-logic-test/",
-        { responses: answers },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+        { responses: answers }
       );
 
       if (res.status === 200) {

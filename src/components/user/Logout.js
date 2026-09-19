@@ -8,10 +8,8 @@ const Logout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(logout()); 
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token"); 
-    navigate("/login"); 
+    dispatch(logout());
+    navigate("/login");
   }, [dispatch, navigate]);
 
   return null; 

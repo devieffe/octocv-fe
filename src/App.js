@@ -6,6 +6,7 @@ import SignUp from "./components/user/SignUp";
 import LogIn from "./components/user/LogIn";
 import Authenticate from "./components/Authenticate";
 import StaffRoute from "./components/routes/StaffRoute";
+import ProtectedRoute from "./components/routes/ProtectedRoute";
 import MakeCv from "./components/MakeCv";
 import BlankPage from "./components/BlankPage";
 import QuestionnaireIntro from "./components/Questionnaire/QuestionnaireIntro";
@@ -32,14 +33,11 @@ const App = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
-        <Route element={<AppLayout />}>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/resend-verification" element={<ResendVerification />} />
         <Route path="/authenticate" element={<Authenticate />} />
-        <Route path="/blank" element={<BlankPage />} />
-        <Route path="/onboarding" element={<QuestionnaireIntro />} />
         <Route path="/unauthorized" element={
           <div className="text-center text-red-600 text-lg">
             🚫 Access Denied. You are not authorized to view this page.
@@ -48,6 +46,9 @@ const App = () => {
         <Route path="*" element={<NotFound />} />
 
         {/* Protected Routes with Sidebar Layout */}
+        <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
+          <Route path="/blank" element={<BlankPage />} />
+          <Route path="/onboarding" element={<QuestionnaireIntro />} />
           <Route path="/user" element={<UserDashboard />} />
           <Route path="/make" element={<MakeCv />} />
           <Route path="/careerpath" element={<CareerPath />} />

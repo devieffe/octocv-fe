@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -68,12 +68,15 @@ const ResendVerification = () => {
     }
   };
 
-  // Redirect immediately if we are in the redirecting state
-  if (redirecting) {
-    setTimeout(() => {
+  useEffect(() => {
+    if (!redirecting) return;
+
+    const timeoutId = setTimeout(() => {
       navigate("/login");
-    }, 2000);  // Delay the redirect for 2 seconds so the user can see the message
-  }
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [redirecting, navigate]);
 
   return (
     <div className="max-w-md mx-auto p-6">

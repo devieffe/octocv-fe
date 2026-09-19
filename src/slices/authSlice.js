@@ -1,20 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-let isStaff = false;
-try {
-  const stored = localStorage.getItem("is_staff");
-  isStaff = stored ? JSON.parse(stored) : false;
-} catch (e) {
-  console.warn("Invalid is_staff value in localStorage:", e);
-  isStaff = false;
-}
-
 const initialState = {
   user: null,
-  accessToken: localStorage.getItem("access_token") || null,
-  refreshToken: localStorage.getItem("refresh_token") || null,
-  isAuthenticated: !!localStorage.getItem("access_token"),
-  isStaff,
+  accessToken: null,
+  refreshToken: null,
+  isAuthenticated: false,
+  isStaff: false,
 };
 
 const authSlice = createSlice({
@@ -43,9 +34,6 @@ const authSlice = createSlice({
       localStorage.setItem("refresh_token", action.payload.refreshToken);
       localStorage.setItem("is_staff", JSON.stringify(user?.is_staff));
     },
-    setPassedTests: (state, action) => {
-      state.passedTests = action.payload;
-    },    
     logout: (state) => {
       state.user = null;
       state.accessToken = null;
