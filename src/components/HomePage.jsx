@@ -393,7 +393,6 @@ const Features = () => (
       <motion.ul
         variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
         className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 list-none m-0 p-0"
-        role="list"
       >
         {FEATURES.map(({ icon: Icon, title, desc }) => (
           <motion.li
@@ -442,7 +441,6 @@ const HowItWorks = () => (
       <motion.ol
         variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
         className="grid md:grid-cols-3 gap-10 relative list-none m-0 p-0"
-        role="list"
       >
         {/* Connector line */}
         <div aria-hidden="true" className="hidden md:block absolute top-[3.25rem] left-[28%] right-[28%] h-px bg-gradient-to-r from-transparent via-red-500/25 to-transparent" />
@@ -491,7 +489,6 @@ const Testimonials = () => (
       <motion.ul
         variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
         className="grid md:grid-cols-3 gap-6 list-none m-0 p-0"
-        role="list"
       >
         {TESTIMONIALS.map(({ name, role, stars, text }) => (
           <motion.li
@@ -563,7 +560,6 @@ const About = () => (
         <motion.ul
           variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
           className="space-y-4 list-none m-0 p-0"
-          role="list"
         >
           {PILLARS.map(({ icon: Icon, title, desc }) => (
             <motion.li
