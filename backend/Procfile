@@ -1,0 +1,1 @@
+web: gunicorn backend.wsgi:application --chdir server/backend --timeout 120
