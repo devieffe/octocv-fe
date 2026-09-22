@@ -29,7 +29,7 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(-1);
 
   return (
-    <section id="faq" aria-labelledby="faq-heading" className="py-24 bg-slate-950">
+    <section id="faq" aria-labelledby="faq-heading" className="py-14 sm:py-24 bg-slate-950">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
           <p className="text-red-500 text-xs font-bold tracking-widest uppercase mb-3" aria-hidden="true">F A Q</p>

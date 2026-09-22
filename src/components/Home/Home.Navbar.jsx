@@ -159,15 +159,6 @@ const Navbar = () => {
           </div>
 
           <div className="nav:hidden flex items-center gap-2 col-start-3 justify-self-end">
-            <button
-              type="button"
-              onClick={toggleTheme}
-              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              aria-pressed={theme === "light"}
-              className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-colors ${controlClass}`}
-            >
-              {theme === "dark" ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
-            </button>
             <div className="relative">
               <button
                 type="button"
@@ -232,6 +223,16 @@ const Navbar = () => {
                     ))}
 
                     <div className="flex flex-col gap-2 mt-2">
+                      <button
+                        type="button"
+                        onClick={toggleTheme}
+                        aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                        aria-pressed={theme === "light"}
+                        className={`h-10 inline-flex items-center justify-center gap-2 text-[0.95rem] font-semibold rounded-xl border transition-colors ${controlClass}`}
+                      >
+                        {theme === "dark" ? <Sun size={16} aria-hidden="true" /> : <Moon size={16} aria-hidden="true" />}
+                        {theme === "dark" ? "Light mode" : "Dark mode"}
+                      </button>
                       <Link
                         to="/login"
                         state={bgState}

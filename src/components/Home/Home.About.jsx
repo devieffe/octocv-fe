@@ -20,7 +20,7 @@ const PILLARS = [
 ];
 
 const About = () => (
-  <section id="about" aria-labelledby="about-heading" className="py-24 bg-slate-900">
+  <section id="about" aria-labelledby="about-heading" className="py-14 sm:py-24 bg-slate-900">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
         <motion.div

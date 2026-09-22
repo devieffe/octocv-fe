@@ -19,7 +19,7 @@ const DASHBOARD_FEATURES = [
 ];
 
 const DashboardToolkit = () => (
-  <section id="assessments" aria-labelledby="assessments-heading" className="py-24 bg-slate-950">
+  <section id="assessments" aria-labelledby="assessments-heading" className="py-14 sm:py-24 bg-slate-950">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div
         variants={stagger}

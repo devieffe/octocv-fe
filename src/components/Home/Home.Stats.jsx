@@ -59,7 +59,7 @@ const StatItem = ({ value, label, index }) => {
   return (
     <motion.div ref={statRef} variants={fadeUp} className="text-center">
       <dt className="sr-only">{label}</dt>
-      <dd className={`text-6xl font-semibold leading-none ${index === 0 ? "text-[#FA7A68]" : index === 3 ? "text-[#E85D5D]" : "text-red-500"}`} aria-label={`${value} ${label}`}>
+      <dd className={`text-4xl sm:text-6xl font-semibold leading-none ${index === 0 ? "text-[#FA7A68]" : index === 3 ? "text-[#E85D5D]" : "text-red-500"}`} aria-label={`${value} ${label}`}>
         <span className="inline-flex items-center align-middle gap-0">
           <span>{displayValue.replace("+", "")}</span>
           {isPlusValue && (
@@ -73,7 +73,7 @@ const StatItem = ({ value, label, index }) => {
 };
 
 const Stats = () => (
-  <section aria-label="Platform statistics" className="bg-slate-900 border-y border-white/5 py-14">
+  <section aria-label="Platform statistics" className="bg-slate-900 border-y border-white/5 py-10 sm:py-14">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.dl
         variants={stagger}
