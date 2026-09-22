@@ -1,5 +1,9 @@
 $brand-red: #f97070;
 
+.break-after-dot {
+  overflow-wrap: anywhere;
+}
+
 .section-nav-link {
   border: 0;
   border-bottom: 4px dotted transparent;
