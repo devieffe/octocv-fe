@@ -1,0 +1,370 @@
+$brand-red: #f97070;
+
+.section-nav-link {
+  border: 0;
+  border-bottom: 4px dotted transparent;
+  padding: 0.25rem 0.5rem;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+
+.section-nav-link--active {
+  border-color: rgba(249, 112, 112, 0.72);
+}
+
+.home-nav-letter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: pre;
+}
+
+.brand-badge {
+  background-color: rgba(249, 112, 112, 0.1);
+  border-color: rgba(249, 112, 112, 0.2);
+  color: $brand-red;
+}
+
+.hero-heading, .faq-heading {
+  display: inline;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5) 0,
+    rgba(0, 0, 0, 0.5) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  background-repeat: repeat-y;
+  background-position: 0 0;
+  background-size: 100% 3px;
+  filter: blur(0.15px);
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 0 transparent;
+  paint-order: normal;
+}
+
+.hero-word-octo {
+  display: inline;
+  color: #000000;
+  background: none;
+  -webkit-text-fill-color: #000000;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+}
+
+.hero-word-cv {
+  display: inline;
+  color: $brand-red;
+  background: none;
+  -webkit-text-fill-color: $brand-red;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+}
+
+.step-icon-pattern {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25) 0,
+    rgba(0, 0, 0, 0.25) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  background-repeat: repeat-y;
+  background-position: center center;
+  background-size: 100% 4px;
+  filter: blur(0.15px);
+}
+
+.how-it-works-icon-pattern {
+  background-color: #ffffff;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(249, 112, 112, 0.55) 0,
+    rgba(249, 112, 112, 0.55) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}
+
+.feature-icon-shell--middle::before {
+  content: none;
+}
+
+.how-it-works-icon-shell--middle .step-icon-pattern {
+  box-shadow: 0 0 58px 20px rgba(255, 255, 255, 1);
+}
+
+[data-theme="dark"] {
+  .hero-heading,
+  .faq-heading {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.85) 0,
+      rgba(255, 255, 255, 0.85) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  }
+
+  .hero-word-octo {
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+  }
+
+  .step-icon-pattern {
+    background-color: #020617;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.3) 0,
+      rgba(255, 255, 255, 0.3) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  }
+
+  .how-it-works-icon-pattern {
+    background-color: #020617;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(249, 112, 112, 0.55) 0,
+      rgba(249, 112, 112, 0.55) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+
+    svg {
+      color: #ffffff;
+    }
+  }
+
+  .how-it-works-icon-shell--middle .step-icon-pattern {
+    box-shadow: 0 0 58px 20px rgba(2, 6, 23, 0.9);
+  }
+
+  .hiw-step-badge {
+    background-color: #020617;
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+}
+
+.hero-ambient-glow {
+  width: min(30vw, 28rem);
+  height: min(30vw, 28rem);
+  border-radius: 38% 62% 58% 42% / 45% 40% 60% 55%;
+  filter: blur(55px);
+  opacity: 0.82;
+  animation: hero-glow-float 10s ease-in-out infinite alternate;
+}
+
+.hero-ambient-glow--one {
+  animation: hero-glow-float-one 14s ease-in-out infinite alternate;
+}
+
+.hero-ambient-glow--two {
+  animation: hero-glow-float-two 18s ease-in-out infinite alternate;
+}
+
+.hero-ambient-glow--three {
+  animation: hero-glow-float-three 22s ease-in-out infinite alternate;
+}
+
+.hero-ambient-glow--dark {
+  background: radial-gradient(circle at 30% 30%, rgba(148, 163, 184, 0.22) 0%, rgba(71, 85, 105, 0.24) 22%, rgba(15, 23, 42, 0.12) 38%, rgba(2, 6, 23, 0.02) 66%, rgba(2, 6, 23, 0) 100%);
+}
+
+.hero-ambient-glow--light {
+  background: radial-gradient(circle at 30% 30%, rgba(148, 163, 184, 0.4) 0%, rgba(148, 163, 184, 0.2) 22%, rgba(255, 255, 255, 0.12) 48%, rgba(255, 255, 255, 0.02) 72%, rgba(255, 255, 255, 0) 100%);
+}
+
+.hero-picture-circle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  filter: blur(5px);
+  z-index: 0;
+}
+
+.hero-picture-circle {
+  overflow: visible !important;
+}
+
+.hero-picture-circle--light::before {
+  background: linear-gradient(60deg, transparent 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.25) 100%);
+}
+
+.hero-picture-circle--dark::before {
+  background: linear-gradient(45deg, transparent 0%, rgba(226, 232, 240, 0.14) 48%, rgba(226, 232, 240, 0.45) 100%);
+}
+
+.hero-picture-circle img {
+  position: relative;
+  z-index: 111;
+  border-radius: inherit;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 79%, rgba(0, 0, 0, 0.35) 91%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 79%, rgba(0, 0, 0, 0.35) 91%, transparent 100%);
+}
+
+.hero-dots-overlay {
+  opacity: 1;
+  -webkit-mask-image: radial-gradient(circle, transparent 0 2.8px, #000 3.5px 100%);
+  mask-image: radial-gradient(circle, transparent 0 2.8px, #000 3.5px 100%);
+  -webkit-mask-size: 14px 14px;
+  mask-size: 14px 14px;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+}
+
+.hero-dots-overlay--light {
+  background: rgba(241, 245, 249, 0.96);
+}
+
+.hero-dots-overlay--dark {
+  background: rgba(2, 6, 23, 0.96);
+}
+
+@keyframes hero-glow-float {
+  0% {
+    transform: translate(-78%, -70%) scale(0.22) rotate(-118deg);
+  }
+  33% {
+    transform: translate(-28%, -82%) scale(1.08) rotate(12deg);
+  }
+  66% {
+    transform: translate(-72%, -18%) scale(0.4) rotate(-14deg);
+  }
+  100% {
+    transform: translate(-22%, -42%) scale(0.78) rotate(8deg);
+  }
+}
+
+@keyframes hero-glow-float-one {
+  0% {
+    transform: translate(-130%, -64%) scale(0.22) rotate(-8deg);
+  }
+  50% {
+    transform: translate(28%, -28%) scale(1.28) rotate(12deg);
+  }
+  100% {
+    transform: translate(120%, 22%) scale(0.86) rotate(-6deg);
+  }
+}
+
+@keyframes hero-glow-float-two {
+  0% {
+    transform: translate(115%, 18%) scale(0.3);
+  }
+  50% {
+    transform: translate(-42%, -46%) scale(1.12);
+  }
+  100% {
+    transform: translate(-125%, -6%) scale(0.42);
+  }
+}
+
+@keyframes hero-glow-float-three {
+  0% {
+    transform: translate(-120%, -34%) scale(0.68);
+  }
+  50% {
+    transform: translate(12%, 34%) scale(1.18);
+  }
+  100% {
+    transform: translate(125%, 76%) scale(0.38);
+  }
+}
+
+.hero-cta-primary {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(253, 224, 71, 0.45) 0%, rgba(253, 224, 71, 0.14) 18%, transparent 42%) right top / 200% 100% no-repeat,
+    $brand-red;
+  box-shadow: 0 12px 30px rgba(249, 112, 112, 0.15);
+}
+
+.hero-cta {
+  min-width: 196px;
+  border: 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.15);
+  will-change: transform, box-shadow;
+  transition: transform 240ms ease, box-shadow 240ms ease, background-color 240ms ease;
+}
+
+.hero-cta-secondary {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.hero-cta-secondary--light {
+  background-color: rgba(148, 163, 184, 0.15);
+  border-bottom-color: rgba(15, 23, 42, 0.15);
+}
+
+.hero-cta-secondary--dark {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.hero-cta:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.16);
+}
+
+.hero-cta:not(.hero-cta-primary):hover {
+  box-shadow: none;
+}
+
+.hero-cta-primary {
+  border-bottom-color: rgba(127, 29, 29, 0.42);
+}
+
+.hero-cta-primary > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-cta-primary:hover {
+  box-shadow: 0 16px 36px rgba(249, 112, 112, 0.32);
+}
+
+.tv-noise {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 0.7px, transparent 0.8px), radial-gradient(rgba(120, 149, 255, 0.15) 0.6px, transparent 0.7px);
+  background-position: 0 0, 4px 4px;
+  background-size: 8px 8px;
+  background-blend-mode: screen, overlay;
+}
+
+.tv-noise--light {
+  background-image: radial-gradient(rgba(71, 85, 105, 0.26) 0.7px, transparent 0.8px), radial-gradient(rgba(148, 163, 184, 0.2) 0.6px, transparent 0.7px);
+  background-blend-mode: multiply, normal;
+}
+
+.tv-noise--dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 0.7px, transparent 0.8px), radial-gradient(rgba(120, 149, 255, 0.15) 0.6px, transparent 0.7px);
+}
+
+.cv-background-pattern {
+  position: relative;
+  z-index: 0;
+}
+
+.cv-background-pattern::before {
+  content: "📄🏅 📄🏅 📄🏅 📄🏅 📄🏅 ";
+  position: fixed;
+  font-size: 0.8rem;
+  color: #dc2626;
+  opacity: 0.04;
+  pointer-events: none;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-repeat: repeat;
+  background-size: 80px 80px;
+}

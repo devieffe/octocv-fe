@@ -1,4 +1,4 @@
-import "./App.css";
+import "./style.scss";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/HomePage";
@@ -26,49 +26,44 @@ import Settings from "./components/user/Settings";
 import AppLayout from "./components/DashboardLayout";
 
 const App = () => {
-  const year = new Date().getFullYear();
-
   return (
     <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/resend-verification" element={<ResendVerification />} />
-        <Route path="/authenticate" element={<Authenticate />} />
-        <Route path="/unauthorized" element={
-          <div className="text-center text-red-600 text-lg">
-            🚫 Access Denied. You are not authorized to view this page.
-          </div>
-        } />
-        <Route path="*" element={<NotFound />} />
+      <div className="app-shell">
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/resend-verification" element={<ResendVerification />} />
+          <Route path="/authenticate" element={<Authenticate />} />
+          <Route path="/unauthorized" element={
+            <div className="text-center text-red-600 text-lg">
+              🚫 Access Denied. You are not authorized to view this page.
+            </div>
+          } />
+          <Route path="*" element={<NotFound />} />
 
-        {/* Protected Routes with Sidebar Layout */}
-        <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
-          <Route path="/blank" element={<BlankPage />} />
-          <Route path="/onboarding" element={<QuestionnaireIntro />} />
-          <Route path="/user" element={<UserDashboard />} />
-          <Route path="/make" element={<MakeCv />} />
-          <Route path="/careerpath" element={<CareerPath />} />
-          <Route path="/questionnaire" element={<QuestionnaireFlow />} />
-          <Route path="/problemsolvingtest" element={<ProblemSolvingTest />} />
-          <Route path="/computerliteracytest" element={<ComputerLiteracyTest />} />
-          <Route path="/motivationalsurvey" element={<MotivationalSurvey />} />
-          <Route path="/settings" element={<Settings />} />
+          {/* Protected Routes with Sidebar Layout */}
+          <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
+            <Route path="/blank" element={<BlankPage />} />
+            <Route path="/onboarding" element={<QuestionnaireIntro />} />
+            <Route path="/user" element={<UserDashboard />} />
+            <Route path="/make" element={<MakeCv />} />
+            <Route path="/careerpath" element={<CareerPath />} />
+            <Route path="/questionnaire" element={<QuestionnaireFlow />} />
+            <Route path="/problemsolvingtest" element={<ProblemSolvingTest />} />
+            <Route path="/computerliteracytest" element={<ComputerLiteracyTest />} />
+            <Route path="/motivationalsurvey" element={<MotivationalSurvey />} />
+            <Route path="/settings" element={<Settings />} />
 
-          {/* Staff-Only Routes */}
-          <Route path="/admin" element={<StaffRoute><AdminDashboard /></StaffRoute>} />
-          <Route path="/admin/tools" element={<StaffRoute><AdminToolsDashboard /></StaffRoute>} />
-          <Route path="/admin/user/:id" element={<StaffRoute><AdminUserDetail /></StaffRoute>} />
-        </Route>
-      </Routes>
-
-      {/* Global footer (optional) */}
-      <footer className="text-center py-4 border-t border-gray-300 text-sm text-blue-950">
-        © {year} OctoCV
-      </footer>
+            {/* Staff-Only Routes */}
+            <Route path="/admin" element={<StaffRoute><AdminDashboard /></StaffRoute>} />
+            <Route path="/admin/tools" element={<StaffRoute><AdminToolsDashboard /></StaffRoute>} />
+            <Route path="/admin/user/:id" element={<StaffRoute><AdminUserDetail /></StaffRoute>} />
+          </Route>
+        </Routes>
+      </div>
     </Router>
   );
 };

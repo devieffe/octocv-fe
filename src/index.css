@@ -1,19 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
+  --brand-red: #f97070;
   scroll-behavior: smooth;
+  background-color: #020617;
+  transition: background-color 0.45s ease, color 0.45s ease;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+}
+
+@media (max-width: 1440px) {
+  html {
+    font-size: 1.1rem;
+  }
+}
+
+.text-red-500,
+.text-red-400,
+.text-red-300,
+.text-red-600,
+.text-red-700,
+.bg-red-500,
+.bg-red-600,
+.bg-red-700,
+.border-red-500,
+.border-red-500\/20,
+.border-red-500\/40,
+.border-red-500\/25,
+.hover\:bg-red-500,
+.hover\:text-red-300,
+.hover\:text-red-500,
+.hover\:shadow-red-500\/25,
+.shadow-red-500\/20 {
+  color: #f97070 !important;
+}
+
+.bg-red-500,
+.bg-red-600,
+.bg-red-700,
+.hover\:bg-red-500,
+.hover\:bg-red-600 {
+  background-color: #f97070 !important;
+}
+
+.border-red-500,
+.border-red-500\/20,
+.border-red-500\/40,
+.border-red-500\/25 {
+  border-color: rgba(249, 112, 112, 0.8) !important;
+}
+
+html[data-theme="light"] {
+  background-color: #ffffff;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
   background: #020617;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  transition: background-color 0.45s ease, color 0.45s ease;
+}
+
+html[data-theme="light"] body {
+  background: #ffffff;
+  color: #0f172a;
 }
 
 html, body, #root {
   min-height: 100%;
+}
+
+* {
+  transition-property: background-color, border-color, color, box-shadow, opacity;
+  transition-duration: 0.35s;
+  transition-timing-function: ease;
+}
+
+#root,
+.app-shell {
+  min-height: 100vh;
+  transition: background-color 0.45s ease, color 0.45s ease, opacity 0.45s ease;
+}
+
+.app-shell {
+  opacity: 1;
+  animation: appFadeIn 0.35s ease;
+}
+
+@keyframes appFadeIn {
+  from {
+    opacity: 0.86;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+html[data-theme="light"] .bg-slate-950,
+html[data-theme="light"] .bg-slate-950\/95,
+html[data-theme="light"] .bg-slate-900,
+html[data-theme="light"] .bg-slate-900\/80,
+html[data-theme="light"] .bg-slate-900\/70,
+html[data-theme="light"] .bg-slate-800,
+html[data-theme="light"] .bg-slate-800\/60,
+html[data-theme="light"] .bg-slate-800\/50,
+html[data-theme="light"] .bg-slate-800\/40 {
+  background-color: #f8fafc !important;
+}
+
+html[data-theme="light"] .text-white,
+html[data-theme="light"] .text-gray-300,
+html[data-theme="light"] .text-gray-400,
+html[data-theme="light"] .text-gray-500,
+html[data-theme="light"] .text-gray-600 {
+  color: #0f172a !important;
+}
+
+/* Keep white text on solid red buttons in both themes */
+.bg-red-500.text-white,
+.bg-red-600.text-white,
+.bg-red-700.text-white,
+html[data-theme="light"] .bg-red-500.text-white,
+html[data-theme="light"] .bg-red-600.text-white,
+html[data-theme="light"] .bg-red-700.text-white {
+  color: #ffffff !important;
+}
+
+html[data-theme="light"] .border-white\/10,
+html[data-theme="light"] .border-white\/5,
+html[data-theme="light"] .border-red-500\/20,
+html[data-theme="light"] .border-red-500\/40 {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+html[data-theme="light"] .bg-white\/5,
+html[data-theme="light"] .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.04) !important;
+}
+
+html[data-theme="light"] .shadow-lg,
+html[data-theme="light"] .shadow-2xl {
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08) !important;
 }
 
 

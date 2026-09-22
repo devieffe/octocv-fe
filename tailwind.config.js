@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
+        'nav': '980px',
         'xxl': '1600px',
       },
       spacing: {

@@ -27,13 +27,20 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    document.body.style.backgroundColor = theme === "dark" ? "#020617" : "#f8fafc";
-    document.body.style.color = theme === "dark" ? "#f8fafc" : "#0f172a";
-    // Update meta theme-color dynamically for mobile browsers
+    document.documentElement.style.colorScheme = theme === "dark" ? "dark" : "light";
+
+    const rootBackground = theme === "dark" ? "#020617" : "#ffffff";
+    const rootColor = theme === "dark" ? "#f8fafc" : "#0f172a";
+
+    document.body.style.backgroundColor = rootBackground;
+    document.body.style.color = rootColor;
+    document.body.style.transition = "background-color 0.45s ease, color 0.45s ease";
+
     const metaThemeColor = document.querySelector("meta[name='theme-color']:not([media])");
     if (metaThemeColor) {
-      metaThemeColor.setAttribute("content", theme === "dark" ? "#020617" : "#f8fafc");
+      metaThemeColor.setAttribute("content", rootBackground);
     }
+
     try {
       localStorage.setItem("octocv_theme", theme);
       writeCookie("octocv_theme", theme);
@@ -44,7 +51,17 @@ export function ThemeProvider({ children }) {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <div
+        className="app-shell"
+        data-theme={theme}
+        style={{
+          backgroundColor: theme === "dark" ? "#020617" : "#f8fafc",
+          color: theme === "dark" ? "#f8fafc" : "#0f172a",
+          transition: "background-color 0.45s ease, color 0.45s ease, opacity 0.45s ease",
+        }}
+      >
+        {children}
+      </div>
     </ThemeContext.Provider>
   );
 }
