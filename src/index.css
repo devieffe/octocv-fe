@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 /* ─── Global ──────────────────────────────────────────────────────────────── */
-html {
-  scroll-behavior: smooth;
-}
-
 /* Dark / light color-scheme for native browser controls */
 :root,
 [data-theme="dark"]  { color-scheme: dark;  }
